@@ -3,11 +3,12 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Providers } from "./providers";
+import { LayoutWrapper } from "./layout-wrapper";
 
 export const metadata: Metadata = {
-  title: "ISRAVEST - Global Real Estate Investments for Israeli Investors",
+  title: "ISRAVEST - השקעות נדל\"ן גלובליות למשקיעים ישראלים",
   description:
-    "Connect with premium international real estate opportunities. Invest in properties across Greece, Cyprus, Georgia, and Portugal with expert guidance and transparent pricing.",
+    "הדרך שלך להשקעות בעולם. השקיעו בנכסים ביוון, קפריסין, גאורגיה ופורטוגל עם ליווי מומחים ותמחור שקוף.",
 };
 
 export default function RootLayout({
@@ -16,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="he" dir="rtl">
       <head>
         <link
           rel="stylesheet"
@@ -27,9 +28,11 @@ export default function RootLayout({
       </head>
       <body className="bg-gray-50 text-gray-900 antialiased">
         <Providers>
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
+          <LayoutWrapper>
+            <Navbar />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+          </LayoutWrapper>
         </Providers>
       </body>
     </html>

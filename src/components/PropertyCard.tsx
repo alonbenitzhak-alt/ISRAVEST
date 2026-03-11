@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { Property } from "@/lib/types";
 import { useFavorites } from "@/lib/FavoritesContext";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function PropertyCard({ property }: { property: Property }) {
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { t } = useLanguage();
   const favorited = isFavorite(property.id);
 
   return (
@@ -16,16 +18,15 @@ export default function PropertyCard({ property }: { property: Property }) {
           alt={property.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs font-semibold px-3 py-1 rounded-full text-primary-700">
+        <div className="absolute top-3 start-3 bg-white/90 backdrop-blur-sm text-xs font-semibold px-3 py-1 rounded-full text-primary-700">
           {property.property_type}
         </div>
-        <div className="absolute top-3 right-3 bg-accent-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-          {property.expected_roi}% ROI
+        <div className="absolute top-3 end-3 bg-accent-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+          {property.expected_roi}% {t("card.roi")}
         </div>
         <button
           onClick={() => toggleFavorite(property.id)}
-          className="absolute bottom-3 right-3 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
-          aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
+          className="absolute bottom-3 end-3 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
         >
           <svg
             className={`w-5 h-5 ${favorited ? "text-red-500 fill-red-500" : "text-gray-400"}`}
@@ -42,7 +43,6 @@ export default function PropertyCard({ property }: { property: Property }) {
         <h3 className="font-semibold text-gray-900 text-lg leading-tight mb-2 line-clamp-2">
           {property.title}
         </h3>
-
         <div className="flex items-center gap-1 text-gray-500 text-sm mb-3">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -50,21 +50,17 @@ export default function PropertyCard({ property }: { property: Property }) {
           </svg>
           {property.city}, {property.country}
         </div>
-
         <div className="flex items-center justify-between mb-4">
-          <span className="text-2xl font-bold text-gray-900">
-            €{property.price.toLocaleString()}
-          </span>
+          <span className="text-2xl font-bold text-gray-900">€{property.price.toLocaleString()}</span>
           <span className="text-sm text-gray-500">
-            {property.bedrooms} {property.bedrooms === 1 ? "Bedroom" : "Bedrooms"}
+            {property.bedrooms} {property.bedrooms === 1 ? t("card.bedroom") : t("card.bedrooms")}
           </span>
         </div>
-
         <Link
           href={`/properties/${property.id}`}
           className="block text-center bg-primary-600 text-white py-2.5 rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors"
         >
-          Request Investment Package
+          {t("card.cta")}
         </Link>
       </div>
     </div>

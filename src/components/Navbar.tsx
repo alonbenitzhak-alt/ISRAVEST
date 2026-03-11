@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/lib/AuthContext";
 import { useFavorites } from "@/lib/FavoritesContext";
+import { useLanguage } from "@/lib/LanguageContext";
 import LoginForm from "./LoginForm";
 
 export default function Navbar() {
@@ -11,13 +12,14 @@ export default function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
   const { user, signOut } = useAuth();
   const { favorites } = useFavorites();
+  const { lang, setLang, t } = useLanguage();
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/properties", label: "Properties" },
-    { href: "/countries", label: "Countries" },
-    { href: "/how-it-works", label: "How it Works" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: t("nav.home") },
+    { href: "/properties", label: t("nav.properties") },
+    { href: "/countries", label: t("nav.countries") },
+    { href: "/how-it-works", label: t("nav.howItWorks") },
+    { href: "/contact", label: t("nav.contact") },
   ];
 
   return (
@@ -26,13 +28,16 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">IV</span>
+              <img src="/logo.png" alt="ISRAVEST" className="h-10 w-auto" />
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-gray-900 leading-tight">ISRAVEST</span>
+                <span className="text-[10px] text-gray-500 leading-tight">
+                  {lang === "he" ? "הדרך שלך להשקעות בעולם" : "Your Path to Global Investments"}
+                </span>
               </div>
-              <span className="text-xl font-bold text-gray-900">ISRAVEST</span>
             </Link>
 
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-5">
               {links.map((link) => (
                 <Link
                   key={link.href}
@@ -46,7 +51,7 @@ export default function Navbar() {
               <Link
                 href="/favorites"
                 className="relative text-gray-600 hover:text-primary-600 transition-colors"
-                aria-label="Favorites"
+                aria-label={t("nav.favorites")}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -58,19 +63,27 @@ export default function Navbar() {
                 )}
               </Link>
 
+              {/* Language Toggle */}
+              <button
+                onClick={() => setLang(lang === "he" ? "en" : "he")}
+                className="text-xs font-bold border border-gray-200 rounded-lg px-2.5 py-1.5 text-gray-600 hover:bg-gray-50 transition-colors"
+              >
+                {lang === "he" ? "EN" : "עב"}
+              </button>
+
               {user ? (
                 <div className="flex items-center gap-3">
                   <Link
                     href="/admin"
                     className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
                   >
-                    Admin
+                    {t("nav.admin")}
                   </Link>
                   <button
                     onClick={() => signOut()}
                     className="text-sm font-medium text-gray-500 hover:text-red-500 transition-colors"
                   >
-                    Sign Out
+                    {t("nav.signOut")}
                   </button>
                 </div>
               ) : (
@@ -78,7 +91,7 @@ export default function Navbar() {
                   onClick={() => setShowLogin(true)}
                   className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
                 >
-                  Sign In
+                  {t("nav.signIn")}
                 </button>
               )}
 
@@ -86,7 +99,7 @@ export default function Navbar() {
                 href="/properties"
                 className="bg-primary-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-primary-700 transition-colors"
               >
-                Browse Investments
+                {t("nav.browseInvestments")}
               </Link>
             </div>
 
@@ -123,8 +136,14 @@ export default function Navbar() {
               className="block text-sm font-medium text-gray-700 hover:text-primary-600"
               onClick={() => setMobileOpen(false)}
             >
-              Favorites {favorites.length > 0 && `(${favorites.length})`}
+              {t("nav.favorites")} {favorites.length > 0 && `(${favorites.length})`}
             </Link>
+            <button
+              onClick={() => setLang(lang === "he" ? "en" : "he")}
+              className="block text-sm font-medium text-primary-600"
+            >
+              {lang === "he" ? "Switch to English" : "עבור לעברית"}
+            </button>
             {user ? (
               <>
                 <Link
@@ -132,13 +151,13 @@ export default function Navbar() {
                   className="block text-sm font-medium text-gray-700 hover:text-primary-600"
                   onClick={() => setMobileOpen(false)}
                 >
-                  Admin Panel
+                  {t("nav.admin")}
                 </Link>
                 <button
                   onClick={() => { signOut(); setMobileOpen(false); }}
                   className="block text-sm font-medium text-red-500"
                 >
-                  Sign Out
+                  {t("nav.signOut")}
                 </button>
               </>
             ) : (
@@ -146,7 +165,7 @@ export default function Navbar() {
                 onClick={() => { setShowLogin(true); setMobileOpen(false); }}
                 className="block text-sm font-medium text-primary-600"
               >
-                Sign In
+                {t("nav.signIn")}
               </button>
             )}
             <Link
@@ -154,7 +173,7 @@ export default function Navbar() {
               className="block text-center bg-primary-600 text-white px-5 py-2 rounded-lg text-sm font-semibold"
               onClick={() => setMobileOpen(false)}
             >
-              Browse Investments
+              {t("nav.browseInvestments")}
             </Link>
           </div>
         )}
