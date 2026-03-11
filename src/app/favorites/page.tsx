@@ -1,7 +1,7 @@
 "use client";
 
 import PropertyCard from "@/components/PropertyCard";
-import { properties } from "@/data/properties";
+import { useProperties } from "@/lib/PropertiesContext";
 import { useFavorites } from "@/lib/FavoritesContext";
 import { useLanguage } from "@/lib/LanguageContext";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import Link from "next/link";
 export default function FavoritesPage() {
   const { favorites } = useFavorites();
   const { t } = useLanguage();
+  const { properties } = useProperties();
   const favoriteProperties = properties.filter((p) => favorites.includes(p.id));
 
   return (

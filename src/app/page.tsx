@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PropertyCard from "@/components/PropertyCard";
-import { properties } from "@/data/properties";
+import { useProperties } from "@/lib/PropertiesContext";
 import { countries } from "@/data/countries";
 import { useLanguage } from "@/lib/LanguageContext";
 
 export default function HomePage() {
   const router = useRouter();
   const { t } = useLanguage();
+  const { properties } = useProperties();
   const [search, setSearch] = useState({ country: "", city: "", budget: "" });
   const featured = properties.slice(0, 6);
 

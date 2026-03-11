@@ -3,7 +3,7 @@
 import { use, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { properties } from "@/data/properties";
+import { useProperties } from "@/lib/PropertiesContext";
 import LeadForm from "@/components/LeadForm";
 import { useLanguage } from "@/lib/LanguageContext";
 import { notFound } from "next/navigation";
@@ -16,6 +16,7 @@ export default function PropertyDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const { properties } = useProperties();
   const property = properties.find((p) => p.id === id);
   const [selectedImage, setSelectedImage] = useState(0);
   const { t } = useLanguage();

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "@/lib/AuthContext";
 import LoginForm from "@/components/LoginForm";
-import { properties as initialProperties } from "@/data/properties";
+import { useProperties } from "@/lib/PropertiesContext";
 import { Property } from "@/lib/types";
 
 function PropertyForm({
@@ -198,7 +198,7 @@ function PropertyForm({
 
 export default function AdminPage() {
   const { user, loading } = useAuth();
-  const [propertyList, setPropertyList] = useState<Property[]>(initialProperties);
+  const { properties: propertyList, addProperty, updateProperty, deleteProperty, loading: propsLoading } = useProperties();
   const [editing, setEditing] = useState<Property | null>(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -222,19 +222,19 @@ export default function AdminPage() {
     );
   }
 
-  const handleSave = (property: Property) => {
+  const handleSave = async (property: Property) => {
     if (editing) {
-      setPropertyList((prev) => prev.map((p) => (p.id === property.id ? property : p)));
+      await updateProperty(property);
     } else {
-      setPropertyList((prev) => [...prev, property]);
+      await addProperty(property);
     }
     setEditing(null);
     setShowForm(false);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this property?")) {
-      setPropertyList((prev) => prev.filter((p) => p.id !== id));
+      await deleteProperty(id);
     }
   };
 

@@ -114,12 +114,12 @@ export default function Navbar() {
         </div>
 
         {mobileOpen && (
-          <div className="md:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-3">
+          <div className="md:hidden bg-white border-t border-gray-100 px-4 py-5 space-y-1">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-sm font-medium text-gray-700 hover:text-primary-600"
+                className="block text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg px-3 py-3"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
@@ -127,14 +127,14 @@ export default function Navbar() {
             ))}
             <Link
               href="/favorites"
-              className="block text-sm font-medium text-gray-700 hover:text-primary-600"
+              className="block text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg px-3 py-3"
               onClick={() => setMobileOpen(false)}
             >
               {t("nav.favorites")} {favorites.length > 0 && `(${favorites.length})`}
             </Link>
             <button
               onClick={() => setLang(lang === "he" ? "en" : "he")}
-              className="block text-sm font-medium text-primary-600"
+              className="block w-full text-start text-base font-medium text-primary-600 hover:bg-primary-50 rounded-lg px-3 py-3"
             >
               {lang === "he" ? "Switch to English" : "עבור לעברית"}
             </button>
@@ -142,14 +142,14 @@ export default function Navbar() {
               <>
                 <Link
                   href="/admin"
-                  className="block text-sm font-medium text-gray-700 hover:text-primary-600"
+                  className="block text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg px-3 py-3"
                   onClick={() => setMobileOpen(false)}
                 >
                   {t("nav.admin")}
                 </Link>
                 <button
                   onClick={() => { signOut(); setMobileOpen(false); }}
-                  className="block text-sm font-medium text-red-500"
+                  className="block w-full text-start text-base font-medium text-red-500 hover:bg-red-50 rounded-lg px-3 py-3"
                 >
                   {t("nav.signOut")}
                 </button>
@@ -157,18 +157,20 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => { setShowLogin(true); setMobileOpen(false); }}
-                className="block text-sm font-medium text-primary-600"
+                className="block w-full text-start text-base font-medium text-primary-600 hover:bg-primary-50 rounded-lg px-3 py-3"
               >
                 {t("nav.signIn")}
               </button>
             )}
-            <Link
-              href="/properties"
-              className="block text-center bg-primary-600 text-white px-5 py-2 rounded-lg text-sm font-semibold"
-              onClick={() => setMobileOpen(false)}
-            >
-              {t("nav.browseInvestments")}
-            </Link>
+            <div className="pt-2">
+              <Link
+                href="/properties"
+                className="block text-center bg-primary-600 text-white px-5 py-3.5 rounded-xl text-base font-semibold"
+                onClick={() => setMobileOpen(false)}
+              >
+                {t("nav.browseInvestments")}
+              </Link>
+            </div>
           </div>
         )}
       </nav>

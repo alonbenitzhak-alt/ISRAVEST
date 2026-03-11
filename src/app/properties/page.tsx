@@ -3,12 +3,13 @@
 import { Suspense, useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import PropertyCard from "@/components/PropertyCard";
-import { properties } from "@/data/properties";
+import { useProperties } from "@/lib/PropertiesContext";
 import { useLanguage } from "@/lib/LanguageContext";
 
 function PropertiesContent() {
   const searchParams = useSearchParams();
   const { t } = useLanguage();
+  const { properties } = useProperties();
 
   const [filters, setFilters] = useState({
     country: searchParams.get("country") || "",
@@ -113,7 +114,7 @@ function PropertiesContent() {
           <p className="text-gray-400 text-sm mt-1">{t("properties.noResultsSub")}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
           {filtered.map((p) => (<PropertyCard key={p.id} property={p} />))}
         </div>
       )}
@@ -123,6 +124,7 @@ function PropertiesContent() {
 
 function PropertiesPageHeader() {
   const { t } = useLanguage();
+  const { properties } = useProperties();
   return (
     <section className="bg-gradient-to-r from-primary-800 to-primary-600 text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

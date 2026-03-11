@@ -12,7 +12,7 @@ export default function PropertyCard({ property }: { property: Property }) {
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">
-      <div className="relative h-56 overflow-hidden">
+      <div className="relative h-48 sm:h-56 overflow-hidden">
         <img
           src={property.images[0]}
           alt={property.title}
@@ -26,7 +26,7 @@ export default function PropertyCard({ property }: { property: Property }) {
         </div>
         <button
           onClick={() => toggleFavorite(property.id)}
-          className="absolute bottom-3 end-3 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
+          className="absolute bottom-3 end-3 w-11 h-11 sm:w-9 sm:h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
         >
           <svg
             className={`w-5 h-5 ${favorited ? "text-red-500 fill-red-500" : "text-gray-400"}`}
@@ -58,7 +58,7 @@ export default function PropertyCard({ property }: { property: Property }) {
         </div>
         <Link
           href={`/properties/${property.id}`}
-          className="block text-center bg-primary-600 text-white py-2.5 rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors"
+          className="block text-center bg-primary-600 text-white py-3.5 sm:py-2.5 rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors"
         >
           {t("card.cta")}
         </Link>
