@@ -114,6 +114,27 @@ CREATE TABLE IF NOT EXISTS messages (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Favorite agents table (buyers follow agents)
+CREATE TABLE IF NOT EXISTS favorite_agents (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  buyer_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  agent_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(buyer_id, agent_id)
+);
+
+-- Notifications table
+CREATE TABLE IF NOT EXISTS notifications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  type TEXT NOT NULL CHECK (type IN ('new_property', 'chat_message', 'lead_update')),
+  title TEXT NOT NULL,
+  body TEXT NOT NULL,
+  link TEXT,
+  read BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Enable Row Level Security
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE properties ENABLE ROW LEVEL SECURITY;
@@ -180,6 +201,17 @@ CREATE POLICY "Recipients can mark messages as read" ON messages FOR UPDATE USIN
   EXISTS (SELECT 1 FROM conversations WHERE conversations.id = messages.conversation_id AND (conversations.buyer_id = auth.uid() OR conversations.agent_id = auth.uid()))
 );
 
+-- Favorite agents policies
+ALTER TABLE favorite_agents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own favorite agents" ON favorite_agents FOR ALL USING (buyer_id = auth.uid());
+CREATE POLICY "Agents can see their followers" ON favorite_agents FOR SELECT USING (agent_id = auth.uid());
+
+CREATE POLICY "Users can view own notifications" ON notifications FOR SELECT USING (user_id = auth.uid());
+CREATE POLICY "Users can update own notifications" ON notifications FOR UPDATE USING (user_id = auth.uid());
+CREATE POLICY "System can insert notifications" ON notifications FOR INSERT WITH CHECK (true);
+
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_properties_country ON properties(country);
 CREATE INDEX IF NOT EXISTS idx_properties_type ON properties(property_type);
@@ -195,3 +227,7 @@ CREATE INDEX IF NOT EXISTS idx_conversations_buyer_id ON conversations(buyer_id)
 CREATE INDEX IF NOT EXISTS idx_conversations_agent_id ON conversations(agent_id);
 CREATE INDEX IF NOT EXISTS idx_messages_conversation_id ON messages(conversation_id);
 CREATE INDEX IF NOT EXISTS idx_messages_created_at ON messages(created_at);
+CREATE INDEX IF NOT EXISTS idx_favorite_agents_buyer_id ON favorite_agents(buyer_id);
+CREATE INDEX IF NOT EXISTS idx_favorite_agents_agent_id ON favorite_agents(agent_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_read ON notifications(read);

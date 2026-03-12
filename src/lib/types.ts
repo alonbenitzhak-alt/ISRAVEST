@@ -98,3 +98,23 @@ export interface Message {
   read: boolean;
   created_at: string;
 }
+
+export interface FavoriteAgent {
+  id: string;
+  buyer_id: string;
+  agent_id: string;
+  created_at: string;
+}
+
+export type NotificationType = "new_property" | "chat_message" | "lead_update";
+
+export interface Notification {
+  id: string;
+  user_id: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  link?: string;
+  read: boolean;
+  created_at: string;
+}

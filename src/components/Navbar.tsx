@@ -1,18 +1,69 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/AuthContext";
 import { useFavorites } from "@/lib/FavoritesContext";
 import { useLanguage } from "@/lib/LanguageContext";
+import { supabase } from "@/lib/supabase";
+import { Notification } from "@/lib/types";
 import LoginForm from "./LoginForm";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [showNotifs, setShowNotifs] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
   const { user, signOut, isAdmin, isAgent } = useAuth();
   const { favorites } = useFavorites();
   const { lang, setLang, t } = useLanguage();
+
+  useEffect(() => {
+    if (!user) return;
+    const fetchNotifs = async () => {
+      const { data } = await supabase
+        .from("notifications")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (data) setNotifications(data);
+    };
+    fetchNotifs();
+
+    const channel = supabase
+      .channel(`notifications:${user.id}`)
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "notifications", filter: `user_id=eq.${user.id}` },
+        (payload) => {
+          setNotifications((prev) => [payload.new as Notification, ...prev]);
+        }
+      )
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [user]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setShowNotifs(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
+
+  const markAllRead = async () => {
+    const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
+    if (unreadIds.length === 0) return;
+    await supabase.from("notifications").update({ read: true }).in("id", unreadIds);
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+  };
 
   const dashboardHref = isAgent ? "/dashboard/agent" : "/dashboard/buyer";
 
@@ -73,6 +124,58 @@ export default function Navbar() {
                   </span>
                 )}
               </Link>
+
+              {/* Notifications Bell */}
+              {user && (
+                <div className="relative" ref={notifRef}>
+                  <button
+                    onClick={() => { setShowNotifs(!showNotifs); if (!showNotifs) markAllRead(); }}
+                    className="relative text-gray-600 hover:text-primary-600 transition-colors"
+                    aria-label={t("nav.notifications")}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </button>
+                  {showNotifs && (
+                    <div className="absolute top-full mt-2 end-0 w-80 bg-white rounded-2xl shadow-xl border border-gray-200 z-50 overflow-hidden">
+                      <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                        <h3 className="font-semibold text-gray-900 text-sm">{t("nav.notifications")}</h3>
+                        {unreadCount > 0 && (
+                          <button onClick={markAllRead} className="text-xs text-primary-600 hover:text-primary-700 font-medium">
+                            {t("notifications.markAllRead")}
+                          </button>
+                        )}
+                      </div>
+                      <div className="max-h-80 overflow-y-auto">
+                        {notifications.length === 0 ? (
+                          <div className="px-4 py-8 text-center text-sm text-gray-400">{t("notifications.empty")}</div>
+                        ) : (
+                          notifications.map((n) => (
+                            <Link
+                              key={n.id}
+                              href={n.link || "#"}
+                              onClick={() => setShowNotifs(false)}
+                              className={`block px-4 py-3 hover:bg-gray-50 border-b border-gray-50 ${!n.read ? "bg-primary-50/50" : ""}`}
+                            >
+                              <p className="text-sm font-medium text-gray-900">{n.title}</p>
+                              <p className="text-xs text-gray-500 mt-0.5">{n.body}</p>
+                              <p className="text-[10px] text-gray-400 mt-1">
+                                {new Date(n.created_at).toLocaleDateString(lang === "he" ? "he-IL" : "en-US")}
+                              </p>
+                            </Link>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Language Toggle */}
               <button

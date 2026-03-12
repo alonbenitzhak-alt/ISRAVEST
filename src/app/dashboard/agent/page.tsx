@@ -328,7 +328,24 @@ export default function AgentDashboard() {
         })
         .select()
         .single();
-      if (newProp) setProperties(prev => [newProp, ...prev]);
+      if (newProp) {
+        setProperties(prev => [newProp, ...prev]);
+        // Notify followers
+        const { data: followers } = await supabase
+          .from("favorite_agents")
+          .select("buyer_id")
+          .eq("agent_id", user.id);
+        if (followers && followers.length > 0) {
+          const notifications = followers.map((f: { buyer_id: string }) => ({
+            user_id: f.buyer_id,
+            type: "new_property" as const,
+            title: lang === "he" ? "מודעה חדשה ממתווך מועדף" : "New listing from a favorite agent",
+            body: `${profile?.full_name || user.email}: ${data.title}`,
+            link: `/properties/${newProp.id}`,
+          }));
+          await supabase.from("notifications").insert(notifications);
+        }
+      }
     }
     setEditing(null);
     setShowForm(false);

@@ -10,7 +10,16 @@ import { Lead, LeadStatus } from "@/lib/types";
 import Link from "next/link";
 import LoginForm from "@/components/LoginForm";
 
-type Tab = "favorites" | "leads" | "account";
+type Tab = "favorites" | "agents" | "leads" | "account";
+
+interface FollowedAgent {
+  id: string;
+  agent_id: string;
+  agent_name: string;
+  agent_email: string;
+  company?: string;
+  properties_count: number;
+}
 
 const statusColors: Record<LeadStatus, string> = {
   sent: "bg-blue-100 text-blue-700",
@@ -32,6 +41,8 @@ export default function BuyerDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("favorites");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [leadsLoading, setLeadsLoading] = useState(true);
+  const [followedAgents, setFollowedAgents] = useState<FollowedAgent[]>([]);
+  const [agentsLoading, setAgentsLoading] = useState(true);
 
   // Account form
   const [name, setName] = useState("");
@@ -62,7 +73,36 @@ export default function BuyerDashboard() {
       setLeadsLoading(false);
     };
     fetchLeads();
-  }, [user]);
+
+    const fetchFollowedAgents = async () => {
+      const { data: favAgents } = await supabase
+        .from("favorite_agents")
+        .select("id, agent_id")
+        .eq("buyer_id", user.id);
+      if (favAgents && favAgents.length > 0) {
+        const agentIds = favAgents.map((f: { agent_id: string }) => f.agent_id);
+        const { data: profiles } = await supabase
+          .from("profiles")
+          .select("id, full_name, email, company")
+          .in("id", agentIds);
+        const enriched: FollowedAgent[] = favAgents.map((f: { id: string; agent_id: string }) => {
+          const p = profiles?.find((pr: { id: string }) => pr.id === f.agent_id);
+          const propCount = properties.filter((prop) => prop.agent_id === f.agent_id).length;
+          return {
+            id: f.id,
+            agent_id: f.agent_id,
+            agent_name: p?.full_name || p?.email || "Unknown",
+            agent_email: p?.email || "",
+            company: p?.company,
+            properties_count: propCount,
+          };
+        });
+        setFollowedAgents(enriched);
+      }
+      setAgentsLoading(false);
+    };
+    fetchFollowedAgents();
+  }, [user, properties]);
 
   if (loading) {
     return <div className="max-w-7xl mx-auto px-4 py-20 text-center text-gray-400">{t("properties.loading")}</div>;
@@ -113,6 +153,7 @@ export default function BuyerDashboard() {
 
   const tabs = [
     { key: "favorites" as Tab, label: t("dashboard.buyer.favorites"), icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" },
+    { key: "agents" as Tab, label: t("dashboard.buyer.favoriteAgents"), icon: "M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" },
     { key: "leads" as Tab, label: t("dashboard.buyer.myRequests"), icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" },
     { key: "account" as Tab, label: t("dashboard.buyer.account"), icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" },
   ];
@@ -202,6 +243,54 @@ export default function BuyerDashboard() {
                         {t("dashboard.buyer.viewDetails")} →
                       </Link>
                     </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
+        )}
+
+        {/* Favorite Agents Tab */}
+        {activeTab === "agents" && (
+          agentsLoading ? (
+            <div className="text-center py-16 text-gray-400">{t("properties.loading")}</div>
+          ) : followedAgents.length === 0 ? (
+            <div className="text-center py-20">
+              <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("dashboard.buyer.noAgents")}</h3>
+              <p className="text-gray-500 mb-6">{t("dashboard.buyer.noAgentsSub")}</p>
+              <Link href="/properties" className="bg-primary-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors">
+                {t("favorites.browse")}
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {followedAgents.map((agent) => (
+                <div key={agent.id} className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold text-lg">
+                      {agent.agent_name.charAt(0)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900">{agent.agent_name}</h3>
+                      {agent.company && <p className="text-sm text-gray-500">{agent.company}</p>}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500">
+                      {agent.properties_count} {t("dashboard.buyer.listings")}
+                    </span>
+                    <button
+                      onClick={async () => {
+                        await supabase.from("favorite_agents").delete().eq("id", agent.id);
+                        setFollowedAgents((prev) => prev.filter((a) => a.id !== agent.id));
+                      }}
+                      className="text-sm font-medium text-red-500 hover:text-red-600"
+                    >
+                      {t("dashboard.buyer.unfollow")}
+                    </button>
                   </div>
                 </div>
               ))}

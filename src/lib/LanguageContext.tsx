@@ -370,6 +370,18 @@ const translations: Record<Lang, Record<string, string>> = {
     "chat.noChatsSub": "כאשר לקוחות ישלחו הודעות, הם יופיעו כאן",
     "dashboard.agent.chats": "צ'אטים",
 
+    // Follow & Notifications
+    "agent.follow": "עקוב",
+    "agent.following": "עוקב",
+    "nav.notifications": "התראות",
+    "notifications.markAllRead": "סמן הכל כנקרא",
+    "notifications.empty": "אין התראות",
+    "dashboard.buyer.favoriteAgents": "מתווכים מועדפים",
+    "dashboard.buyer.noAgents": "אין מתווכים מועדפים",
+    "dashboard.buyer.noAgentsSub": "עקבו אחרי מתווכים מדפי הנכסים כדי לקבל התראות על מודעות חדשות",
+    "dashboard.buyer.listings": "מודעות",
+    "dashboard.buyer.unfollow": "הסר מעקב",
+
     // Footer
     "footer.description": "NESTIGO מחברת משקיעים ישראלים עם הזדמנויות נדל\"ן בינלאומיות פרימיום. חקרו נכסים נבחרים בשווקים גלובליים מובילים עם תמחור שקוף וליווי מומחים.",
     "footer.quickLinks": "קישורים מהירים",
@@ -741,6 +753,18 @@ const translations: Record<Lang, Record<string, string>> = {
     "chat.noChats": "No chats yet",
     "chat.noChatsSub": "When clients send messages, they will appear here",
     "dashboard.agent.chats": "Chats",
+
+    // Follow & Notifications
+    "agent.follow": "Follow",
+    "agent.following": "Following",
+    "nav.notifications": "Notifications",
+    "notifications.markAllRead": "Mark all as read",
+    "notifications.empty": "No notifications",
+    "dashboard.buyer.favoriteAgents": "Favorite Agents",
+    "dashboard.buyer.noAgents": "No favorite agents",
+    "dashboard.buyer.noAgentsSub": "Follow agents from property pages to get notified about their new listings",
+    "dashboard.buyer.listings": "listings",
+    "dashboard.buyer.unfollow": "Unfollow",
 
     // Footer
     "footer.description": "NESTIGO connects Israeli investors with premium international real estate opportunities. Explore curated properties in top global markets with transparent pricing and expert guidance.",
