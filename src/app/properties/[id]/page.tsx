@@ -31,6 +31,15 @@ export default function PropertyDetailsPage({
   const [followLoading, setFollowLoading] = useState(false);
 
   useEffect(() => {
+    if (!property) return;
+    supabase
+      .from("properties")
+      .update({ views_count: (property.views_count || 0) + 1 })
+      .eq("id", property.id)
+      .then(() => null);
+  }, [property?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     if (!user || !property?.agent_id) return;
     supabase
       .from("favorite_agents")

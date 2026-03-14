@@ -3,94 +3,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 import Link from "next/link";
-
-// Static blog posts for now (can be migrated to Supabase later)
-const blogPosts = [
-  {
-    id: "1",
-    slug: "guide-to-investing-in-greek-real-estate",
-    title: { he: "מדריך להשקעת נדל\"ן ביוון 2025", en: "Guide to Investing in Greek Real Estate 2025" },
-    excerpt: {
-      he: "יוון מציעה הזדמנויות השקעה ייחודיות עם תוכנית הגולדן ויזה, תשואות אטרקטיביות ותיירות צומחת. למדו כיצד להתחיל.",
-      en: "Greece offers unique investment opportunities with the Golden Visa program, attractive yields, and growing tourism. Learn how to get started.",
-    },
-    cover: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&h=400&fit=crop",
-    category: { he: "מדריכים", en: "Guides" },
-    author: "MANAIO",
-    date: "2025-03-01",
-    readTime: 8,
-  },
-  {
-    id: "2",
-    slug: "tax-benefits-international-real-estate",
-    title: { he: "הטבות מס בהשקעות נדל\"ן בחו\"ל למשקיעים ישראלים", en: "Tax Benefits of International Real Estate for Israeli Investors" },
-    excerpt: {
-      he: "סקירת הטבות המס העיקריות עבור ישראלים המשקיעים בנדל\"ן בחו\"ל, כולל אמנות מס ותכנון מס חכם.",
-      en: "Overview of key tax benefits for Israelis investing in overseas real estate, including tax treaties and smart tax planning.",
-    },
-    cover: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop",
-    category: { he: "מיסוי", en: "Taxation" },
-    author: "MANAIO",
-    date: "2025-02-15",
-    readTime: 6,
-  },
-  {
-    id: "3",
-    slug: "georgia-emerging-market-opportunity",
-    title: { he: "גאורגיה: שוק מתפתח עם תשואות דו-ספרתיות", en: "Georgia: Emerging Market with Double-Digit Returns" },
-    excerpt: {
-      he: "גאורגיה הפכה ליעד השקעה פופולרי עם תשואות שמגיעות ל-14% ומעלה. מה עומד מאחורי הצמיחה?",
-      en: "Georgia has become a popular investment destination with yields reaching 14% and above. What's driving the growth?",
-    },
-    cover: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&h=400&fit=crop",
-    category: { he: "ניתוח שוק", en: "Market Analysis" },
-    author: "MANAIO",
-    date: "2025-02-01",
-    readTime: 7,
-  },
-  {
-    id: "4",
-    slug: "portugal-nhr-program-explained",
-    title: { he: "תוכנית NHR בפורטוגל - כל מה שצריך לדעת", en: "Portugal's NHR Program - Everything You Need to Know" },
-    excerpt: {
-      he: "תוכנית התושבות הלא-רגילה של פורטוגל מציעה הטבות מס משמעותיות. האם היא מתאימה לכם?",
-      en: "Portugal's Non-Habitual Residency program offers significant tax benefits. Is it right for you?",
-    },
-    cover: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&h=400&fit=crop",
-    category: { he: "מדריכים", en: "Guides" },
-    author: "MANAIO",
-    date: "2025-01-20",
-    readTime: 10,
-  },
-  {
-    id: "5",
-    slug: "cyprus-residency-through-investment",
-    title: { he: "תושבות בקפריסין דרך השקעה בנדל\"ן", en: "Cyprus Residency Through Real Estate Investment" },
-    excerpt: {
-      he: "קפריסין מציעה נתיב ישיר לתושבות אירופאית דרך השקעת נדל\"ן. סקירת התנאים והיתרונות.",
-      en: "Cyprus offers a direct path to European residency through real estate investment. Overview of conditions and benefits.",
-    },
-    cover: "https://images.unsplash.com/photo-1580227974546-fbd48825d991?w=800&h=400&fit=crop",
-    category: { he: "תושבות", en: "Residency" },
-    author: "MANAIO",
-    date: "2025-01-10",
-    readTime: 5,
-  },
-  {
-    id: "6",
-    slug: "5-mistakes-first-time-international-investors",
-    title: { he: "5 טעויות נפוצות של משקיעי נדל\"ן מתחילים בחו\"ל", en: "5 Common Mistakes First-Time International Real Estate Investors Make" },
-    excerpt: {
-      he: "השקעת נדל\"ן בחו\"ל יכולה להיות מורכבת. הנה 5 טעויות שכדאי להימנע מהן.",
-      en: "International real estate investing can be complex. Here are 5 mistakes you should avoid.",
-    },
-    cover: "https://images.unsplash.com/photo-1460472178825-e5240623afd5?w=800&h=400&fit=crop",
-    category: { he: "טיפים", en: "Tips" },
-    author: "MANAIO",
-    date: "2024-12-28",
-    readTime: 6,
-  },
-];
+import { blogPosts } from "@/lib/blogData";
 
 const categories = [
   { he: "הכל", en: "All" },
@@ -166,9 +79,9 @@ export default function BlogPage() {
                 <p className="text-sm text-gray-500 line-clamp-3 mb-4">
                   {lang === "he" ? post.excerpt.he : post.excerpt.en}
                 </p>
-                <span className="text-sm font-semibold text-primary-600 hover:text-primary-700">
+                <Link href={`/blog/${post.slug}`} className="text-sm font-semibold text-primary-600 hover:text-primary-700">
                   {t("blog.readMore")} →
-                </span>
+                </Link>
               </div>
             </article>
           ))}

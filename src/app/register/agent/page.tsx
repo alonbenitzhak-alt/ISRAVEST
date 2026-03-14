@@ -34,7 +34,10 @@ export default function AgentRegisterPage() {
     if (mode === "register") {
       const { error } = await signUp(email, password, "agent");
       if (error) setError(error);
-      else setSuccess(t("auth.checkEmail"));
+      else {
+        setSuccess(t("auth.checkEmail"));
+        fetch("/api/welcome", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, name: email }) }).catch(() => null);
+      }
     } else {
       const { error } = await signIn(email, password);
       if (error) setError(error);

@@ -11,6 +11,7 @@ function PropertiesContent() {
   const { t } = useLanguage();
   const { properties } = useProperties();
 
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [filters, setFilters] = useState({
     country: searchParams.get("country") || "",
     priceRange: searchParams.get("budget") || "",
@@ -21,6 +22,15 @@ function PropertiesContent() {
 
   const filtered = useMemo(() => {
     return properties.filter((p) => {
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        const match =
+          p.title.toLowerCase().includes(q) ||
+          p.city.toLowerCase().includes(q) ||
+          p.country.toLowerCase().includes(q) ||
+          p.description?.toLowerCase().includes(q);
+        if (!match) return false;
+      }
       if (filters.country && p.country !== filters.country) return false;
       if (filters.propertyType && p.property_type !== filters.propertyType) return false;
       if (filters.priceRange) {
@@ -37,12 +47,28 @@ function PropertiesContent() {
       }
       return true;
     });
-  }, [filters]);
+  }, [filters, searchQuery]);
 
   const uniqueTypes = [...new Set(properties.map((p) => p.property_type))];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Search bar */}
+      <div className="mb-4">
+        <div className="relative">
+          <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={t("properties.search") || "חיפוש לפי עיר, מדינה, סוג נכס..."}
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm focus:ring-2 focus:ring-primary-500 outline-none bg-white"
+          />
+        </div>
+      </div>
+
       <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
         <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1">{t("properties.filter.country")}</label>
