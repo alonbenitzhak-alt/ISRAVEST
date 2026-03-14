@@ -49,8 +49,8 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">{t("footer.contact")}</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="mailto:info@nestigo.com" className="hover:text-white transition-colors">
-                  info@nestigo.com
+                <a href="mailto:info@mymanaio.com" className="hover:text-white transition-colors">
+                  info@mymanaio.com
                 </a>
               </li>
               <li className="text-gray-400">{t("contact.office")}</li>

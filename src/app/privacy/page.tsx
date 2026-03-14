@@ -89,7 +89,7 @@ export default function PrivacyPage() {
                   <li>זכות התנגדות - להתנגד לעיבוד המידע שלכם</li>
                 </ul>
                 <p className="text-gray-600 leading-relaxed mt-3">
-                  למימוש זכויותיכם, צרו קשר בכתובת: <a href="mailto:privacy@nestigo.com" className="text-primary-600 hover:underline">privacy@nestigo.com</a>
+                  למימוש זכויותיכם, צרו קשר בכתובת: <a href="mailto:privacy@mymanaio.com" className="text-primary-600 hover:underline">privacy@mymanaio.com</a>
                 </p>
               </section>
 
@@ -111,7 +111,7 @@ export default function PrivacyPage() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">10. יצירת קשר</h2>
                 <p className="text-gray-600 leading-relaxed">
                   לשאלות בנוגע למדיניות פרטיות זו, ניתן לפנות אלינו:<br />
-                  אימייל: <a href="mailto:privacy@nestigo.com" className="text-primary-600 hover:underline">privacy@nestigo.com</a>
+                  אימייל: <a href="mailto:privacy@mymanaio.com" className="text-primary-600 hover:underline">privacy@mymanaio.com</a>
                 </p>
               </section>
             </>
@@ -182,7 +182,7 @@ export default function PrivacyPage() {
                   <li>Right to object - object to the processing of your data</li>
                 </ul>
                 <p className="text-gray-600 leading-relaxed mt-3">
-                  To exercise your rights, contact us at: <a href="mailto:privacy@nestigo.com" className="text-primary-600 hover:underline">privacy@nestigo.com</a>
+                  To exercise your rights, contact us at: <a href="mailto:privacy@mymanaio.com" className="text-primary-600 hover:underline">privacy@mymanaio.com</a>
                 </p>
               </section>
 
@@ -204,7 +204,7 @@ export default function PrivacyPage() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Contact Us</h2>
                 <p className="text-gray-600 leading-relaxed">
                   For questions about this Privacy Policy, contact us:<br />
-                  Email: <a href="mailto:privacy@nestigo.com" className="text-primary-600 hover:underline">privacy@nestigo.com</a>
+                  Email: <a href="mailto:privacy@mymanaio.com" className="text-primary-600 hover:underline">privacy@mymanaio.com</a>
                 </p>
               </section>
             </>

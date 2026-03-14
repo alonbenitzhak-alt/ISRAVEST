@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /dashboard
 Disallow: /api
 
-Sitemap: https://nestigo.com/sitemap.xml
+Sitemap: https://mymanaio.com/sitemap.xml

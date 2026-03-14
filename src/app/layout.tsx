@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Providers } from "./providers";
 import { LayoutWrapper } from "./layout-wrapper";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://nestigo.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mymanaio.com";
 
 export const metadata: Metadata = {
   title: {

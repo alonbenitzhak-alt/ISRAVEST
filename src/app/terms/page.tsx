@@ -109,7 +109,7 @@ export default function TermsPage() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">11. יצירת קשר</h2>
                 <p className="text-gray-600 leading-relaxed">
                   לשאלות בנוגע לתנאי שימוש אלה:<br />
-                  אימייל: <a href="mailto:legal@nestigo.com" className="text-primary-600 hover:underline">legal@nestigo.com</a>
+                  אימייל: <a href="mailto:legal@mymanaio.com" className="text-primary-600 hover:underline">legal@mymanaio.com</a>
                 </p>
               </section>
             </>
@@ -201,7 +201,7 @@ export default function TermsPage() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Contact Us</h2>
                 <p className="text-gray-600 leading-relaxed">
                   For questions about these Terms of Service:<br />
-                  Email: <a href="mailto:legal@nestigo.com" className="text-primary-600 hover:underline">legal@nestigo.com</a>
+                  Email: <a href="mailto:legal@mymanaio.com" className="text-primary-600 hover:underline">legal@mymanaio.com</a>
                 </p>
               </section>
             </>
