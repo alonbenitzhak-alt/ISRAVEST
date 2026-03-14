@@ -26,7 +26,7 @@ export default function PrivacyPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">1. מבוא</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  NESTIGO (&quot;אנחנו&quot;, &quot;שלנו&quot;, &quot;החברה&quot;) מחויבת להגן על פרטיותכם. מדיניות פרטיות זו מסבירה כיצד אנו אוספים, משתמשים, מאחסנים ומגנים על המידע האישי שלכם בעת השימוש באתר ובשירותים שלנו.
+                  MANAIO (&quot;אנחנו&quot;, &quot;שלנו&quot;, &quot;החברה&quot;) מחויבת להגן על פרטיותכם. מדיניות פרטיות זו מסבירה כיצד אנו אוספים, משתמשים, מאחסנים ומגנים על המידע האישי שלכם בעת השימוש באתר ובשירותים שלנו.
                 </p>
               </section>
 
@@ -120,7 +120,7 @@ export default function PrivacyPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  NESTIGO (&quot;we&quot;, &quot;our&quot;, &quot;the Company&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information when using our website and services.
+                  MANAIO (&quot;we&quot;, &quot;our&quot;, &quot;the Company&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information when using our website and services.
                 </p>
               </section>
 

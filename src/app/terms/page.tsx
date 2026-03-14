@@ -26,14 +26,14 @@ export default function TermsPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">1. כללי</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  ברוכים הבאים ל-NESTIGO. תנאי שימוש אלה מסדירים את השימוש באתר ובשירותים שלנו. בעצם השימוש באתר, אתם מסכימים לתנאים אלה במלואם. אם אינכם מסכימים, אנא הימנעו משימוש באתר.
+                  ברוכים הבאים ל-MANAIO. תנאי שימוש אלה מסדירים את השימוש באתר ובשירותים שלנו. בעצם השימוש באתר, אתם מסכימים לתנאים אלה במלואם. אם אינכם מסכימים, אנא הימנעו משימוש באתר.
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">2. תיאור השירות</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  NESTIGO היא פלטפורמה מקוונת המחברת בין משקיעי נדל&quot;ן ישראלים לבין סוכני נדל&quot;ן בינלאומיים. הפלטפורמה מציגה מידע על נכסים למכירה ומאפשרת יצירת קשר בין הצדדים. NESTIGO אינה צד לעסקה ואינה מתווכת עסקאות נדל&quot;ן.
+                  MANAIO היא פלטפורמה מקוונת המחברת בין משקיעי נדל&quot;ן ישראלים לבין סוכני נדל&quot;ן בינלאומיים. הפלטפורמה מציגה מידע על נכסים למכירה ומאפשרת יצירת קשר בין הצדדים. MANAIO אינה צד לעסקה ואינה מתווכת עסקאות נדל&quot;ן.
                 </p>
               </section>
 
@@ -62,7 +62,7 @@ export default function TermsPage() {
                 <ul className="list-disc list-inside text-gray-600 space-y-2">
                   <li>המידע באתר הוא לצורכי מידע כללי בלבד ואינו מהווה ייעוץ השקעות</li>
                   <li>מומלץ לבצע בדיקת נאותות עצמאית לפני כל השקעה</li>
-                  <li>NESTIGO אינה אחראית לתוצאות כלכליות של עסקאות שנסגרו</li>
+                  <li>MANAIO אינה אחראית לתוצאות כלכליות של עסקאות שנסגרו</li>
                   <li>נתוני התשואה המוצגים הם הערכות בלבד ואינם מבטיחים תשואה עתידית</li>
                 </ul>
               </section>
@@ -70,14 +70,14 @@ export default function TermsPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">6. הגבלת אחריות</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  NESTIGO משמשת כפלטפורמת חיבור בלבד. איננו אחראים ל: דיוק המידע שמפורסם על ידי סוכנים, איכות הנכסים, תוצאות עסקאות, או כל נזק ישיר או עקיף הנובע משימוש בפלטפורמה. השימוש בפלטפורמה הוא על אחריותכם בלבד.
+                  MANAIO משמשת כפלטפורמת חיבור בלבד. איננו אחראים ל: דיוק המידע שמפורסם על ידי סוכנים, איכות הנכסים, תוצאות עסקאות, או כל נזק ישיר או עקיף הנובע משימוש בפלטפורמה. השימוש בפלטפורמה הוא על אחריותכם בלבד.
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">7. קניין רוחני</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  כל התוכן באתר, כולל עיצוב, לוגו, טקסטים וגרפיקה, הם קניינה של NESTIGO או של מעניקי הרישיון שלנו. אין לשכפל, להפיץ או להשתמש בתוכן ללא אישור מראש ובכתב.
+                  כל התוכן באתר, כולל עיצוב, לוגו, טקסטים וגרפיקה, הם קניינה של MANAIO או של מעניקי הרישיון שלנו. אין לשכפל, להפיץ או להשתמש בתוכן ללא אישור מראש ובכתב.
                 </p>
               </section>
 
@@ -118,14 +118,14 @@ export default function TermsPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">1. General</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  Welcome to NESTIGO. These Terms of Service govern your use of our website and services. By using the site, you agree to these terms in full. If you do not agree, please refrain from using the site.
+                  Welcome to MANAIO. These Terms of Service govern your use of our website and services. By using the site, you agree to these terms in full. If you do not agree, please refrain from using the site.
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Service Description</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  NESTIGO is an online platform connecting Israeli real estate investors with international real estate agents. The platform displays property information and facilitates communication between parties. NESTIGO is not a party to any transaction and does not broker real estate deals.
+                  MANAIO is an online platform connecting Israeli real estate investors with international real estate agents. The platform displays property information and facilitates communication between parties. MANAIO is not a party to any transaction and does not broker real estate deals.
                 </p>
               </section>
 
@@ -154,7 +154,7 @@ export default function TermsPage() {
                 <ul className="list-disc list-inside text-gray-600 space-y-2">
                   <li>Information on the site is for general informational purposes only and does not constitute investment advice</li>
                   <li>Independent due diligence is recommended before any investment</li>
-                  <li>NESTIGO is not responsible for the financial outcomes of closed transactions</li>
+                  <li>MANAIO is not responsible for the financial outcomes of closed transactions</li>
                   <li>Displayed ROI figures are estimates only and do not guarantee future returns</li>
                 </ul>
               </section>
@@ -162,14 +162,14 @@ export default function TermsPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Limitation of Liability</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  NESTIGO serves as a connection platform only. We are not responsible for: accuracy of information published by agents, property quality, transaction outcomes, or any direct or indirect damages arising from use of the platform. Use of the platform is at your own risk.
+                  MANAIO serves as a connection platform only. We are not responsible for: accuracy of information published by agents, property quality, transaction outcomes, or any direct or indirect damages arising from use of the platform. Use of the platform is at your own risk.
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Intellectual Property</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  All content on the site, including design, logos, text, and graphics, are the property of NESTIGO or our licensors. Reproduction, distribution, or use of content without prior written consent is prohibited.
+                  All content on the site, including design, logos, text, and graphics, are the property of MANAIO or our licensors. Reproduction, distribution, or use of content without prior written consent is prohibited.
                 </p>
               </section>
 

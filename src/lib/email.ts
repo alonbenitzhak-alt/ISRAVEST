@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const FROM_EMAIL = process.env.FROM_EMAIL || "NESTIGO <noreply@mymanaio.com>";
+const FROM_EMAIL = process.env.FROM_EMAIL || "MANAIO <noreply@mymanaio.com>";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "alon.benitzhak@gmail.com";
 
 function getResend() {
@@ -23,7 +23,7 @@ export async function sendLeadNotification(lead: {
   await resend.emails.send({
     from: FROM_EMAIL,
     to: ADMIN_EMAIL,
-    subject: `ליד חדש מ-NESTIGO: ${lead.name}`,
+    subject: `ליד חדש מ-MANAIO: ${lead.name}`,
     html: `
       <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #1e3a5f;">ליד חדש התקבל!</h2>
@@ -35,7 +35,7 @@ export async function sendLeadNotification(lead: {
           ${lead.property_title ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">נכס:</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${lead.property_title}</td></tr>` : ""}
           ${lead.message ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">הודעה:</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${lead.message}</td></tr>` : ""}
         </table>
-        <p style="color: #666; margin-top: 20px;">נשלח מ-NESTIGO | <a href="https://mymanaio.com/admin">פאנל ניהול</a></p>
+        <p style="color: #666; margin-top: 20px;">נשלח מ-MANAIO | <a href="https://mymanaio.com/admin">פאנל ניהול</a></p>
       </div>
     `,
   });
@@ -44,7 +44,7 @@ export async function sendLeadNotification(lead: {
   await resend.emails.send({
     from: FROM_EMAIL,
     to: lead.email,
-    subject: "NESTIGO - קיבלנו את פנייתך!",
+    subject: "MANAIO - קיבלנו את פנייתך!",
     html: `
       <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #1e3a5f;">שלום ${lead.name},</h2>
@@ -52,7 +52,7 @@ export async function sendLeadNotification(lead: {
         ${lead.property_title ? `<p>פנייתך לגבי הנכס: <strong>${lead.property_title}</strong></p>` : ""}
         <p>בינתיים, מוזמן/ת לעיין בנכסים נוספים באתר שלנו.</p>
         <a href="https://mymanaio.com/properties" style="display: inline-block; padding: 12px 24px; background-color: #1e3a5f; color: white; text-decoration: none; border-radius: 8px; margin-top: 10px;">צפייה בנכסים</a>
-        <p style="color: #666; margin-top: 30px;">בברכה,<br/>צוות NESTIGO</p>
+        <p style="color: #666; margin-top: 30px;">בברכה,<br/>צוות MANAIO</p>
       </div>
     `,
   });
@@ -67,7 +67,7 @@ export async function sendContactNotification(contact: {
   await resend.emails.send({
     from: FROM_EMAIL,
     to: ADMIN_EMAIL,
-    subject: `הודעת צור קשר מ-NESTIGO: ${contact.name}`,
+    subject: `הודעת צור קשר מ-MANAIO: ${contact.name}`,
     html: `
       <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #1e3a5f;">הודעה חדשה מטופס צור קשר</h2>
@@ -75,7 +75,7 @@ export async function sendContactNotification(contact: {
         <p><strong>אימייל:</strong> ${contact.email}</p>
         <p><strong>הודעה:</strong></p>
         <div style="background: #f5f5f5; padding: 16px; border-radius: 8px;">${contact.message}</div>
-        <p style="color: #666; margin-top: 20px;">נשלח מ-NESTIGO</p>
+        <p style="color: #666; margin-top: 20px;">נשלח מ-MANAIO</p>
       </div>
     `,
   });
@@ -86,11 +86,11 @@ export async function sendWelcomeEmail(user: { email: string; name: string }) {
   await resend.emails.send({
     from: FROM_EMAIL,
     to: user.email,
-    subject: "ברוכים הבאים ל-NESTIGO!",
+    subject: "ברוכים הבאים ל-MANAIO!",
     html: `
       <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #1e3a5f;">שלום ${user.name},</h2>
-        <p>ברוכים הבאים ל-NESTIGO - פלטפורמת ההשקעות המובילה בנדל"ן בינלאומי!</p>
+        <p>ברוכים הבאים ל-MANAIO - פלטפורמת ההשקעות המובילה בנדל"ן בינלאומי!</p>
         <p>עכשיו תוכל/י:</p>
         <ul>
           <li>לעיין בנכסים ביוון, קפריסין, גאורגיה ופורטוגל</li>
@@ -99,7 +99,7 @@ export async function sendWelcomeEmail(user: { email: string; name: string }) {
           <li>ליצור קשר עם סוכנים מקצועיים</li>
         </ul>
         <a href="https://mymanaio.com/properties" style="display: inline-block; padding: 12px 24px; background-color: #1e3a5f; color: white; text-decoration: none; border-radius: 8px; margin-top: 10px;">התחל לגלות נכסים</a>
-        <p style="color: #666; margin-top: 30px;">בברכה,<br/>צוות NESTIGO</p>
+        <p style="color: #666; margin-top: 30px;">בברכה,<br/>צוות MANAIO</p>
       </div>
     `,
   });

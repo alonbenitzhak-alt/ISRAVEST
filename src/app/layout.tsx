@@ -12,15 +12,15 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mymanaio.com";
 
 export const metadata: Metadata = {
   title: {
-    default: "NESTIGO - השקעות נדל\"ן בחו\"ל למשקיעים ישראלים",
-    template: "%s | NESTIGO",
+    default: "MANAIO - השקעות נדל\"ן בחו\"ל למשקיעים ישראלים",
+    template: "%s | MANAIO",
   },
   description:
     "פלטפורמת ההשקעות המובילה לנדל\"ן בחו\"ל. השקיעו בנכסים ביוון, קפריסין, גאורגיה ופורטוגל עם ליווי מומחים, מחשבון תשואה ותמחור שקוף.",
   keywords: [
     "השקעות נדל\"ן", "נדל\"ן בחו\"ל", "השקעות ביוון", "דירה בקפריסין",
     "נדל\"ן גאורגיה", "נדל\"ן פורטוגל", "השקעות נדל\"ן לישראלים",
-    "תשואה על נדל\"ן", "real estate investment", "NESTIGO",
+    "תשואה על נדל\"ן", "real estate investment", "MANAIO",
   ],
   metadataBase: new URL(SITE_URL),
   openGraph: {
@@ -28,21 +28,21 @@ export const metadata: Metadata = {
     locale: "he_IL",
     alternateLocale: "en_US",
     url: SITE_URL,
-    siteName: "NESTIGO",
-    title: "NESTIGO - השקעות נדל\"ן בחו\"ל למשקיעים ישראלים",
+    siteName: "MANAIO",
+    title: "MANAIO - השקעות נדל\"ן בחו\"ל למשקיעים ישראלים",
     description: "פלטפורמת ההשקעות המובילה לנדל\"ן בחו\"ל. נכסים ביוון, קפריסין, גאורגיה ופורטוגל.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "NESTIGO - השקעות נדל\"ן גלובליות",
+        alt: "MANAIO - השקעות נדל\"ן גלובליות",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "NESTIGO - השקעות נדל\"ן בחו\"ל",
+    title: "MANAIO - השקעות נדל\"ן בחו\"ל",
     description: "פלטפורמת ההשקעות המובילה לנדל\"ן בחו\"ל למשקיעים ישראלים",
     images: ["/og-image.png"],
   },
@@ -82,7 +82,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "RealEstateAgent",
-              name: "NESTIGO",
+              name: "MANAIO",
               description: "פלטפורמת השקעות נדל\"ן בינלאומית למשקיעים ישראלים",
               url: SITE_URL,
               areaServed: ["Greece", "Cyprus", "Georgia", "Portugal"],

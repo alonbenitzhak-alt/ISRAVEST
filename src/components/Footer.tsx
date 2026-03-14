@@ -13,9 +13,9 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">N</span>
+                <span className="text-white font-bold text-sm">M</span>
               </div>
-              <span className="text-xl font-bold text-white">NESTIGO</span>
+              <span className="text-xl font-bold text-white">MANAIO</span>
             </div>
             <p className="text-sm leading-relaxed text-gray-400">
               {t("footer.description")}
@@ -64,7 +64,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-4 mt-4">
             <p className="text-xs text-gray-500">
-              &copy; {new Date().getFullYear()} NESTIGO. {t("footer.rights")}
+              &copy; {new Date().getFullYear()} MANAIO. {t("footer.rights")}
             </p>
             <Link href="/privacy" className="text-xs text-gray-500 hover:text-white transition-colors">
               {t("footer.privacy") || "מדיניות פרטיות"}
