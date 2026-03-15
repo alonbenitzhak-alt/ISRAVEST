@@ -224,10 +224,10 @@ export default function Navbar() {
               )}
 
               <Link
-                href="/properties"
+                href={isAgent ? "/dashboard/agent" : "/properties"}
                 className="bg-primary-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-primary-700 transition-colors"
               >
-                {t("nav.browseInvestments")}
+                {isAgent ? (lang === "he" ? "הנכסים שלי" : "My Properties") : t("nav.browseInvestments")}
               </Link>
             </div>
 
@@ -330,11 +330,11 @@ export default function Navbar() {
             )}
             <div className="pt-2">
               <Link
-                href="/properties"
+                href={isAgent ? "/dashboard/agent" : "/properties"}
                 className="block text-center bg-primary-600 text-white px-5 py-3.5 rounded-xl text-base font-semibold"
                 onClick={() => setMobileOpen(false)}
               >
-                {t("nav.browseInvestments")}
+                {isAgent ? (lang === "he" ? "הנכסים שלי" : "My Properties") : t("nav.browseInvestments")}
               </Link>
             </div>
           </div>

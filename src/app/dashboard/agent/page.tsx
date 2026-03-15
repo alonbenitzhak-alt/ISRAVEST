@@ -293,6 +293,33 @@ export default function AgentDashboard() {
     );
   }
 
+  // Agent is registered but not yet approved by admin
+  if (profile?.approved === false || profile?.approved === null) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-20 text-center">
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-10">
+          <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-amber-800 mb-3">
+            {lang === "he" ? "הבקשה שלכם בבדיקה" : "Your Application is Under Review"}
+          </h1>
+          <p className="text-amber-700 leading-relaxed mb-6">
+            {lang === "he"
+              ? "תודה על ההרשמה! צוות MANAIO בודק את רישיון התיווך שלכם ואת הסכם השותפות. תקבלו הודעה במייל לאחר אישור החשבון (בדרך כלל תוך 1-2 ימי עסקים)."
+              : "Thank you for registering! The MANAIO team is reviewing your broker license and partnership agreement. You will receive an email once your account is approved (usually within 1-2 business days)."}
+          </p>
+          <div className="text-sm text-amber-600 bg-amber-100 rounded-xl px-4 py-3 inline-block">
+            {lang === "he" ? "שאלות? " : "Questions? "}
+            <a href="mailto:agents@mymanaio.com" className="font-semibold underline">agents@mymanaio.com</a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Stats
   const activeProps = properties.filter(p => (p.status || "active") === "active");
   const totalViews = properties.reduce((sum, p) => sum + (p.views_count || 0), 0);

@@ -12,6 +12,9 @@ export interface Profile {
   notification_new_properties: boolean;
   notification_price_changes: boolean;
   notification_lead_updates: boolean;
+  approved?: boolean | null;
+  license_url?: string | null;
+  id_url?: string | null;
   created_at: string;
 }
 
