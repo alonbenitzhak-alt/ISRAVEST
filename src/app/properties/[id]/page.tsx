@@ -109,8 +109,8 @@ export default function PropertyDetailsPage({
                 {[
                   { label: t("detail.expectedRoi"), value: `${property.expected_roi}%`, accent: true },
                   { label: t("detail.bedrooms"), value: property.bedrooms.toString() },
-                  { label: t("detail.propertyType"), value: property.property_type },
-                  { label: t("detail.country"), value: property.country },
+                  { label: t("detail.propertyType"), value: t(`propertyType.${property.property_type.toLowerCase()}`) || property.property_type },
+                  { label: t("detail.country"), value: t(`footer.${property.country.toLowerCase()}`) || property.country },
                 ].map((item) => (
                   <div key={item.label} className="bg-gray-50 rounded-xl p-4 text-center">
                     <div className="text-xs font-semibold text-gray-400 uppercase mb-1">{item.label}</div>

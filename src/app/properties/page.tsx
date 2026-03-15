@@ -74,10 +74,10 @@ function PropertiesContent() {
           <label className="block text-xs font-semibold text-gray-500 mb-1">{t("properties.filter.country")}</label>
           <select value={filters.country} onChange={(e) => setFilters({ ...filters, country: e.target.value })} className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none bg-white">
             <option value="">{t("properties.filter.allCountries")}</option>
-            <option value="Greece">Greece</option>
-            <option value="Cyprus">Cyprus</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Portugal">Portugal</option>
+            <option value="Greece">{t("footer.greece")}</option>
+            <option value="Cyprus">{t("footer.cyprus")}</option>
+            <option value="Georgia">{t("footer.georgia")}</option>
+            <option value="Portugal">{t("footer.portugal")}</option>
           </select>
         </div>
         <div>
@@ -94,7 +94,9 @@ function PropertiesContent() {
           <label className="block text-xs font-semibold text-gray-500 mb-1">{t("properties.filter.type")}</label>
           <select value={filters.propertyType} onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })} className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none bg-white">
             <option value="">{t("properties.filter.allTypes")}</option>
-            {uniqueTypes.map((t) => (<option key={t} value={t}>{t}</option>))}
+            {uniqueTypes.map((type) => (
+              <option key={type} value={type}>{t(`propertyType.${type.toLowerCase()}`) || type}</option>
+            ))}
           </select>
         </div>
         <div>

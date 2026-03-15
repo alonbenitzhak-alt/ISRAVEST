@@ -25,7 +25,7 @@ export default function PropertyCard({ property }: { property: Property }) {
         {/* Top badges */}
         <div className="absolute top-3 start-3">
           <span className="bg-white/95 backdrop-blur-sm text-xs font-bold px-3 py-1.5 rounded-full text-primary-700 shadow-sm">
-            {property.property_type}
+            {t(`propertyType.${property.property_type.toLowerCase()}`) || property.property_type}
           </span>
         </div>
 
@@ -84,14 +84,14 @@ export default function PropertyCard({ property }: { property: Property }) {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
-            תשואה {property.expected_roi}%
+            {t("card.roi")} {property.expected_roi}%
           </div>
         </div>
 
         {/* Price + CTA */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-gray-400 mb-0.5">מחיר</p>
+            <p className="text-xs text-gray-400 mb-0.5">{t("card.price")}</p>
             <span className="text-2xl font-black text-gray-900">€{property.price.toLocaleString()}</span>
           </div>
           <Link
