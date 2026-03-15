@@ -68,6 +68,14 @@ const elTranslations: Record<string, string> = {
   "footer.terms": "Όροι Χρήσης",
   "notifications.markAllRead": "Σήμανση ως αναγνωσμένα",
   "notifications.empty": "Δεν υπάρχουν ειδοποιήσεις",
+  "propertyType.apartment": "Διαμέρισμα",
+  "propertyType.villa": "Βίλα",
+  "propertyType.condo": "Κατοικία",
+  "propertyType.studio": "Στούντιο",
+  "propertyType.penthouse": "Πεντχάους",
+  "propertyType.house": "Κατοικία",
+  "propertyType.land": "Οικόπεδο",
+  "card.price": "Τιμή",
 };
 
 const ruTranslations: Record<string, string> = {
@@ -127,6 +135,14 @@ const ruTranslations: Record<string, string> = {
   "footer.terms": "Условия использования",
   "notifications.markAllRead": "Отметить все как прочитанные",
   "notifications.empty": "Нет уведомлений",
+  "propertyType.apartment": "Квартира",
+  "propertyType.villa": "Вилла",
+  "propertyType.condo": "Кондо",
+  "propertyType.studio": "Студия",
+  "propertyType.penthouse": "Пентхаус",
+  "propertyType.house": "Дом",
+  "propertyType.land": "Участок",
+  "card.price": "Цена",
 };
 
 const arTranslations: Record<string, string> = {
@@ -186,6 +202,14 @@ const arTranslations: Record<string, string> = {
   "footer.terms": "شروط الاستخدام",
   "notifications.markAllRead": "تحديد الكل كمقروء",
   "notifications.empty": "لا توجد إشعارات",
+  "propertyType.apartment": "شقة",
+  "propertyType.villa": "فيلا",
+  "propertyType.condo": "كوندو",
+  "propertyType.studio": "استوديو",
+  "propertyType.penthouse": "بنتهاوس",
+  "propertyType.house": "منزل",
+  "propertyType.land": "أرض",
+  "card.price": "السعر",
 };
 
 const translations: Record<string, Record<string, string>> = {
@@ -559,6 +583,18 @@ const translations: Record<string, Record<string, string>> = {
     "dashboard.buyer.noAgentsSub": "עקבו אחרי מתווכים מדפי הנכסים כדי לקבל התראות על מודעות חדשות",
     "dashboard.buyer.listings": "מודעות",
     "dashboard.buyer.unfollow": "הסר מעקב",
+
+    // Property types
+    "propertyType.apartment": "דירה",
+    "propertyType.villa": "וילה",
+    "propertyType.condo": "קונדו",
+    "propertyType.studio": "סטודיו",
+    "propertyType.penthouse": "פנטהאוס",
+    "propertyType.house": "בית",
+    "propertyType.land": "קרקע",
+
+    // Card price label
+    "card.price": "מחיר",
 
     // Footer
     "footer.description": "MANAIO מחברת משקיעים ישראלים עם הזדמנויות נדל\"ן בינלאומיות פרימיום. חקרו נכסים נבחרים בשווקים גלובליים מובילים עם תמחור שקוף וליווי מומחים.",
@@ -946,6 +982,18 @@ const translations: Record<string, Record<string, string>> = {
     "dashboard.buyer.noAgentsSub": "Follow agents from property pages to get notified about their new listings",
     "dashboard.buyer.listings": "listings",
     "dashboard.buyer.unfollow": "Unfollow",
+
+    // Property types
+    "propertyType.apartment": "Apartment",
+    "propertyType.villa": "Villa",
+    "propertyType.condo": "Condo",
+    "propertyType.studio": "Studio",
+    "propertyType.penthouse": "Penthouse",
+    "propertyType.house": "House",
+    "propertyType.land": "Land",
+
+    // Card price label
+    "card.price": "Price",
 
     // Footer
     "footer.description": "MANAIO connects Israeli investors with premium international real estate opportunities. Explore curated properties in top global markets with transparent pricing and expert guidance.",
