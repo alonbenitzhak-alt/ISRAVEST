@@ -7,7 +7,7 @@ import { useProperties } from "@/lib/PropertiesContext";
 import { Property, Lead } from "@/lib/types";
 import { supabase } from "@/lib/supabase";
 
-type Tab = "properties" | "closed" | "leads" | "agents" | "users";
+type Tab = "properties" | "closed" | "leads" | "agents" | "users" | "pending_agents";
 
 /* ─────────────── Property Form ─────────────── */
 function PropertyForm({
@@ -366,6 +366,119 @@ function AgentsTab() {
   );
 }
 
+/* ─────────────── Pending Agents Tab ─────────────── */
+function PendingAgentsTab() {
+  const [agents, setAgents] = useState<{ id: string; email: string; full_name: string; phone: string; company: string; license_url: string | null; created_at: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("id, email, full_name, phone, company, license_url, created_at")
+        .eq("role", "agent")
+        .or("approved.is.null,approved.eq.false")
+        .order("created_at", { ascending: false });
+      if (data) setAgents(data);
+      setLoading(false);
+    };
+    fetch();
+  }, []);
+
+  const handleApprove = async (id: string) => {
+    setActionLoading(id);
+    await supabase.from("profiles").update({ approved: true }).eq("id", id);
+    const agent = agents.find(a => a.id === id);
+    if (agent) {
+      fetch("/api/notify-agent-approved", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: agent.email, name: agent.full_name || agent.email, approved: true }),
+      }).catch(() => null);
+    }
+    setAgents(prev => prev.filter(a => a.id !== id));
+    setActionLoading(null);
+  };
+
+  const handleReject = async (id: string) => {
+    if (!confirm("Are you sure you want to reject this agent?")) return;
+    setActionLoading(id);
+    const agent = agents.find(a => a.id === id);
+    await supabase.from("profiles").update({ approved: false, role: "buyer" }).eq("id", id);
+    if (agent) {
+      fetch("/api/notify-agent-approved", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: agent.email, name: agent.full_name || agent.email, approved: false }),
+      }).catch(() => null);
+    }
+    setAgents(prev => prev.filter(a => a.id !== id));
+    setActionLoading(null);
+  };
+
+  if (loading) return <div className="text-center py-16 text-gray-400">Loading...</div>;
+
+  return agents.length === 0 ? (
+    <div className="text-center py-16 text-gray-400">
+      <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p>No pending agent applications</p>
+    </div>
+  ) : (
+    <div className="space-y-4">
+      {agents.map((agent) => (
+        <div key={agent.id} className="bg-white rounded-2xl border border-amber-200 p-5">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full">Pending Approval</span>
+              </div>
+              <h3 className="font-semibold text-gray-900 text-lg">{agent.full_name || "—"}</h3>
+              <p className="text-sm text-gray-600">{agent.email}</p>
+              {agent.company && <p className="text-sm text-gray-500">{agent.company}</p>}
+              {agent.phone && <p className="text-sm text-gray-500">{agent.phone}</p>}
+              <p className="text-xs text-gray-400 mt-1">
+                Registered: {new Date(agent.created_at).toLocaleDateString("he-IL")}
+              </p>
+              {agent.license_url && (
+                <a
+                  href={agent.license_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 mt-2 text-sm text-primary-600 hover:text-primary-700 font-medium"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  View Broker License
+                </a>
+              )}
+            </div>
+            <div className="flex gap-2 shrink-0">
+              <button
+                onClick={() => handleApprove(agent.id)}
+                disabled={actionLoading === agent.id}
+                className="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors disabled:opacity-50"
+              >
+                ✓ Approve
+              </button>
+              <button
+                onClick={() => handleReject(agent.id)}
+                disabled={actionLoading === agent.id}
+                className="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors disabled:opacity-50"
+              >
+                ✗ Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ─────────────── Users Tab ─────────────── */
 function UsersTab() {
   const [users, setUsers] = useState<{ id: string; email: string; created_at: string }[]>([]);
@@ -420,6 +533,7 @@ function UsersTab() {
 
 /* ─────────────── Admin Page ─────────────── */
 const tabs: { key: Tab; label: string; icon: string }[] = [
+  { key: "pending_agents", label: "Pending Agents", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
   { key: "properties", label: "Active Properties", icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
   { key: "leads", label: "Leads", icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" },
   { key: "closed", label: "Closed", icon: "M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" },
@@ -508,6 +622,7 @@ export default function AdminPage() {
         </div>
 
         {/* Tab Content */}
+        {activeTab === "pending_agents" && <PendingAgentsTab />}
         {activeTab === "properties" && <PropertiesTab status="active" />}
         {activeTab === "closed" && <PropertiesTab status="closed" />}
         {activeTab === "leads" && <LeadsTab />}
