@@ -18,6 +18,7 @@ export default function AgentRegisterPage() {
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [licenseFile, setLicenseFile] = useState<File | null>(null);
+  const [idFile, setIdFile] = useState<File | null>(null);
   const [agreedToPartnership, setAgreedToPartnership] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,11 @@ export default function AgentRegisterPage() {
         setLoading(false);
         return;
       }
+      if (!idFile) {
+        setError(isHe ? "יש להעלות תעודת זהות" : "Please upload your ID card");
+        setLoading(false);
+        return;
+      }
       if (!agreedToPartnership) {
         setError(isHe ? "יש לאשר את הסכם השותפות" : "Please agree to the partnership agreement");
         setLoading(false);
@@ -54,36 +60,51 @@ export default function AgentRegisterPage() {
         return;
       }
 
-      // Sign in immediately to get user session for storage upload
       const { error: signInError } = await signIn(email, password);
       if (signInError) {
-        // Account created but couldn't sign in yet (email confirmation pending)
         setSubmitted(true);
         setLoading(false);
         return;
       }
 
-      // Upload license to Supabase Storage
       try {
         const { data: { user: currentUser } } = await supabase.auth.getUser();
         if (currentUser) {
-          const ext = licenseFile.name.split(".").pop();
-          const path = `${currentUser.id}/license.${ext}`;
-          const { data: uploadData } = await supabase.storage
-            .from("agent-licenses")
-            .upload(path, licenseFile, { upsert: true });
+          const updates: Record<string, unknown> = {
+            approved: false,
+            full_name: fullName,
+            phone,
+            company,
+          };
 
-          if (uploadData) {
-            const { data: urlData } = supabase.storage
+          // Upload license
+          const licenseExt = licenseFile.name.split(".").pop();
+          const licensePath = `${currentUser.id}/license.${licenseExt}`;
+          const { data: licenseUpload } = await supabase.storage
+            .from("agent-licenses")
+            .upload(licensePath, licenseFile, { upsert: true });
+          if (licenseUpload) {
+            const { data: licenseUrl } = supabase.storage
               .from("agent-licenses")
-              .getPublicUrl(path);
-            await supabase
-              .from("profiles")
-              .update({ license_url: urlData.publicUrl, approved: false, full_name: fullName, phone, company })
-              .eq("id", currentUser.id);
+              .getPublicUrl(licensePath);
+            updates.license_url = licenseUrl.publicUrl;
           }
 
-          // Notify admin
+          // Upload ID card
+          const idExt = idFile.name.split(".").pop();
+          const idPath = `${currentUser.id}/id.${idExt}`;
+          const { data: idUpload } = await supabase.storage
+            .from("agent-licenses")
+            .upload(idPath, idFile, { upsert: true });
+          if (idUpload) {
+            const { data: idUrl } = supabase.storage
+              .from("agent-licenses")
+              .getPublicUrl(idPath);
+            updates.id_url = idUrl.publicUrl;
+          }
+
+          await supabase.from("profiles").update(updates).eq("id", currentUser.id);
+
           fetch("/api/notify-admin-new-agent", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -91,7 +112,7 @@ export default function AgentRegisterPage() {
           }).catch(() => null);
         }
       } catch {
-        // Storage not configured yet — registration still proceeds
+        // Storage not configured — registration still proceeds
       }
 
       setSubmitted(true);
@@ -103,68 +124,34 @@ export default function AgentRegisterPage() {
     setLoading(false);
   };
 
-  const benefits = isHe
-    ? [
-        "פרסום נכסים בפלטפורמה עם חשיפה למשקיעים ישראלים",
-        "ניהול נכסים מלא - יצירה, עריכה ומחיקה",
-        "קבלת לידים ישירות מהמשקיעים",
-        "מעקב וניהול סטטוס פניות",
-        "סטטיסטיקות ביצועים - צפיות, לחיצות והמרות",
-        "ייצוא לידים ל-CSV",
-      ]
-    : [
-        "List properties on a platform with exposure to Israeli investors",
-        "Full property management - create, edit and delete",
-        "Receive leads directly from investors",
-        "Track and manage inquiry status",
-        "Performance statistics - views, clicks and conversions",
-        "Export leads to CSV",
-      ];
+  const fileInputClass = "w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100";
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Left side - Benefits */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-900 to-primary-700 text-white p-16 flex-col justify-center">
-        <div className="max-w-md">
-          <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-          </div>
-          <h1 className="text-3xl font-bold mb-4">
-            {isHe ? "הצטרפו כסוכנים" : "Join as an Agent"}
-          </h1>
-          <p className="text-primary-200 text-lg mb-10">
-            {isHe
-              ? "פרסמו את הנכסים שלכם והגיעו למאות משקיעים ישראלים שמחפשים הזדמנויות בחו\"ל."
-              : "List your properties and reach hundreds of Israeli investors looking for international opportunities."}
-          </p>
-          <ul className="space-y-4">
-            {benefits.map((b, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-accent-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-primary-100">{b}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+    /* Modal overlay */
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
+        {/* Close button */}
+        <button
+          onClick={() => router.back()}
+          className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-500"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
-      {/* Right side - Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <Link href="/" className="inline-block mb-6">
-              <img src="/logo.svg" alt="MANAIO" className="h-16 w-auto mx-auto" />
+        <div className="p-8">
+          {/* Header */}
+          <div className="text-center mb-6">
+            <Link href="/" className="inline-block mb-4">
+              <img src="/logo.svg" alt="MANAIO" className="h-12 w-auto mx-auto" />
             </Link>
             <h2 className="text-2xl font-bold text-gray-900">
               {mode === "register"
                 ? (isHe ? "הרשמה כסוכן נדל\"ן" : "Register as Agent")
                 : t("auth.signIn")}
             </h2>
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-500 mt-1 text-sm">
               {mode === "register"
                 ? (isHe ? "צרו חשבון והתחילו לפרסם נכסים" : "Create an account and start listing properties")
                 : t("auth.signInDesc")}
@@ -196,38 +183,55 @@ export default function AgentRegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               {mode === "register" && (
                 <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("form.name")}</label>
-                    <input type="text" required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("form.namePlaceholder")} />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("form.phone")}</label>
-                    <input type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("form.phonePlaceholder")} />
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">{t("form.name")}</label>
+                      <input type="text" required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("form.namePlaceholder")} />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">{t("form.phone")}</label>
+                      <input type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("form.phonePlaceholder")} />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       {isHe ? "שם חברה" : "Company Name"}
                     </label>
-                    <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={isHe ? "שם החברה שלכם" : "Your company name"} />
+                    <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={isHe ? "שם החברה שלכם (לא חובה)" : "Your company name (optional)"} />
                   </div>
 
-                  {/* License Upload */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {isHe ? "רישיון תיווך *" : "Broker License *"}
-                    </label>
-                    <div className="relative">
+                  {/* Document uploads */}
+                  <div className="grid grid-cols-1 gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {isHe ? "רישיון תיווך *" : "Broker License *"}
+                      </label>
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
                         onChange={(e) => setLicenseFile(e.target.files?.[0] || null)}
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+                        className={fileInputClass}
                         required
                       />
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {isHe ? "PDF, JPG או PNG — עד 5MB" : "PDF, JPG or PNG — up to 5MB"}
+                      </p>
                     </div>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {isHe ? "PDF, JPG או PNG — עד 5MB" : "PDF, JPG or PNG — up to 5MB"}
-                    </p>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {isHe ? "תעודת זהות *" : "ID Card *"}
+                      </label>
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        onChange={(e) => setIdFile(e.target.files?.[0] || null)}
+                        className={fileInputClass}
+                        required
+                      />
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {isHe ? "PDF, JPG או PNG — עד 5MB" : "PDF, JPG or PNG — up to 5MB"}
+                      </p>
+                    </div>
                   </div>
                 </>
               )}
@@ -281,7 +285,7 @@ export default function AgentRegisterPage() {
 
           {!submitted && (
             <>
-              <div className="mt-6 text-center text-sm text-gray-500">
+              <div className="mt-5 text-center text-sm text-gray-500">
                 {mode === "register" ? (
                   <>
                     {t("auth.hasAccount")}{" "}
@@ -294,8 +298,7 @@ export default function AgentRegisterPage() {
                   </>
                 )}
               </div>
-
-              <div className="mt-4 text-center">
+              <div className="mt-3 text-center">
                 <Link href="/register/buyer" className="text-sm text-gray-400 hover:text-primary-600 transition-colors">
                   {isHe ? "משקיע? הירשמו כאן →" : "Investor? Register here →"}
                 </Link>

@@ -368,7 +368,7 @@ function AgentsTab() {
 
 /* ─────────────── Pending Agents Tab ─────────────── */
 function PendingAgentsTab() {
-  const [agents, setAgents] = useState<{ id: string; email: string; full_name: string; phone: string; company: string; license_url: string | null; created_at: string }[]>([]);
+  const [agents, setAgents] = useState<{ id: string; email: string; full_name: string; phone: string; company: string; license_url: string | null; id_url: string | null; created_at: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
@@ -376,7 +376,7 @@ function PendingAgentsTab() {
     const fetch = async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("id, email, full_name, phone, company, license_url, created_at")
+        .select("id, email, full_name, phone, company, license_url, id_url, created_at")
         .eq("role", "agent")
         .or("approved.is.null,approved.eq.false")
         .order("created_at", { ascending: false });
@@ -442,19 +442,34 @@ function PendingAgentsTab() {
               <p className="text-xs text-gray-400 mt-1">
                 Registered: {new Date(agent.created_at).toLocaleDateString("he-IL")}
               </p>
-              {agent.license_url && (
-                <a
-                  href={agent.license_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 mt-2 text-sm text-primary-600 hover:text-primary-700 font-medium"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  View Broker License
-                </a>
-              )}
+              <div className="flex gap-3 mt-2 flex-wrap">
+                {agent.license_url && (
+                  <a
+                    href={agent.license_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 font-medium"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    רישיון תיווך
+                  </a>
+                )}
+                {agent.id_url && (
+                  <a
+                    href={agent.id_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 font-medium"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2" />
+                    </svg>
+                    תעודת זהות
+                  </a>
+                )}
+              </div>
             </div>
             <div className="flex gap-2 shrink-0">
               <button

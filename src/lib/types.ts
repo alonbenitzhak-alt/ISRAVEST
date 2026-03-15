@@ -14,6 +14,7 @@ export interface Profile {
   notification_lead_updates: boolean;
   approved?: boolean | null;
   license_url?: string | null;
+  id_url?: string | null;
   created_at: string;
 }
 
