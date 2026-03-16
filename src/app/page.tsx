@@ -148,10 +148,6 @@ export default function HomePage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36 relative">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm text-white/90 mb-6">
-              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              {t("home.hero.badge")}
-            </div>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-5 drop-shadow-lg" style={{ fontFamily: "'Fraunces', 'Playfair Display', Georgia, serif" }}>
               שוק הנדל&quot;ן הבינלאומי לישראלים
             </h1>
