@@ -92,44 +92,6 @@ export default function HomePage() {
     },
   ];
 
-  const stats = [
-    {
-      value: "4",
-      label: t("home.stats.countries"),
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-        </svg>
-      ),
-    },
-    {
-      value: "50+",
-      label: t("home.stats.properties"),
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      ),
-    },
-    {
-      value: "12%",
-      label: t("home.stats.avgRoi"),
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-        </svg>
-      ),
-    },
-    {
-      value: "€68K",
-      label: t("home.stats.startingFrom"),
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-    },
-  ];
 
   return (
     <>
@@ -179,8 +141,6 @@ export default function HomePage() {
                   className="w-full text-gray-900 text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none bg-gray-50"
                 >
                   <option value="">{t("home.search.allCountries")}</option>
-                  <option value="Greece">{t("home.search.country.Greece")}</option>
-                  <option value="Cyprus">{t("home.search.country.Cyprus")}</option>
                   <option value="Georgia">{t("home.search.country.Georgia")}</option>
                   <option value="Portugal">{t("home.search.country.Portugal")}</option>
                 </select>
@@ -281,19 +241,6 @@ export default function HomePage() {
               )}
             </div>
           </form>
-        </div>
-      </section>
-
-      {/* Stats Banner */}
-      <section className="bg-stone-50 border-b border-stone-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-2 md:grid-cols-4 divide-x divide-stone-200 rtl:divide-x-reverse">
-          {stats.map((stat, i) => (
-            <div key={i} className="flex flex-col items-center gap-1 px-6 py-2">
-              <div className="text-primary-600 mb-1">{stat.icon}</div>
-              <div className="text-2xl font-bold text-gray-800" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>{stat.value}</div>
-              <div className="text-xs text-gray-500 text-center">{stat.label}</div>
-            </div>
-          ))}
         </div>
       </section>
 

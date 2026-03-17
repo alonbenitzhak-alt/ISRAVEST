@@ -12,8 +12,8 @@ const COUNTRY_HE: Record<string, string> = {
   Portugal: "פורטוגל",
 };
 
-function buildWhatsAppUrl(phone: string, title: string) {
-  const msg = encodeURIComponent(`Hello, I'm interested in your property listing: ${title}`);
+function buildWhatsAppUrl(phone: string, title: string, city: string, country: string) {
+  const msg = encodeURIComponent(`Hi, I'm interested in the property: ${title} - ${country}, ${city}. I saw it on MANAIO.`);
   const clean = phone.replace(/\s+/g, "");
   return `https://wa.me/${clean.startsWith("+") ? clean.slice(1) : clean}?text=${msg}`;
 }
@@ -114,11 +114,18 @@ export default function PropertyCard({ property }: { property: Property }) {
         </div>
 
         {/* WhatsApp button */}
-        {property.agent_whatsapp && (
+        {property.agent_whatsapp && property.whatsapp_enabled && (
           <a
-            href={buildWhatsAppUrl(property.agent_whatsapp, displayTitle)}
+            href={buildWhatsAppUrl(property.agent_whatsapp, displayTitle, property.city, property.country)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => {
+              fetch("/api/whatsapp-lead", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ property_id: property.id, property_title: displayTitle, agent_id: property.agent_id }),
+              }).catch(() => {});
+            }}
             className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#1ebe5d] text-white text-sm font-semibold py-2 rounded-xl transition-colors"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
