@@ -50,6 +50,7 @@ export interface Property {
   agent_name: string;
   agent_email: string;
   agent_whatsapp?: string;
+  whatsapp_enabled?: boolean;
   agent_id?: string;
   featured?: boolean;
   views_count?: number;

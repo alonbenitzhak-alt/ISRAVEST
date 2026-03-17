@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS properties (
   images TEXT[] NOT NULL DEFAULT '{}',
   agent_name TEXT NOT NULL,
   agent_email TEXT NOT NULL,
+  agent_whatsapp TEXT,
+  whatsapp_enabled BOOLEAN DEFAULT false,
   agent_id UUID REFERENCES profiles(id),
   featured BOOLEAN DEFAULT false,
   views_count INTEGER DEFAULT 0,
@@ -78,6 +80,22 @@ CREATE TABLE IF NOT EXISTS leads (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- WhatsApp leads table (tracks clicks on WhatsApp buttons)
+CREATE TABLE IF NOT EXISTS whatsapp_leads (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  property_id TEXT,
+  property_title TEXT,
+  agent_id UUID REFERENCES profiles(id),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE whatsapp_leads ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Admin can read whatsapp leads" ON whatsapp_leads FOR SELECT USING (
+  EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
+CREATE POLICY "Agents can read own whatsapp leads" ON whatsapp_leads FOR SELECT USING (agent_id = auth.uid());
+CREATE POLICY "Anyone can insert whatsapp lead" ON whatsapp_leads FOR INSERT WITH CHECK (true);
 
 -- Contact submissions table (persisted regardless of email delivery)
 CREATE TABLE IF NOT EXISTS contact_submissions (

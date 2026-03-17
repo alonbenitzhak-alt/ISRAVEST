@@ -60,7 +60,7 @@ function AgentPropertyForm({
   const { t, lang } = useLanguage();
   const [form, setForm] = useState({
     title: property?.title || "",
-    country: property?.country || "Greece",
+    country: property?.country || "Portugal",
     city: property?.city || "",
     neighborhood: property?.neighborhood || "",
     price: property?.price || 0,
@@ -76,6 +76,8 @@ function AgentPropertyForm({
     description: property?.description || "",
     amenities: property?.amenities || [] as string[],
     furnished: property?.furnished || false,
+    agent_whatsapp: property?.agent_whatsapp || "",
+    whatsapp_enabled: property?.whatsapp_enabled ?? false,
   });
 
   // Image upload state
@@ -171,6 +173,8 @@ function AgentPropertyForm({
       images: reordered,
       amenities: form.amenities,
       furnished: form.furnished,
+      agent_whatsapp: form.agent_whatsapp || undefined,
+      whatsapp_enabled: form.whatsapp_enabled,
       agent_name: "",
       agent_email: "",
     });
@@ -197,8 +201,6 @@ function AgentPropertyForm({
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{t("dashboard.agent.country")}</label>
             <select value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} className={selectCls}>
-              <option value="Greece">Greece</option>
-              <option value="Cyprus">Cyprus</option>
               <option value="Georgia">Georgia</option>
               <option value="Portugal">Portugal</option>
             </select>
@@ -290,6 +292,34 @@ function AgentPropertyForm({
               {lang === "he" ? a.he : a.en}
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* Section: WhatsApp */}
+      <div>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">WhatsApp</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">מספר וואטסאפ (כולל קידומת מדינה)</label>
+            <input
+              type="tel"
+              placeholder="+972501234567"
+              value={form.agent_whatsapp}
+              onChange={(e) => setForm({ ...form, agent_whatsapp: e.target.value })}
+              className={inputCls}
+            />
+          </div>
+          <div className="flex items-center">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.whatsapp_enabled}
+                onChange={(e) => setForm({ ...form, whatsapp_enabled: e.target.checked })}
+                className="w-4 h-4 text-primary-600 rounded"
+              />
+              <span className="text-sm font-medium text-gray-700">הפעל כפתור וואטסאפ על הנכס</span>
+            </label>
+          </div>
         </div>
       </div>
 
