@@ -74,6 +74,39 @@ export async function sendContactNotification(contact: {
   });
 }
 
+export async function sendAdminLeadNotification(data: {
+  name: string;
+  email: string;
+  phone: string;
+  budget: string;
+  message?: string | null;
+  propertyTitle?: string;
+}) {
+  const resend = getResend();
+  if (!ADMIN_EMAIL) return;
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: ADMIN_EMAIL,
+    subject: `MANAIO - פנייה חדשה: ${escapeHtml(data.name)}`,
+    html: `
+      <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #1e3a5f;">פנייה חדשה התקבלה</h2>
+        ${data.propertyTitle ? `<p style="color: #64748b;">נכס: <strong>${escapeHtml(data.propertyTitle)}</strong></p>` : ""}
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 16px 0;">
+          <p style="margin: 4px 0;"><strong>שם:</strong> ${escapeHtml(data.name)}</p>
+          <p style="margin: 4px 0;"><strong>אימייל:</strong> ${escapeHtml(data.email)}</p>
+          <p style="margin: 4px 0;"><strong>טלפון:</strong> ${escapeHtml(data.phone)}</p>
+          <p style="margin: 4px 0;"><strong>תקציב:</strong> ${escapeHtml(data.budget)}</p>
+          ${data.message ? `<p style="margin: 4px 0;"><strong>הודעה:</strong> ${escapeHtml(data.message)}</p>` : ""}
+        </div>
+        <a href="${SITE_URL}/admin" style="display: inline-block; padding: 14px 28px; background-color: #1e3a5f; color: white; text-decoration: none; border-radius: 10px; margin-top: 12px; font-weight: bold;">לפאנל הניהול</a>
+        <p style="color: #94a3b8; font-size: 12px; margin-top: 24px;">הודעה אוטומטית מפלטפורמת MANAIO</p>
+      </div>
+    `,
+  });
+}
+
 export async function sendWelcomeEmail(user: { email: string; name: string }) {
   const resend = getResend();
   await resend.emails.send({

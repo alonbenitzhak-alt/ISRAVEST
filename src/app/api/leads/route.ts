@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { sendAgentLeadNotification } from "@/lib/email";
+import { sendAdminLeadNotification } from "@/lib/email";
 import { validateOrigin } from "@/lib/csrf";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -115,85 +115,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Failed to submit lead" }, { status: 500 });
     }
 
-    let conversationId: string | null = null;
-
-    // If buyer is logged in and agent exists — create/find conversation + send first message
-    if (buyer_id && agent_id && property_id) {
-      try {
-        // Find or create conversation
-        const { data: existing } = await supabase
-          .from("conversations")
-          .select("id")
-          .eq("property_id", property_id)
-          .eq("buyer_id", buyer_id)
-          .eq("agent_id", agent_id)
-          .single();
-
-        if (existing) {
-          conversationId = existing.id;
-        } else {
-          const { data: created } = await supabase
-            .from("conversations")
-            .insert({ property_id, buyer_id, agent_id })
-            .select("id")
-            .single();
-          if (created) conversationId = created.id;
-        }
-
-        // Send first message with lead details
-        if (conversationId) {
-          const firstMessage = [
-            `שלום, אני מתעניין/ת בנכס הזה.`,
-            `תקציב השקעה: ${sanitizedBudget}`,
-            sanitizedMessage ? `\n${sanitizedMessage}` : "",
-          ].filter(Boolean).join("\n");
-
-          await supabase.from("messages").insert({
-            conversation_id: conversationId,
-            sender_id: buyer_id,
-            content: firstMessage,
-          });
-        }
-
-        // Create in-app notification for the agent
-        await supabase.from("notifications").insert({
-          user_id: agent_id,
-          type: "lead_update",
-          title: "ליד חדש התקבל",
-          body: `${sanitizedName} מתעניין/ת בנכס שלך (תקציב: ${sanitizedBudget})`,
-          link: "/dashboard/agent?tab=leads",
-        });
-      } catch (err) {
-        // Non-critical — lead is already saved, don't fail the request
-        console.error("Conversation/notification error:", err);
+    // Notify admin by email
+    if (process.env.RESEND_API_KEY) {
+      let propertyTitle: string | undefined;
+      if (property_id) {
+        const { data: prop } = await supabase.from("properties").select("title").eq("id", property_id).single();
+        if (prop?.title) propertyTitle = prop.title;
       }
+      sendAdminLeadNotification({
+        name: sanitizedName,
+        email: sanitizedEmail,
+        phone: sanitizedPhone,
+        budget: sanitizedBudget,
+        message: sanitizedMessage,
+        propertyTitle,
+      }).catch((err) => console.error("Admin lead email error:", err));
     }
 
-    // Send email to the AGENT (not admin) — so they know to check the platform
-    if (process.env.RESEND_API_KEY && agent_id) {
-      // Look up agent email
-      const { data: agentProfile } = await supabase
-        .from("profiles")
-        .select("email, full_name")
-        .eq("id", agent_id)
-        .single();
-
-      if (agentProfile?.email) {
-        sendAgentLeadNotification({
-          agentEmail: agentProfile.email,
-          agentName: agentProfile.full_name || "סוכן",
-          buyerName: sanitizedName,
-          budget: sanitizedBudget,
-          message: sanitizedMessage || undefined,
-        }).catch((err) => console.error("Agent email error:", err));
-      }
-    }
-
-    return NextResponse.json({
-      success: true,
-      lead,
-      conversationId,
-    });
+    return NextResponse.json({ success: true, lead });
   } catch {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
