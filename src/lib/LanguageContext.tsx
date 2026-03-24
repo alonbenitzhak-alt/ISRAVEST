@@ -2111,9 +2111,9 @@ const translations: Record<string, Record<string, string>> = {
 
     // About
     "about.title": "מי אנחנו - MANAIO",
-    "about.subtitle": "אנחנו מחברים משקיעים ישראלים עם הזדמנויות נדל\"ן פרימיום ברחבי אירופה. עם ניסיון רב שנים וצוות מומחים מקומיים, אנו מציעים ליווי מקצועי לאורך כל תהליך ההשקעה.",
+    "about.subtitle": "MANAIO היא פלטפורמת נדל\"ן דיגיטלית בינלאומית, שפותחה בישראל כדי לחבר בין משקיעים ישראלים להזדמנויות נדל\"ן ברחבי העולם.",
     "about.missionTitle": "המשימה שלנו",
-    "about.missionText": "אנו מאמינים שכל משקיע ישראלי צריך גישה להזדמנויות נדל\"ן בינלאומיות ברמה הגבוהה ביותר. MANAIO נוסדה כדי לגשר על הפער בין משקיעים ישראלים לשווקי הנדל\"ן המבטיחים ביותר באירופה, תוך מתן שקיפות מלאה, ליווי מקצועי, וגישה להזדמנויות שבדרך כלל שמורות למשקיעים מוסדיים.",
+    "about.missionText": "אנחנו מאמינים שהשקעה חכמה מתחילה בגישה נכונה למידע ובהכוונה מדויקת, ולכן המטרה שלנו היא להפוך את תהליך ההשקעה לפשוט, ברור ונגיש יותר עבור כל אחד.",
     "about.whyTitle": "למה MANAIO?",
     "about.why1Title": "אמינות ושקיפות",
     "about.why1Desc": "כל נכס עובר בדיקת נאותות מקיפה. אנו מציגים נתונים אמיתיים ותשואות מבוססות שוק, ללא הבטחות מופרזות.",
@@ -2223,7 +2223,7 @@ const translations: Record<string, Record<string, string>> = {
 
     // About extras
     "about.aboutUs": "מי אנחנו",
-    "about.foundersText": "מפתחי האתר רצו לאפשר פלטפורמה נוחה — לא רק לנדל\"ן בחו\"ל, אלא לכל עולם ההשקעות. זאת תוך הנגשת המתווכים הזרים והאופן שבו משקיעים בכל מדינה, כך שכל משקיע ישראלי יוכל לפעול בשוקי נדל\"ן בינלאומיים בביטחון, בשקיפות ובפשטות — בלי להתמצא מראש בכל שוק.",
+    "about.foundersText": "הפלטפורמה נועדה לפשט את הדרך להשקעה בחו\"ל באמצעות הנגשת נכסים נבחרים, מידע רלוונטי וחיבור ישיר לאנשי מקצוע מקומיים – הכל במקום אחד.",
     "about.stat.founded": "שנת הקמה",
     "about.stat.investments": "השקעות שהושלמו",
     "about.stat.investors": "משקיעים מרוצים",
@@ -2768,9 +2768,9 @@ const translations: Record<string, Record<string, string>> = {
 
     // About
     "about.title": "About MANAIO",
-    "about.subtitle": "We connect Israeli investors with premium real estate opportunities across Europe. With years of experience and a team of local experts, we offer professional guidance throughout the entire investment process.",
+    "about.subtitle": "MANAIO is an international digital real estate platform, developed in Israel to connect Israeli investors with real estate opportunities around the world.",
     "about.missionTitle": "Our Mission",
-    "about.missionText": "We believe every Israeli investor deserves access to top-tier international real estate opportunities. MANAIO was founded to bridge the gap between Israeli investors and Europe's most promising real estate markets, providing full transparency, professional guidance, and access to opportunities typically reserved for institutional investors.",
+    "about.missionText": "We believe that smart investing starts with the right access to information and precise guidance. Our goal is to make the investment process simpler, clearer, and more accessible for everyone.",
     "about.whyTitle": "Why MANAIO?",
     "about.why1Title": "Trust & Transparency",
     "about.why1Desc": "Every property undergoes comprehensive due diligence. We present real data and market-based yields, without exaggerated promises.",
@@ -2880,7 +2880,7 @@ const translations: Record<string, Record<string, string>> = {
 
     // About extras
     "about.aboutUs": "About Us",
-    "about.foundersText": "The site developers wanted to create a convenient platform — not just for real estate abroad, but for the entire investment world. By making foreign brokers and the way investors operate in each country accessible, every Israeli investor can act in international real estate markets with confidence, transparency, and simplicity — without needing prior knowledge of each market.",
+    "about.foundersText": "The platform is designed to simplify the path to investing abroad by providing access to selected properties, relevant information, and a direct connection to local professionals — all in one place.",
     "about.stat.founded": "Founded",
     "about.stat.investments": "Investments Completed",
     "about.stat.investors": "Happy Investors",
