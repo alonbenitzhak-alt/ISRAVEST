@@ -13,12 +13,12 @@ export default function AgentsLandingPage() {
   const spotsText = t("agents.hero.spotsLeft").replace("{spots}", String(FOUNDING_SPOTS_LEFT));
 
   const benefits = [
-    { icon: "🇮🇱", titleKey: "agents.benefit1.title", descKey: "agents.benefit1.desc" },
-    { icon: "🤖", titleKey: "agents.benefit2.title", descKey: "agents.benefit2.desc" },
-    { icon: "💬", titleKey: "agents.benefit3.title", descKey: "agents.benefit3.desc" },
-    { icon: "📊", titleKey: "agents.benefit4.title", descKey: "agents.benefit4.desc" },
-    { icon: "🌍", titleKey: "agents.benefit5.title", descKey: "agents.benefit5.desc" },
-    { icon: "📱", titleKey: "agents.benefit6.title", descKey: "agents.benefit6.desc" },
+    { color: "bg-blue-100 text-blue-700", label: "IL", titleKey: "agents.benefit1.title", descKey: "agents.benefit1.desc" },
+    { color: "bg-violet-100 text-violet-700", label: "AI", titleKey: "agents.benefit2.title", descKey: "agents.benefit2.desc" },
+    { color: "bg-primary-100 text-primary-700", label: "CRM", titleKey: "agents.benefit3.title", descKey: "agents.benefit3.desc" },
+    { color: "bg-green-100 text-green-700", label: "ROI", titleKey: "agents.benefit4.title", descKey: "agents.benefit4.desc" },
+    { color: "bg-amber-100 text-amber-700", label: "INT", titleKey: "agents.benefit5.title", descKey: "agents.benefit5.desc" },
+    { color: "bg-emerald-100 text-emerald-700", label: "WA", titleKey: "agents.benefit6.title", descKey: "agents.benefit6.desc" },
   ];
 
   const steps = [
@@ -87,10 +87,10 @@ export default function AgentsLandingPage() {
       {/* ─── SOCIAL PROOF BAR ─── */}
       <section className="bg-primary-600 text-white py-5">
         <div className="max-w-5xl mx-auto px-6 flex flex-wrap justify-center gap-8 text-center text-sm font-medium">
-          <div>🏘️ {t("agents.social.countries")}</div>
-          <div>🇮🇱 {t("agents.social.audience")}</div>
-          <div>🔒 {t("agents.social.noCost")}</div>
-          <div>⚡ {t("agents.social.approval")}</div>
+          <div>{t("agents.social.countries")}</div>
+          <div>{t("agents.social.audience")}</div>
+          <div>{t("agents.social.noCost")}</div>
+          <div>{t("agents.social.approval")}</div>
         </div>
       </section>
 
@@ -146,7 +146,9 @@ export default function AgentsLandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {benefits.map((b, i) => (
               <div key={i} className="bg-gray-50 rounded-2xl p-6 hover:shadow-md transition-shadow">
-                <div className="text-3xl mb-3">{b.icon}</div>
+                <div className={`inline-flex items-center justify-center w-11 h-11 rounded-xl text-xs font-black tracking-wide mb-3 ${b.color}`}>
+                  {b.label}
+                </div>
                 <h3 className="font-bold text-gray-900 mb-2">{t(b.titleKey)}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{t(b.descKey)}</p>
               </div>
