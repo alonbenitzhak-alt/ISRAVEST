@@ -3,9 +3,8 @@
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
-import ChatWindow from "@/components/ChatWindow";
 
-export default function LeadForm({ propertyId, agentId, agentName }: { propertyId: string; agentId?: string; agentName?: string }) {
+export default function LeadForm({ propertyId }: { propertyId: string }) {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [form, setForm] = useState({
@@ -17,7 +16,6 @@ export default function LeadForm({ propertyId, agentId, agentName }: { propertyI
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const [conversationId, setConversationId] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +29,6 @@ export default function LeadForm({ propertyId, agentId, agentName }: { propertyI
           property_id: propertyId,
           ...form,
           buyer_id: user?.id || null,
-          agent_id: agentId || null,
         }),
       });
       const data = await res.json();
@@ -42,34 +39,12 @@ export default function LeadForm({ propertyId, agentId, agentName }: { propertyI
       }
       setStatus("success");
       setForm({ name: "", email: "", phone: "", investment_budget: "", message: "" });
-
-      // If a conversation was created, open chat
-      if (data.conversationId) {
-        setConversationId(data.conversationId);
-      }
     } catch {
       setErrorMsg("Network error. Please try again.");
       setStatus("error");
     }
   };
 
-  // After success with conversation — show chat
-  if (status === "success" && conversationId) {
-    return (
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden" style={{ height: "500px" }}>
-        <ChatWindow
-          conversationId={conversationId}
-          onClose={() => {
-            setConversationId(null);
-            setStatus("idle");
-          }}
-          otherName={agentName || t("chat.agent")}
-        />
-      </div>
-    );
-  }
-
-  // After success without conversation (anonymous user)
   if (status === "success") {
     return (
       <div className="bg-accent-50 border border-accent-500/20 rounded-2xl p-8 text-center">
