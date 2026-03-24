@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useLanguage } from "@/lib/LanguageContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export default function BuyerRegisterPage() {
   const { signIn, signUp, user } = useAuth();
@@ -39,10 +40,28 @@ export default function BuyerRegisterPage() {
         return;
       }
       const { error } = await signUp(email, password, "buyer");
-      if (error) setError(error);
-      else {
-        setSuccess(t("auth.checkEmail"));
+      if (error) {
+        setError(error);
+      } else {
+        // Save full_name and phone to profile
+        try {
+          const { data: { user: currentUser } } = await supabase.auth.getUser();
+          if (currentUser) {
+            await supabase.from("profiles").update({
+              full_name: fullName || null,
+              phone: phone || null,
+            }).eq("id", currentUser.id);
+          }
+        } catch {
+          // Profile update failed — registration still proceeds
+        }
+        // Send welcome email (fire-and-forget)
         fetch("/api/welcome", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, name: fullName || email }) }).catch(() => null);
+        // Notify admin about new buyer (fire-and-forget)
+        fetch("/api/notify-admin-new-buyer", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, name: fullName || email }) }).catch(() => null);
+        // Redirect directly to buyer dashboard
+        router.push("/dashboard/buyer");
+        return;
       }
     } else {
       const { error } = await signIn(email, password);
