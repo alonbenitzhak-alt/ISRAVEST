@@ -94,6 +94,9 @@ export default function LeadForm({ propertyId }: { propertyId: string }) {
         <button type="submit" disabled={status === "loading"} className="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
           {status === "loading" ? t("form.submitting") : t("form.submit")}
         </button>
+        <p className="text-xs text-gray-400 text-center leading-relaxed">
+          {t("form.connectorDisclaimer")}
+        </p>
         {status === "error" && <p className="text-red-500 text-sm text-center">{errorMsg || t("form.error")}</p>}
       </form>
     </div>

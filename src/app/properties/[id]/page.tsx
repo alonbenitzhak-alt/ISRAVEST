@@ -98,7 +98,7 @@ export default function PropertyDetailsPage({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-2">
                 {[
                   { label: t("detail.expectedRoi"), value: `${property.expected_roi}%`, accent: true },
                   { label: t("detail.bedrooms"), value: property.bedrooms.toString() },
@@ -111,6 +111,7 @@ export default function PropertyDetailsPage({
                   </div>
                 ))}
               </div>
+              <p className="text-xs text-gray-400 mb-8">{t("detail.roiDisclaimer")}</p>
 
               <div className="mb-8">
                 <h2 className="text-xl font-bold text-gray-900 mb-3">{t("detail.about")}</h2>
@@ -126,6 +127,7 @@ export default function PropertyDetailsPage({
                     <p className="text-sm text-gray-500">{t("detail.expertSubtitle")}</p>
                   </div>
                 </div>
+                <p className="text-xs text-gray-400 mb-3">{t("detail.connectorDisclaimer")}</p>
                 <div className="flex flex-wrap gap-2">
                   {adminWhatsapp && (
                     <a
