@@ -771,8 +771,6 @@ export default function AgentDashboard() {
                         </p>
                         <p className="text-sm text-gray-500">{lead.message || "—"}</p>
                         <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
-                          <a href={`mailto:${lead.email}`} className="text-primary-600 hover:underline">{lead.email}</a>
-                          <a href={`tel:${lead.phone}`} className="hover:underline">{lead.phone}</a>
                           <span>{lead.investment_budget}</span>
                           <span>{lead.created_at ? new Date(lead.created_at).toLocaleDateString(lang === "he" ? "he-IL" : "en-US") : ""}</span>
                         </div>
