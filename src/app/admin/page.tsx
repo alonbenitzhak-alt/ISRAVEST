@@ -307,18 +307,23 @@ function LeadsTab() {
   const [loading, setLoading] = useState(true);
   const { properties } = useProperties();
   const { t, lang } = useLanguage();
+  const { session } = useAuth();
 
   useEffect(() => {
     const fetchLeads = async () => {
-      const { data, error } = await supabase
-        .from("leads")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (!error && data) setLeads(data);
+      const token = session?.access_token;
+      if (!token) { setLoading(false); return; }
+      const res = await fetch("/api/admin/leads", {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const json = await res.json();
+        setLeads(json.leads || []);
+      }
       setLoading(false);
     };
     fetchLeads();
-  }, []);
+  }, [session]);
 
   const getPropertyTitle = (id: string | null) => {
     if (!id) return t("admin.generalInquiry");
