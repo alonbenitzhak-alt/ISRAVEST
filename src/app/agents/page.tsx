@@ -268,9 +268,7 @@ export default function AgentsLandingPage() {
           </Link>
           <p className="mt-6 text-primary-300 text-sm">
             {t("agents.cta.questions")}{" "}
-            <a href="mailto:agents@mymanaio.com" className="underline hover:text-white">
-              agents@mymanaio.com
-            </a>
+            <span className="underline opacity-80">agents [at] mymanaio [dot] com</span>
           </p>
         </div>
       </section>

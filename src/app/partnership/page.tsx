@@ -112,9 +112,7 @@ export default function PartnershipPage() {
             <p>
               {isHe ? "לשאלות בנוגע להסכם זה:" : "For questions regarding this agreement:"}
               {" "}
-              <a href="mailto:agents@mymanaio.com" className="text-primary-600 font-semibold hover:underline">
-                agents@mymanaio.com
-              </a>
+              <span className="text-primary-600 font-semibold">agents [at] mymanaio [dot] com</span>
             </p>
           </section>
         </div>

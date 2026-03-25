@@ -375,7 +375,7 @@ function PendingApprovalScreen({
         </div>
         <div className="text-sm text-amber-600 bg-amber-100 rounded-xl px-4 py-3 inline-block">
           {t("dashboard.agent.questions")}{" "}
-          <a href="mailto:agents@mymanaio.com" className="font-semibold underline">agents@mymanaio.com</a>
+          <span className="font-semibold">agents [at] mymanaio [dot] com</span>
         </div>
       </div>
     </div>
