@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { validateOrigin } from "@/lib/csrf";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 const SYSTEM_PROMPT = `You are a helpful real estate investment advisor for MANAIO (mymanaio.com) — a platform connecting Israeli investors with international real estate opportunities.
 
@@ -40,6 +41,15 @@ Keep responses concise and helpful. If asked for specific properties, direct the
 export async function POST(req: NextRequest) {
   const originError = validateOrigin(req);
   if (originError) return originError;
+
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown";
+
+  if (!checkRateLimit(`ai-chat:${ip}`, 10, 60_000)) {
+    return NextResponse.json({ error: "יותר מדי בקשות. נסה שוב בעוד דקה." }, { status: 429 });
+  }
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: "שירות הצ'אט אינו זמין כרגע" }, { status: 503 });

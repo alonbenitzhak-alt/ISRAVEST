@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { validateOrigin } from "@/lib/csrf";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 const MAX_TITLE_LEN = 500;
 const MAX_DESC_LEN = 5000;
@@ -8,6 +9,15 @@ const MAX_DESC_LEN = 5000;
 export async function POST(req: NextRequest) {
   const originError = validateOrigin(req);
   if (originError) return originError;
+
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown";
+
+  if (!checkRateLimit(`translate:${ip}`, 20, 60_000)) {
+    return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+  }
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: "Translation service not configured" }, { status: 503 });
