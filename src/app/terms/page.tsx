@@ -33,9 +33,16 @@ export default function TermsPage() {
 
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">2. תיאור השירות</h2>
-                <p className="text-gray-600 leading-relaxed">
-                  MANAIO היא פלטפורמה מקוונת המחברת בין משקיעי נדל&quot;ן ישראלים לבין סוכני נדל&quot;ן בינלאומיים. הפלטפורמה מציגה מידע על נכסים למכירה ומאפשרת יצירת קשר בין הצדדים. MANAIO אינה צד לעסקה ואינה מתווכת עסקאות נדל&quot;ן.
+                <p className="text-gray-600 leading-relaxed mb-3">
+                  MANAIO היא פלטפורמת שיווק ויצירת לידים בלבד. הפלטפורמה פועלת כגורם חיבור בין משקיעי נדל&quot;ן ישראלים לבין סוכני נדל&quot;ן צד שלישי בחו&quot;ל.
                 </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <li>MANAIO <strong>אינה</strong> מתווכת נדל&quot;ן ואינה מספקת שירותי תיווך</li>
+                  <li>MANAIO <strong>אינה</strong> צד לעסקה כלשהי</li>
+                  <li>MANAIO <strong>אינה</strong> מעורבת במשא ומתן, תמחור או ביצוע עסקאות</li>
+                  <li>כל המשא ומתן, ההסכמים והעסקאות מתבצעים ישירות בין המשתמש לבין הסוכן והם באחריותם הבלעדית</li>
+                  <li>מידע המוצג בפלטפורמה הינו לצורכי שיווק וחיבור בלבד ואינו מהווה הצעה מחייבת</li>
+                </ul>
               </section>
 
               <section>
@@ -109,8 +116,14 @@ export default function TermsPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">11. יצירת קשר</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  לשאלות בנוגע לתנאי שימוש אלה:<br />
-                  אימייל: <a href="mailto:legal@mymanaio.com" className="text-primary-600 hover:underline">legal@mymanaio.com</a>
+                  לשאלות בנוגע לתנאי שימוש אלה, ניתן לפנות דרך טופס הפנייה בעמודי הנכסים.
+                </p>
+              </section>
+
+              <section className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-3">הבהרה משפטית</h2>
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  MANAIO היא פלטפורמת מידע ואינה מספקת שירותי תיווך במקרקעין. הפלטפורמה פועלת כגורם חיבור בלבד בין משתמשים לבין צדדים שלישיים, לרבות מתווכים, יזמים וספקי שירותים. כל העסקאות, המשא ומתן וההסכמים מתבצעים ישירות בין המשתמש לבין הסוכן או הספק והם באחריותם הבלעדית.
                 </p>
               </section>
             </>
@@ -125,9 +138,16 @@ export default function TermsPage() {
 
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Service Description</h2>
-                <p className="text-gray-600 leading-relaxed">
-                  MANAIO is an online platform connecting Israeli real estate investors with international real estate agents. The platform displays property information and facilitates communication between parties. MANAIO is not a party to any transaction and does not broker real estate deals.
+                <p className="text-gray-600 leading-relaxed mb-3">
+                  MANAIO is a marketing and lead-generation platform only. It acts solely as a connector between Israeli real estate investors and third-party real estate agents abroad.
                 </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <li>MANAIO is <strong>not</strong> a real estate broker and does not provide brokerage services</li>
+                  <li>MANAIO is <strong>not</strong> a party to any transaction</li>
+                  <li>MANAIO is <strong>not</strong> involved in negotiations, pricing, or deal execution</li>
+                  <li>All negotiations, agreements, and transactions are conducted directly between the user and the agent and are their sole responsibility</li>
+                  <li>Information displayed on the platform is for marketing and connection purposes only and does not constitute a binding offer</li>
+                </ul>
               </section>
 
               <section>
@@ -201,8 +221,14 @@ export default function TermsPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Contact Us</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  For questions about these Terms of Service:<br />
-                  Email: <a href="mailto:legal@mymanaio.com" className="text-primary-600 hover:underline">legal@mymanaio.com</a>
+                  For questions about these Terms of Service, please use the inquiry form on property pages.
+                </p>
+              </section>
+
+              <section className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-3">Legal Disclaimer</h2>
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  MANAIO is not a real estate brokerage and does not provide real estate brokerage services. The platform acts solely as a connector between users and third-party service providers, including real estate agents and developers. All negotiations, agreements, and transactions are conducted directly between the user and the third party and are their sole responsibility.
                 </p>
               </section>
             </>

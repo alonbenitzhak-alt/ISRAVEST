@@ -57,11 +57,23 @@ export default function PrivacyPage() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">4. שיתוף מידע</h2>
                 <p className="text-gray-600 leading-relaxed mb-3">אנו משתפים מידע אישי רק במקרים הבאים:</p>
                 <ul className="list-disc list-inside text-gray-600 space-y-2">
-                  <li><strong>צוות MANAIO:</strong> כאשר אתם שולחים פנייה על נכס, הפרטים מועברים לצוות MANAIO בלבד לטיפול ישיר</li>
-                  <li><strong>ספקי שירות:</strong> שירותי אחסון (Supabase/Vercel), ניתוח נתונים</li>
+                  <li><strong>צוות MANAIO:</strong> כאשר אתם שולחים פנייה, הפרטים מועברים לצוות MANAIO בלבד לצורך חיבור לסוכן הרלוונטי</li>
+                  <li><strong>סוכני נדל&quot;ן צד שלישי:</strong> לאחר עיבוד פנייתכם, פרטי הקשר עשויים להועבר לסוכן מתאים לצורך יצירת קשר ישיר</li>
+                  <li><strong>ספקי שירות:</strong> שירותי אחסון (Supabase/Vercel) לצורך תפעול הפלטפורמה</li>
                   <li><strong>דרישה חוקית:</strong> כאשר אנו מחויבים לכך על פי דין</li>
                 </ul>
-                <p className="text-gray-600 leading-relaxed mt-3">אנו לא מוכרים את המידע האישי שלכם לצדדים שלישיים.</p>
+                <p className="text-gray-600 leading-relaxed mt-3">אנו לא מוכרים את המידע האישי שלכם. המידע מועבר אך ורק לצורך חיבורכם לסוכן מתאים.</p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">4א. זכויות המשתמש</h2>
+                <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <li>בקשת עיון במידע האישי שנאסף עליכם</li>
+                  <li>בקשת תיקון מידע שגוי</li>
+                  <li>בקשת מחיקת המידע שלכם מהמערכת</li>
+                  <li>ביטול הסכמה לקבלת עדכונים ותקשורת שיווקית</li>
+                </ul>
+                <p className="text-gray-600 leading-relaxed mt-3">לממש זכויות אלה — פנו דרך טופס הפנייה בעמודי הנכסים.</p>
               </section>
 
               <section>
@@ -90,7 +102,7 @@ export default function PrivacyPage() {
                   <li>זכות התנגדות - להתנגד לעיבוד המידע שלכם</li>
                 </ul>
                 <p className="text-gray-600 leading-relaxed mt-3">
-                  למימוש זכויותיכם, צרו קשר בכתובת: <a href="mailto:privacy@mymanaio.com" className="text-primary-600 hover:underline">privacy@mymanaio.com</a>
+                  למימוש זכויותיכם, פנו דרך טופס הפנייה בעמודי הנכסים.
                 </p>
               </section>
 
@@ -111,8 +123,7 @@ export default function PrivacyPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">10. יצירת קשר</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  לשאלות בנוגע למדיניות פרטיות זו, ניתן לפנות אלינו:<br />
-                  אימייל: <a href="mailto:privacy@mymanaio.com" className="text-primary-600 hover:underline">privacy@mymanaio.com</a>
+                  לשאלות בנוגע למדיניות פרטיות זו, פנו דרך טופס הפנייה בעמודי הנכסים.
                 </p>
               </section>
             </>
@@ -150,11 +161,23 @@ export default function PrivacyPage() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Information Sharing</h2>
                 <p className="text-gray-600 leading-relaxed mb-3">We share personal information only in the following cases:</p>
                 <ul className="list-disc list-inside text-gray-600 space-y-2">
-                  <li><strong>MANAIO team:</strong> When you submit an inquiry about a property, your details are passed exclusively to the MANAIO team for direct handling</li>
-                  <li><strong>Service providers:</strong> Hosting (Supabase/Vercel), analytics</li>
+                  <li><strong>MANAIO team:</strong> When you submit an inquiry, your details are received by the MANAIO team to facilitate connection with a relevant agent</li>
+                  <li><strong>Third-party agents:</strong> After processing your inquiry, contact details may be forwarded to a relevant agent for direct outreach</li>
+                  <li><strong>Service providers:</strong> Hosting (Supabase/Vercel) for platform operation</li>
                   <li><strong>Legal requirements:</strong> When required by law</li>
                 </ul>
-                <p className="text-gray-600 leading-relaxed mt-3">We do not sell your personal information to third parties.</p>
+                <p className="text-gray-600 leading-relaxed mt-3">We do not sell your personal information. Data is shared solely for the purpose of connecting you with a suitable agent.</p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">4a. Your Rights</h2>
+                <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <li>Request access to personal information collected about you</li>
+                  <li>Request correction of inaccurate data</li>
+                  <li>Request deletion of your data from our systems</li>
+                  <li>Withdraw consent for marketing communications</li>
+                </ul>
+                <p className="text-gray-600 leading-relaxed mt-3">To exercise these rights, use the inquiry form on property pages.</p>
               </section>
 
               <section>
@@ -183,7 +206,7 @@ export default function PrivacyPage() {
                   <li>Right to object - object to the processing of your data</li>
                 </ul>
                 <p className="text-gray-600 leading-relaxed mt-3">
-                  To exercise your rights, contact us at: <a href="mailto:privacy@mymanaio.com" className="text-primary-600 hover:underline">privacy@mymanaio.com</a>
+                  To exercise your rights, use the inquiry form on property pages.
                 </p>
               </section>
 
@@ -204,8 +227,7 @@ export default function PrivacyPage() {
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Contact Us</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  For questions about this Privacy Policy, contact us:<br />
-                  Email: <a href="mailto:privacy@mymanaio.com" className="text-primary-600 hover:underline">privacy@mymanaio.com</a>
+                  For questions about this Privacy Policy, use the inquiry form on property pages.
                 </p>
               </section>
             </>

@@ -185,8 +185,7 @@ export default function AgentRegisterPage() {
                 {t("register.agent.pendingDesc")}
               </p>
               <p className="text-xs text-amber-600">
-                {t("register.agent.questions")}{" "}
-                <a href="mailto:agents@mymanaio.com" className="font-semibold underline">agents@mymanaio.com</a>
+                {t("register.agent.questions")}
               </p>
             </div>
           ) : (

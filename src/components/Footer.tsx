@@ -52,11 +52,7 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">{t("footer.contact")}</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a href="mailto:info@mymanaio.com" className="hover:text-white transition-colors">
-                  info@mymanaio.com
-                </a>
-              </li>
+              <li className="text-gray-400">{t("footer.contactViaForm")}</li>
             </ul>
           </div>
         </div>
