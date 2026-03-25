@@ -7,6 +7,8 @@ import { useProperties } from "@/lib/PropertiesContext";
 import { useLanguage } from "@/lib/LanguageContext";
 import PageHero from "@/components/PageHero";
 
+const ITEMS_PER_PAGE = 12;
+
 function PropertiesContent() {
   const searchParams = useSearchParams();
   const { t } = useLanguage();
@@ -20,8 +22,10 @@ function PropertiesContent() {
     minRoi: searchParams.get("minRoi") || "",
     minBedrooms: searchParams.get("minBedrooms") || "",
   });
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filtered = useMemo(() => {
+    setCurrentPage(1);
     return properties.filter((p) => {
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
@@ -49,6 +53,9 @@ function PropertiesContent() {
       return true;
     });
   }, [filters, searchQuery]);
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   const uniqueTypes = [...new Set(properties.map((p) => p.property_type))];
 
@@ -141,9 +148,43 @@ function PropertiesContent() {
           <p className="text-gray-400 text-sm mt-1">{t("properties.noResultsSub")}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
-          {filtered.map((p) => (<PropertyCard key={p.id} property={p} />))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
+            {paginated.map((p) => (<PropertyCard key={p.id} property={p} />))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-10">
+              <button
+                onClick={() => { setCurrentPage((p) => p - 1); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                ←
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                  className={`w-9 h-9 rounded-xl text-sm font-semibold transition-colors ${
+                    page === currentPage
+                      ? "bg-primary-600 text-white"
+                      : "border border-gray-200 text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+              <button
+                onClick={() => { setCurrentPage((p) => p + 1); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                →
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
