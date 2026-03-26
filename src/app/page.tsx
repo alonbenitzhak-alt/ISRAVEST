@@ -111,7 +111,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36 relative">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-5 drop-shadow-lg" style={{ fontFamily: "'Fraunces', 'Playfair Display', Georgia, serif" }}>
-              שוק הנדל&quot;ן הבינלאומי לישראלים
+              {t("home.hero.title")}
             </h1>
             <p className="text-lg text-white/80 mb-10 leading-relaxed max-w-2xl">
               {t("home.hero.subtitle")}

@@ -33,7 +33,7 @@ const elTranslations: Record<string, string> = {
   "nav.myProperties": "Τα Ακίνητά μου",
   // Home
   "home.hero.badge": "Διεθνείς Επενδύσεις σε Ακίνητα",
-  "home.hero.title": "Παγκόσμιες Επενδύσεις Ακινήτων για Ισραηλινούς Επενδυτές",
+  "home.hero.title": "Βρείτε Ακίνητα. Συνδεθείτε με τον Συνεργάτη. Επενδύστε στο Εξωτερικό.",
   "home.hero.subtitle": "Ανακαλύψτε premium επενδυτικά ακίνητα στις κορυφαίες αγορές της Ευρώπης. Επιλεγμένες ευκαιρίες με διαφανή τιμολόγηση και υψηλές αποδόσεις.",
   "home.search.country": "Χώρα",
   "home.search.city": "Πόλη",
@@ -722,7 +722,7 @@ const ruTranslations: Record<string, string> = {
   "nav.myProperties": "Мои объекты",
   // Home
   "home.hero.badge": "Международные инвестиции в недвижимость",
-  "home.hero.title": "Глобальные инвестиции в недвижимость для израильских инвесторов",
+  "home.hero.title": "Найдите Объект. Познакомьтесь с Агентом. Инвестируйте за Рубежом.",
   "home.hero.subtitle": "Откройте для себя премиальные инвестиционные объекты на ведущих рынках Европы. Тщательно отобранные возможности с прозрачным ценообразованием и высокой доходностью.",
   "home.search.country": "Страна",
   "home.search.city": "Город",
@@ -1411,7 +1411,7 @@ const arTranslations: Record<string, string> = {
   "nav.myProperties": "عقاراتي",
   // Home
   "home.hero.badge": "استثمارات عقارية دولية",
-  "home.hero.title": "استثمارات عقارية عالمية للمستثمرين الإسرائيليين",
+  "home.hero.title": "اعثر على عقار. تواصل مع الوكيل. استثمر في الخارج.",
   "home.hero.subtitle": "اكتشف عقارات استثمارية متميزة في أفضل أسواق أوروبا. فرص مختارة بعناية بتسعير شفاف وعوائد مرتفعة.",
   "home.search.country": "الدولة",
   "home.search.city": "المدينة",
@@ -2094,7 +2094,7 @@ const translations: Record<string, Record<string, string>> = {
 
     // Home
     "home.hero.badge": "השקעות נדל\"ן בינלאומיות",
-    "home.hero.title": "השקעות נדל\"ן גלובליות למשקיעים ישראלים",
+    "home.hero.title": "גלו נכסים. התחברו לסוכן. השקיעו בחו\"ל.",
     "home.hero.subtitle": "גלו הזדמנויות נדל\"ן בינלאומי. MANAIO מחברת אתכם עם סוכני נדל\"ן מקומיים בשווקים המובילים באירופה.",
     "home.search.country": "מדינה",
     "home.search.city": "עיר",
@@ -2841,7 +2841,7 @@ const translations: Record<string, Record<string, string>> = {
 
     // Home
     "home.hero.badge": "International Real Estate Investments",
-    "home.hero.title": "Global Real Estate Investments for Israeli Investors",
+    "home.hero.title": "Find Properties. Meet the Agent. Invest Abroad.",
     "home.hero.subtitle": "Discover international real estate opportunities. MANAIO connects you with local agents in Europe's top markets.",
     "home.search.country": "Country",
     "home.search.city": "City",
