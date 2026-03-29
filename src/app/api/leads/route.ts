@@ -142,6 +142,36 @@ export async function POST(request: NextRequest) {
       try { await supabase.from("leads").update({ ip_address: ip }).eq("id", lead.id); } catch {}
     }
 
+    // Mirror to contact_submissions so it appears in the admin "פניות" inbox
+    if (buyer_id) {
+      try {
+        let propertyLabel = safePropertyId ? `נכס #${safePropertyId.slice(0, 8)}` : "נכס";
+        if (safePropertyId) {
+          const { data: propRow } = await supabase.from("properties").select("title").eq("id", safePropertyId).single();
+          if (propRow?.title) propertyLabel = propRow.title;
+        }
+        const contactMessage = [
+          `בקשת מידע על נכס: ${propertyLabel}`,
+          `טלפון: ${sanitizedPhone}`,
+          `תקציב: ${sanitizedBudget}`,
+          sanitizedMessage ? `הודעה: ${sanitizedMessage}` : null,
+        ].filter(Boolean).join("\n");
+
+        await supabase.from("contact_submissions").insert({
+          name: sanitizedName,
+          email: sanitizedEmail,
+          message: contactMessage,
+          subject: "property",
+          user_id: buyer_id,
+          user_role: "buyer",
+          status: "open",
+          ip_address: ip !== "unknown" ? ip : null,
+        });
+      } catch (err) {
+        console.error("contact_submissions mirror error:", err);
+      }
+    }
+
     // Notify admin by email
     if (process.env.RESEND_API_KEY) {
       let propertyTitle: string | undefined;

@@ -516,7 +516,7 @@ const elTranslations: Record<string, string> = {
   "about.ctaTitle": "Έτοιμοι να Ξεκινήσετε;",
   "about.ctaSubtitle": "Η ομάδα εμπειρογνωμόνων μας περιμένει να σας βοηθήσει να βρείτε την τέλεια επένδυση.",
   "about.aboutUs": "Σχετικά με μας",
-  "about.foundersText": "Οι δημιουργοί της πλατφόρμας ήθελαν να δημιουργήσουν μια βολική πλατφόρμα — όχι μόνο για ακίνητα στο εξωτερικό, αλλά για ολόκληρο τον κόσμο των επενδύσεων.",
+  "about.foundersText": "Είμαστε μια ισραηλινή οικογένεια από το κέντρο της χώρας που, ακριβώς όπως εσείς, θέλαμε να επενδύσουμε σε ακίνητα στο εξωτερικό αλλά δεν ξέραμε πώς να ξεκινήσουμε. Έτσι καταλάβαμε ότι εμείς θα φέρναμε τη λύση. Η πλατφόρμα απλοποιεί τον δρόμο για επενδύσεις στο εξωτερικό – επιλεγμένα ακίνητα, σχετικές πληροφορίες και άμεση σύνδεση με τοπικούς επαγγελματίες, όλα σε ένα μέρος.",
   "about.stat.founded": "Ιδρύθηκε",
   "about.stat.investments": "Επενδύσεις Ολοκληρώθηκαν",
   "about.stat.investors": "Ευχαριστημένοι Επενδυτές",
@@ -1226,7 +1226,7 @@ const ruTranslations: Record<string, string> = {
   "about.ctaTitle": "Готовы начать?",
   "about.ctaSubtitle": "Наша команда экспертов готова помочь вам найти идеальную инвестицию.",
   "about.aboutUs": "О нас",
-  "about.foundersText": "Разработчики сайта хотели создать удобную платформу — не только для недвижимости за рубежом, но и для всего мира инвестиций.",
+  "about.foundersText": "Мы — израильская семья из центра страны, которая, точно так же как и вы, хотела инвестировать в недвижимость за рубежом, но не совсем понимала, с чего начать. Именно так мы поняли, что станем теми, кто принесёт решение. Платформа упрощает путь к инвестициям за рубежом — отобранные объекты, актуальная информация и прямая связь с местными специалистами, всё в одном месте.",
   "about.stat.founded": "Основана",
   "about.stat.investments": "Завершённых инвестиций",
   "about.stat.investors": "Довольных инвесторов",
@@ -1936,7 +1936,7 @@ const arTranslations: Record<string, string> = {
   "about.ctaTitle": "هل أنت مستعد للبدء؟",
   "about.ctaSubtitle": "فريق خبرائنا ينتظر لمساعدتك في إيجاد الاستثمار المثالي.",
   "about.aboutUs": "عنا",
-  "about.foundersText": "أراد مطورو الموقع إنشاء منصة مريحة — ليس فقط للعقارات في الخارج، بل لعالم الاستثمار بأكمله.",
+  "about.foundersText": "نحن عائلة إسرائيلية من وسط البلاد، تماماً مثلك أردنا الاستثمار في العقارات بالخارج ولم نكن نعرف تماماً من أين نبدأ. هكذا أدركنا أننا سنكون من يجلب الحل. المنصة مصممة لتبسيط طريق الاستثمار في الخارج — عقارات مختارة، معلومات ذات صلة وتواصل مباشر مع متخصصين محليين، كل ذلك في مكان واحد.",
   "about.stat.founded": "تأسست",
   "about.stat.investments": "استثمارات مكتملة",
   "about.stat.investors": "مستثمرون سعداء",
@@ -2592,7 +2592,7 @@ const translations: Record<string, Record<string, string>> = {
 
     // About extras
     "about.aboutUs": "מי אנחנו",
-    "about.foundersText": "הפלטפורמה נועדה לפשט את הדרך להשקעה בחו\"ל באמצעות הנגשת נכסים נבחרים, מידע רלוונטי וחיבור ישיר לאנשי מקצוע מקומיים – הכל במקום אחד.",
+    "about.foundersText": "אנחנו משפחה ישראלית מהמרכז שבדיוק כמוך רצינו להשקיע בנדל\"ן בחו\"ל ולא בדיוק הבנו איך להתחיל. ככה הבנו שאנחנו נהיה אלו שיביאו את הפתרון. הפלטפורמה נועדה לפשט את הדרך להשקעה בחו\"ל – נכסים נבחרים, מידע רלוונטי וחיבור ישיר לאנשי מקצוע מקומיים, הכל במקום אחד.",
     "about.stat.founded": "שנת הקמה",
     "about.stat.investments": "השקעות שהושלמו",
     "about.stat.investors": "משקיעים מרוצים",
@@ -3360,7 +3360,7 @@ const translations: Record<string, Record<string, string>> = {
 
     // About extras
     "about.aboutUs": "About Us",
-    "about.foundersText": "The platform is designed to simplify the path to investing abroad by providing access to selected properties, relevant information, and a direct connection to local professionals — all in one place.",
+    "about.foundersText": "We're an Israeli family from the center of the country who, just like you, wanted to invest in real estate abroad but didn't quite know where to start. That's how we realized we'd be the ones to bring the solution. The platform is designed to simplify the path to investing abroad — selected properties, relevant information, and a direct connection to local professionals, all in one place.",
     "about.stat.founded": "Founded",
     "about.stat.investments": "Investments Completed",
     "about.stat.investors": "Happy Investors",
