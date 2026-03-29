@@ -17,7 +17,7 @@ const SUBJECTS = [
 
 export default function ContactPage() {
   const { t } = useLanguage();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [form, setForm] = useState({ subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -57,11 +57,12 @@ export default function ContactPage() {
         <div className="text-center max-w-md">
           <div className="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-3">נדרשת כניסה לחשבון</h1>
-          <p className="text-gray-500 mb-6 leading-relaxed">כדי לשלוח פנייה, יש להיות מחובר לחשבון.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">צור קשר</h1>
+          <p className="text-gray-500 mb-2 leading-relaxed">יש להתחבר או להירשם כדי לשלוח פנייה.</p>
+          <p className="text-xs text-gray-400 mb-6">לאחר ההתחברות, הפרטים שלך ימולאו אוטומטית.</p>
           <div className="flex gap-3 justify-center">
             <Link href="/login" className="bg-primary-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-700 transition-colors">
               כניסה
@@ -108,6 +109,18 @@ export default function ContactPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-200 p-6 md:p-8 space-y-5">
+          {/* Auto-filled sender info */}
+          <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
+            <div className="w-9 h-9 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+              {(profile?.full_name || user.email || "?").charAt(0).toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-gray-900 truncate">{profile?.full_name || "—"}</p>
+              <p className="text-xs text-gray-400 truncate">{user.email}</p>
+            </div>
+            <span className="ml-auto text-xs text-gray-400 shrink-0">ממלא אוטומטית</span>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">נושא הפנייה</label>
             <select
