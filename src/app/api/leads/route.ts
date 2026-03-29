@@ -61,13 +61,15 @@ export async function POST(request: NextRequest) {
     if (agent_id && !uuidRegex.test(agent_id)) {
       return NextResponse.json({ error: "Invalid agent_id" }, { status: 400 });
     }
+    // If property_id is not a valid UUID (e.g. demo property "1"), treat as null
+    const safePropertyId = property_id && uuidRegex.test(property_id) ? property_id : null;
 
     // Validate agent_id actually belongs to the property (prevent lead hijacking)
-    if (property_id && agent_id) {
+    if (safePropertyId && agent_id) {
       const { data: propertyRow } = await supabaseAdmin
         .from("properties")
         .select("agent_id")
-        .eq("id", property_id)
+        .eq("id", safePropertyId)
         .single();
       if (propertyRow && propertyRow.agent_id !== agent_id) {
         return NextResponse.json({ error: "Invalid agent_id for this property" }, { status: 400 });
@@ -98,7 +100,7 @@ export async function POST(request: NextRequest) {
 
     // Save lead to DB (always — admin sees all leads in panel)
     const { data: lead, error } = await supabase.from("leads").insert({
-      property_id: property_id || null,
+      property_id: safePropertyId,
       name: sanitizedName,
       email: sanitizedEmail,
       phone: sanitizedPhone,
@@ -123,10 +125,10 @@ export async function POST(request: NextRequest) {
     if (process.env.RESEND_API_KEY) {
       let propertyTitle: string | undefined;
       let propertyUrl: string | undefined;
-      if (property_id) {
-        const { data: prop } = await supabase.from("properties").select("title").eq("id", property_id).single();
+      if (safePropertyId) {
+        const { data: prop } = await supabase.from("properties").select("title").eq("id", safePropertyId).single();
         if (prop?.title) propertyTitle = prop.title;
-        propertyUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/properties/${property_id}`;
+        propertyUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/properties/${safePropertyId}`;
       }
       let agentName: string | undefined;
       let agentPhone: string | undefined;
