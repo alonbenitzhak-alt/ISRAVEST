@@ -21,11 +21,6 @@ export default function PartnershipPage() {
         </div>
 
         <div dir={isHe ? "rtl" : "ltr"} className="prose prose-sm max-w-none text-gray-700 space-y-6">
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800">
-            {isHe
-              ? "מסמך זה נמצא בעריכה סופית. הנוסח המחייב יפורסם בקרוב. הגשת בקשת הצטרפות מהווה הסכמה לעקרונות המפורטים להלן."
-              : "This document is under final review. The binding version will be published shortly. Submitting a registration application constitutes agreement to the principles outlined below."}
-          </div>
 
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">
@@ -33,8 +28,8 @@ export default function PartnershipPage() {
             </h2>
             <p>
               {isHe
-                ? "הסכם זה נכרת בין חברת MANAIO (להלן: \"החברה\") לבין הסוכן הנדל\"ן הנרשם לפלטפורמה (להלן: \"הסוכן\")."
-                : "This agreement is entered into between MANAIO (hereinafter: \"the Company\") and the real estate agent registering on the platform (hereinafter: \"the Agent\")."}
+                ? "הסכם זה נכרת בין MANAIO (mymanaio.com) לבין הסוכן הנדל\"ן הנרשם לפלטפורמה (להלן: \"הסוכן\")."
+                : "This agreement is entered into between MANAIO (mymanaio.com) and the real estate agent registering on the platform (hereinafter: \"the Agent\")."}
             </p>
           </section>
 
@@ -44,8 +39,8 @@ export default function PartnershipPage() {
             </h2>
             <p>
               {isHe
-                ? "החברה מעמידה לרשות הסוכן פלטפורמה דיגיטלית לשיווק נכסי נדל\"ן בחו\"ל למשקיעים ישראלים. הסוכן מתחייב לפעול בהתאם לכללי האתיקה המקצועית ולדרישות הרגולציה הרלוונטיות."
-                : "The Company provides the Agent with a digital platform for marketing international real estate properties to Israeli investors. The Agent undertakes to act in accordance with professional ethics and applicable regulatory requirements."}
+                ? "MANAIO מעמידה לרשות הסוכן פלטפורמה דיגיטלית לשיווק נכסי נדל\"ן בחו\"ל למשקיעים ישראלים. הפלטפורמה כוללת דף נכס מקצועי, חשיפה למשקיעים רשומים, וניהול לידים ממוחשב. הסוכן פועל כגורם עצמאי ואינו עובד של MANAIO."
+                : "MANAIO provides the Agent with a digital platform for marketing international real estate to Israeli investors. The platform includes a professional property page, exposure to registered investors, and digital lead management. The Agent operates as an independent party and is not an employee of MANAIO."}
             </p>
           </section>
 
@@ -54,9 +49,10 @@ export default function PartnershipPage() {
               {isHe ? "3. תנאי קבלה" : "3. Acceptance Criteria"}
             </h2>
             <ul className="list-disc ps-5 space-y-1">
-              <li>{isHe ? "רישיון תיווך בתוקף בישראל או במדינת המוצא" : "Valid broker license in Israel or country of origin"}</li>
+              <li>{isHe ? "רישיון תיווך בתוקף בישראל או במדינת הנכסים" : "Valid broker license in Israel or in the country of the listed properties"}</li>
               <li>{isHe ? "ניסיון של שנה לפחות בתחום הנדל\"ן" : "At least one year of experience in real estate"}</li>
-              <li>{isHe ? "אישור בדיקת רקע על ידי MANAIO" : "Background check approval by MANAIO"}</li>
+              <li>{isHe ? "הגשת תעודת זהות ורישיון תיווך לצורך אימות" : "Submission of ID card and broker license for verification"}</li>
+              <li>{isHe ? "אישור MANAIO לאחר בדיקת המסמכים" : "MANAIO approval following document review"}</li>
             </ul>
           </section>
 
@@ -65,10 +61,12 @@ export default function PartnershipPage() {
               {isHe ? "4. התחייבויות הסוכן" : "4. Agent Obligations"}
             </h2>
             <ul className="list-disc ps-5 space-y-1">
-              <li>{isHe ? "פרסום מידע מדויק ומעודכן על הנכסים" : "Publishing accurate and up-to-date property information"}</li>
-              <li>{isHe ? "מענה ללידים תוך 24 שעות" : "Responding to leads within 24 hours"}</li>
-              <li>{isHe ? "שמירה על סודיות פרטי הלקוחות" : "Maintaining client data confidentiality"}</li>
-              <li>{isHe ? "עמידה בדיני הגנת הצרכן והנדל\"ן החלים" : "Compliance with applicable consumer protection and real estate laws"}</li>
+              <li>{isHe ? "פרסום מידע מדויק, מעודכן ואמיתי על הנכסים" : "Publishing accurate, up-to-date and truthful property information"}</li>
+              <li>{isHe ? "מענה ללידים שהתקבלו תוך 24 שעות לכל היותר" : "Responding to received leads within 24 hours at most"}</li>
+              <li>{isHe ? "שמירה על סודיות מוחלטת של פרטי הלקוחות" : "Maintaining strict confidentiality of client information"}</li>
+              <li>{isHe ? "עמידה בדיני הגנת הצרכן, הנדל\"ן והפרטיות החלים" : "Compliance with applicable consumer protection, real estate and privacy laws"}</li>
+              <li>{isHe ? "אי העברת לידים לגורמים שלישיים ללא אישור מפורש" : "Not transferring leads to third parties without explicit approval"}</li>
+              <li>{isHe ? "עדכון הפלטפורמה בכל שינוי מהותי בנכס (מחיר, זמינות וכד')" : "Updating the platform on any material change to a property (price, availability, etc.)"}</li>
             </ul>
           </section>
 
@@ -78,41 +76,54 @@ export default function PartnershipPage() {
             </h2>
             <p>
               {isHe
-                ? "פרטי העמלות וסכמת התגמול יפורטו במסמך נפרד שיסוכם עם כל סוכן בנפרד בהתאם לתנאים הספציפיים."
-                : "Commission details and compensation structure will be detailed in a separate document to be agreed with each agent individually according to specific conditions."}
+                ? "בשלב ההשקה הנוכחי, גישה לפלטפורמה ולידים ניתנת לסוכנים ללא עלות. MANAIO שומרת על הזכות להציג מודל עמלות מעודכן בהתראה מוקדמת של 30 יום. כל שינוי במודל יחול רק על לידים שיתקבלו לאחר מועד ההודעה."
+                : "During the current launch phase, platform access and leads are provided to agents at no cost. MANAIO reserves the right to introduce an updated fee model with 30 days' prior notice. Any model change will apply only to leads received after the notice date."}
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">
-              {isHe ? "6. סיום ההתקשרות" : "6. Termination"}
+              {isHe ? "6. אחריות ואי-תחרות" : "6. Liability and Non-Competition"}
             </h2>
             <p>
               {isHe
-                ? "כל צד רשאי לסיים את ההסכם בהודעה מוקדמת של 30 יום. החברה רשאית להשעות או לבטל חשבון סוכן באופן מידי במקרה של הפרת תנאי ההסכם."
-                : "Either party may terminate the agreement with 30 days' notice. The Company may immediately suspend or terminate an agent account in case of breach of agreement terms."}
+                ? "MANAIO אינה אחראית לתוצאות עסקאות שנעשו בין הסוכן ללקוחות. הסוכן מצהיר כי הנכסים שיפרסם הם חוקיים ושיש לו הרשאה לשווקם. הסוכן מתחייב שלא ליצור קשר ישיר עם לקוחות הפלטפורמה לצרכי שיווק מחוץ לפלטפורמה."
+                : "MANAIO is not responsible for the outcomes of transactions between the Agent and clients. The Agent declares that the properties they list are legal and that they are authorized to market them. The Agent undertakes not to contact platform clients directly for marketing purposes outside the platform."}
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">
-              {isHe ? "7. דין החל" : "7. Governing Law"}
+              {isHe ? "7. סיום ההתקשרות" : "7. Termination"}
             </h2>
             <p>
               {isHe
-                ? "הסכם זה כפוף לדיני מדינת ישראל. כל סכסוך יובא לפני בתי המשפט המוסמכים בתל אביב."
-                : "This agreement is governed by the laws of the State of Israel. Any dispute shall be brought before the competent courts in Tel Aviv."}
+                ? "כל צד רשאי לסיים את ההסכם בהודעה מוקדמת של 30 יום. MANAIO רשאית להשעות או לסגור חשבון סוכן באופן מידי במקרה של הפרת תנאי ההסכם, פרסום מידע כוזב, או פגיעה בלקוחות הפלטפורמה."
+                : "Either party may terminate the agreement with 30 days' written notice. MANAIO may immediately suspend or close an agent account in cases of breach of agreement terms, publication of false information, or harm to platform clients."}
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">
-              {isHe ? "8. יצירת קשר" : "8. Contact"}
+              {isHe ? "8. דין החל" : "8. Governing Law"}
             </h2>
             <p>
-              {isHe ? "לשאלות בנוגע להסכם זה:" : "For questions regarding this agreement:"}
+              {isHe
+                ? "הסכם זה כפוף לדיני מדינת ישראל. כל סכסוך שיתעורר בקשר להסכם זה יובא לפני בתי המשפט המוסמכים."
+                : "This agreement is governed by the laws of the State of Israel. Any dispute arising in connection with this agreement shall be brought before the competent courts."}
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-bold text-gray-900 mb-2">
+              {isHe ? "9. יצירת קשר" : "9. Contact"}
+            </h2>
+            <p>
+              {isHe ? "לשאלות בנוגע להסכם זה ניתן לפנות אלינו:" : "For questions regarding this agreement:"}
               {" "}
-              <span className="text-primary-600 font-semibold">agents [at] mymanaio [dot] com</span>
+              <a href="mailto:agents@mymanaio.com" className="text-primary-600 font-semibold hover:underline">
+                agents@mymanaio.com
+              </a>
             </p>
           </section>
         </div>
