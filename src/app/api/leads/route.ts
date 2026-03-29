@@ -122,9 +122,24 @@ export async function POST(request: NextRequest) {
     // Notify admin by email
     if (process.env.RESEND_API_KEY) {
       let propertyTitle: string | undefined;
+      let propertyUrl: string | undefined;
       if (property_id) {
         const { data: prop } = await supabase.from("properties").select("title").eq("id", property_id).single();
         if (prop?.title) propertyTitle = prop.title;
+        propertyUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/properties/${property_id}`;
+      }
+      let agentName: string | undefined;
+      let agentPhone: string | undefined;
+      if (lead.agent_id) {
+        const { data: agentProfile } = await supabase
+          .from("profiles")
+          .select("full_name, phone")
+          .eq("id", lead.agent_id)
+          .single();
+        if (agentProfile) {
+          agentName = agentProfile.full_name;
+          agentPhone = agentProfile.phone;
+        }
       }
       sendAdminLeadNotification({
         name: sanitizedName,
@@ -133,6 +148,9 @@ export async function POST(request: NextRequest) {
         budget: sanitizedBudget,
         message: sanitizedMessage,
         propertyTitle,
+        propertyUrl,
+        agentName,
+        agentPhone,
       }).catch((err) => console.error("Admin lead email error:", err));
     }
 

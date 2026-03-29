@@ -81,9 +81,27 @@ export async function sendAdminLeadNotification(data: {
   budget: string;
   message?: string | null;
   propertyTitle?: string;
+  propertyUrl?: string;
+  agentName?: string;
+  agentPhone?: string;
 }) {
   const resend = getResend();
   if (!ADMIN_EMAIL) return;
+
+  const forwardMessage = [
+    `היי ${data.agentName || "סוכן"}, יש ליד חדש עבורך מ-MANAIO!`,
+    ``,
+    data.propertyTitle ? `נכס: ${data.propertyTitle}` : "",
+    `שם המשקיע: ${data.name}`,
+    `טלפון: ${data.phone}`,
+    `אימייל: ${data.email}`,
+    `תקציב: ${data.budget}`,
+    data.message ? `הודעה: ${data.message}` : "",
+  ].filter(Boolean).join("\n");
+
+  const agentWhatsappUrl = data.agentPhone
+    ? `https://wa.me/${data.agentPhone.replace(/\D/g, "")}?text=${encodeURIComponent(forwardMessage)}`
+    : null;
 
   await resend.emails.send({
     from: FROM_EMAIL,
@@ -100,7 +118,16 @@ export async function sendAdminLeadNotification(data: {
           <p style="margin: 4px 0;"><strong>תקציב:</strong> ${escapeHtml(data.budget)}</p>
           ${data.message ? `<p style="margin: 4px 0;"><strong>הודעה:</strong> ${escapeHtml(data.message)}</p>` : ""}
         </div>
-        <a href="${SITE_URL}/admin" style="display: inline-block; padding: 14px 28px; background-color: #1e3a5f; color: white; text-decoration: none; border-radius: 10px; margin-top: 12px; font-weight: bold;">לפאנל הניהול</a>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
+          ${data.propertyUrl ? `<a href="${data.propertyUrl}" style="display: inline-block; padding: 12px 22px; background-color: #1e3a5f; color: white; text-decoration: none; border-radius: 10px; font-weight: bold;">🏠 צפה בנכס</a>` : ""}
+          <a href="${SITE_URL}/admin" style="display: inline-block; padding: 12px 22px; background-color: #475569; color: white; text-decoration: none; border-radius: 10px; font-weight: bold;">לפאנל הניהול</a>
+        </div>
+        ${agentWhatsappUrl ? `
+        <div style="margin-top: 20px; padding: 16px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 12px;">
+          <p style="margin: 0 0 10px; font-weight: bold; color: #166534;">העברה לסוכן: ${escapeHtml(data.agentName || "")}</p>
+          <a href="${agentWhatsappUrl}" style="display: inline-block; padding: 12px 22px; background-color: #25D366; color: white; text-decoration: none; border-radius: 10px; font-weight: bold;">📲 שלח לסוכן בווטסאפ</a>
+        </div>
+        ` : ""}
         <p style="color: #94a3b8; font-size: 12px; margin-top: 24px;">הודעה אוטומטית מפלטפורמת MANAIO</p>
       </div>
     `,
