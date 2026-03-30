@@ -451,6 +451,51 @@ export default function AgentDashboard() {
       if (convData) setConversations(convData as Conversation[]);
     };
     fetchData();
+
+    // Real-time: property stats (views/clicks) update live
+    const channel = supabase
+      .channel(`agent-realtime-${user.id}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "properties", filter: `agent_id=eq.${user.id}` },
+        (payload) => {
+          setProperties(prev =>
+            prev.map(p => p.id === payload.new.id ? { ...p, ...payload.new } as Property : p)
+          );
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "leads", filter: `agent_id=eq.${user.id}` },
+        (payload) => {
+          const newLead = payload.new as Lead;
+          setLeads(prev => {
+            if (prev.find(l => l.id === newLead.id)) return prev;
+            return [newLead, ...prev];
+          });
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "leads", filter: `agent_id=eq.${user.id}` },
+        (payload) => {
+          setLeads(prev => prev.map(l => l.id === payload.new.id ? { ...l, ...payload.new } as Lead : l));
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "conversations", filter: `agent_id=eq.${user.id}` },
+        (payload) => {
+          const newConv = payload.new as Conversation;
+          setConversations(prev => {
+            if (prev.find(c => c.id === newConv.id)) return prev;
+            return [newConv, ...prev];
+          });
+        }
+      )
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
   }, [user]);
 
   if (loading) {
