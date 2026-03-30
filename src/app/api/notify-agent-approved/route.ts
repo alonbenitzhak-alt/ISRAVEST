@@ -51,8 +51,8 @@ export async function POST(req: NextRequest) {
           <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #1e3a5f;">שלום ${escapeHtml(name)},</h2>
             <p>לצערנו, לא הצלחנו לאשר את בקשת ההצטרפות שלכם כסוכן בשלב זה.</p>
-            <p>לפרטים נוספים או לשאלות, אנא פנו אלינו:</p>
-            <span style="color: #1e3a5f; font-weight: bold;">agents [at] mymanaio [dot] com</span>
+            <p>לפרטים נוספים או לשאלות, ניתן לפנות אלינו בוואצאפ:</p>
+            <a href="https://wa.me/${process.env.NEXT_PUBLIC_ADMIN_WHATSAPP || "972586836555"}" style="color: #1e3a5f; font-weight: bold;">WhatsApp</a>
             <p style="color: #94a3b8; font-size: 12px; margin-top: 24px;">בברכה, צוות MANAIO</p>
           </div>
         `,
