@@ -6,6 +6,8 @@ import { useLanguage } from "@/lib/LanguageContext";
 
 const FOUNDING_SPOTS_LEFT = 12;
 
+const ADMIN_WHATSAPP = process.env.NEXT_PUBLIC_ADMIN_WHATSAPP || "972586836555";
+
 export default function AgentsLandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { t, dir } = useLanguage();
@@ -206,9 +208,9 @@ export default function AgentsLandingPage() {
                 {t("agents.founder.text2")}
               </p>
               <div className="mt-6 flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold">M</div>
+                <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-sm">מ</div>
                 <div>
-                  <div className="font-semibold text-gray-900 text-sm">MANAIO</div>
+                  <div className="font-semibold text-gray-900 text-sm">{t("agents.founder.name")}</div>
                   <div className="text-gray-500 text-xs">{t("agents.founder.tag")}</div>
                 </div>
               </div>
@@ -268,7 +270,14 @@ export default function AgentsLandingPage() {
           </Link>
           <p className="mt-6 text-primary-300 text-sm">
             {t("agents.cta.questions")}{" "}
-            <span className="underline opacity-80">agents [at] mymanaio [dot] com</span>
+            <a
+              href={`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent("היי, אני מתווך ורוצה לדעת עוד על MANAIO")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline opacity-80 hover:opacity-100 transition-opacity"
+            >
+              WhatsApp
+            </a>
           </p>
         </div>
       </section>

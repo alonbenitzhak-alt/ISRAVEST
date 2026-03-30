@@ -1253,11 +1253,27 @@ const TAB_DEFS: { key: Tab; tKey: string; icon: string }[] = [
 ];
 
 export default function AdminPage() {
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading, isAdmin, session } = useAuth();
   const { properties } = useProperties();
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<Tab>("pending_agents");
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [pendingCount, setPendingCount] = useState(0);
+
+  useEffect(() => {
+    if (!session?.access_token) return;
+    fetch("/api/admin/pending-agents", {
+      headers: { authorization: `Bearer ${session.access_token}` },
+    }).then(r => r.json()).then(j => setPendingCount((j.agents || []).length)).catch(() => null);
+
+    const ch = supabase.channel("pending-badge")
+      .on("postgres_changes", { event: "*", schema: "public", table: "profiles", filter: "role=eq.agent" }, () => {
+        fetch("/api/admin/pending-agents", {
+          headers: { authorization: `Bearer ${session.access_token}` },
+        }).then(r => r.json()).then(j => setPendingCount((j.agents || []).length)).catch(() => null);
+      }).subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [session]);
 
   useEffect(() => {
     supabase.from("leads").select("*").then(({ data }) => {
@@ -1329,6 +1345,11 @@ export default function AdminPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={tab.icon} />
               </svg>
               {t(tab.tKey)}
+              {tab.key === "pending_agents" && pendingCount > 0 && (
+                <span className="bg-red-500 text-white text-[10px] font-black rounded-full w-4 h-4 flex items-center justify-center leading-none">
+                  {pendingCount > 9 ? "9+" : pendingCount}
+                </span>
+              )}
             </button>
           ))}
         </div>
