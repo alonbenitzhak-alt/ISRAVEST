@@ -151,6 +151,13 @@ export default function PropertyDetailsPage({
                       href={`https://wa.me/${adminWhatsapp.replace(/\s+/g, "").replace(/^\+/, "")}?text=${encodeURIComponent(buildWhatsappMessage(property))}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => {
+                        supabase
+                          .from("properties")
+                          .update({ clicks_count: (property.clicks_count || 0) + 1 })
+                          .eq("id", property.id)
+                          .then(() => null);
+                      }}
                       className="bg-[#25D366] hover:bg-[#1ebe5d] text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors inline-flex items-center gap-2"
                     >
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -182,6 +189,13 @@ export default function PropertyDetailsPage({
           href={`https://wa.me/${adminWhatsapp.replace(/\s+/g, "").replace(/^\+/, "")}?text=${encodeURIComponent(buildWhatsappMessage(property))}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => {
+            supabase
+              .from("properties")
+              .update({ clicks_count: (property.clicks_count || 0) + 1 })
+              .eq("id", property.id)
+              .then(() => null);
+          }}
           className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-[#25D366] hover:bg-[#1ebe5d] text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center"
           title={t("detail.contactWhatsapp")}
         >
