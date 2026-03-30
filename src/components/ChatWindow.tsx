@@ -87,6 +87,21 @@ export default function ChatWindow({ conversationId, onClose, otherName }: ChatW
       sender_id: user.id,
       content,
     });
+
+    // Notify admin about the new message
+    try {
+      await fetch("/api/messages/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          conversationId,
+          content,
+          senderId: user.id,
+        }),
+      }).catch(() => null); // Silently fail if notification doesn't work
+    } catch {
+      // Ignore errors in notification
+    }
   };
 
   return (
