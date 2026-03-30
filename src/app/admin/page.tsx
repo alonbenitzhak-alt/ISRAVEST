@@ -377,23 +377,41 @@ function LeadsTab() {
 }
 
 /* ─────────────── Agents Tab ─────────────── */
+type ApprovedAgent = {
+  id: string;
+  email: string;
+  full_name: string;
+  phone: string | null;
+  company: string | null;
+  created_at: string;
+};
+
 function AgentsTab() {
   const { properties } = useProperties();
   const { t } = useLanguage();
+  const { session } = useAuth();
+  const [agents, setAgents] = useState<ApprovedAgent[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const agents = useMemo(() => {
-    const map = new Map<string, { name: string; email: string; country: string; city: string; propertyCount: number }>();
+  useEffect(() => {
+    if (!session?.access_token) { setLoading(false); return; }
+    fetch("/api/admin/approved-agents", {
+      headers: { authorization: `Bearer ${session.access_token}` },
+    })
+      .then((r) => r.json())
+      .then((json) => setAgents(json.agents || []))
+      .finally(() => setLoading(false));
+  }, [session]);
+
+  const propertyCountByEmail = useMemo(() => {
+    const map = new Map<string, number>();
     properties.forEach((p) => {
-      const key = p.agent_email;
-      const existing = map.get(key);
-      if (existing) {
-        existing.propertyCount++;
-      } else {
-        map.set(key, { name: p.agent_name, email: p.agent_email, country: p.country, city: p.city, propertyCount: 1 });
-      }
+      map.set(p.agent_email, (map.get(p.agent_email) || 0) + 1);
     });
-    return Array.from(map.values()).sort((a, b) => a.country.localeCompare(b.country));
+    return map;
   }, [properties]);
+
+  if (loading) return <div className="text-center py-16 text-gray-400">{t("admin.loading")}</div>;
 
   return agents.length === 0 ? (
     <div className="text-center py-16 text-gray-400">{t("admin.noAgents")}</div>
@@ -405,29 +423,29 @@ function AgentsTab() {
             <tr className="bg-gray-50 border-b border-gray-200">
               <th className="text-right px-6 py-3 font-semibold text-gray-600">{t("admin.agents.agent")}</th>
               <th className="text-right px-6 py-3 font-semibold text-gray-600">{t("admin.leads.email")}</th>
-              <th className="text-right px-6 py-3 font-semibold text-gray-600">{t("admin.agents.country")}</th>
-              <th className="text-right px-6 py-3 font-semibold text-gray-600">{t("admin.agents.city")}</th>
+              <th className="text-right px-6 py-3 font-semibold text-gray-600">{t("admin.agents.company")}</th>
+              <th className="text-right px-6 py-3 font-semibold text-gray-600">{t("admin.agents.phone")}</th>
               <th className="text-right px-6 py-3 font-semibold text-gray-600">{t("admin.agents.properties")}</th>
             </tr>
           </thead>
           <tbody>
             {agents.map((agent) => (
-              <tr key={agent.email} className="border-b border-gray-100 hover:bg-gray-50">
+              <tr key={agent.id} className="border-b border-gray-100 hover:bg-gray-50">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm">
-                      {agent.name.charAt(0)}
+                      {(agent.full_name || agent.email).charAt(0).toUpperCase()}
                     </div>
-                    <span className="font-medium text-gray-900">{agent.name}</span>
+                    <span className="font-medium text-gray-900">{agent.full_name || "—"}</span>
                   </div>
                 </td>
+                <td className="px-6 py-4 text-gray-600">{agent.email}</td>
+                <td className="px-6 py-4 text-gray-600">{agent.company || "—"}</td>
+                <td className="px-6 py-4 text-gray-600">{agent.phone || "—"}</td>
                 <td className="px-6 py-4">
-                  <a href={`mailto:${agent.email}`} className="text-primary-600 hover:underline">{agent.email}</a>
-                </td>
-                <td className="px-6 py-4 text-gray-600">{agent.country}</td>
-                <td className="px-6 py-4 text-gray-600">{agent.city}</td>
-                <td className="px-6 py-4">
-                  <span className="bg-primary-50 text-primary-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">{agent.propertyCount}</span>
+                  <span className="bg-primary-50 text-primary-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                    {propertyCountByEmail.get(agent.email) || 0}
+                  </span>
                 </td>
               </tr>
             ))}

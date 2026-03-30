@@ -356,6 +356,8 @@ const elTranslations: Record<string, string> = {
   "admin.agents.country": "Χώρα",
   "admin.agents.city": "Πόλη",
   "admin.agents.properties": "Ακίνητα",
+  "admin.agents.company": "Εταιρεία",
+  "admin.agents.phone": "Τηλέφωνο",
   "admin.users.role": "Ρόλος",
   "admin.users.joined": "Εγγράφηκε",
   // Auth
@@ -1075,6 +1077,8 @@ const ruTranslations: Record<string, string> = {
   "admin.agents.country": "Страна",
   "admin.agents.city": "Город",
   "admin.agents.properties": "Объекты",
+  "admin.agents.company": "Компания",
+  "admin.agents.phone": "Телефон",
   "admin.users.role": "Роль",
   "admin.users.joined": "Присоединился",
   // Auth
@@ -1794,6 +1798,8 @@ const arTranslations: Record<string, string> = {
   "admin.agents.country": "الدولة",
   "admin.agents.city": "المدينة",
   "admin.agents.properties": "عقارات",
+  "admin.agents.company": "الشركة",
+  "admin.agents.phone": "الهاتف",
   "admin.users.role": "الدور",
   "admin.users.joined": "انضم",
   // Auth
@@ -2844,6 +2850,8 @@ const translations: Record<string, Record<string, string>> = {
     "admin.agents.country": "מדינה",
     "admin.agents.city": "עיר",
     "admin.agents.properties": "נכסים",
+    "admin.agents.company": "חברה",
+    "admin.agents.phone": "טלפון",
     "admin.users.role": "תפקיד",
     "admin.users.joined": "הצטרף",
 
@@ -3621,6 +3629,8 @@ const translations: Record<string, Record<string, string>> = {
     "admin.agents.country": "Country",
     "admin.agents.city": "City",
     "admin.agents.properties": "Properties",
+    "admin.agents.company": "Company",
+    "admin.agents.phone": "Phone",
     "admin.users.role": "Role",
     "admin.users.joined": "Joined",
 
