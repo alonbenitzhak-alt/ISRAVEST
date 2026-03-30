@@ -410,6 +410,7 @@ export default function AgentDashboard() {
   const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
   const [chatLoading, setChatLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   useEffect(() => {
     if (profile) {
@@ -442,11 +443,11 @@ export default function AgentDashboard() {
       if (leadsData) setLeads(leadsData);
       setLeadsLoading(false);
 
-      // Fetch agent conversations
+      // Fetch agent conversations (agent may appear in agent_id or buyer_id slot)
       const { data: convData } = await supabase
         .from("conversations")
         .select("*")
-        .eq("agent_id", user.id)
+        .or(`agent_id.eq.${user.id},buyer_id.eq.${user.id}`)
         .order("created_at", { ascending: false });
       if (convData) setConversations(convData as Conversation[]);
     };
@@ -493,6 +494,17 @@ export default function AgentDashboard() {
           });
         }
       )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "conversations", filter: `buyer_id=eq.${user.id}` },
+        (payload) => {
+          const newConv = payload.new as Conversation;
+          setConversations(prev => {
+            if (prev.find(c => c.id === newConv.id)) return prev;
+            return [newConv, ...prev];
+          });
+        }
+      )
       .subscribe();
 
     return () => { supabase.removeChannel(channel); };
@@ -527,7 +539,7 @@ export default function AgentDashboard() {
   }
 
   // Agent is registered but not yet approved by admin — with realtime approval detection
-  if (profile?.approved === false || profile?.approved === null) {
+  if (!profile?.approved) {
     return <PendingApprovalScreen userId={user!.id} refreshProfile={refreshProfile} />;
   }
 
@@ -559,7 +571,7 @@ export default function AgentDashboard() {
       setProperties(prev => prev.map(p => p.id === data.id ? { ...p, ...data } as Property : p));
     } else {
       // Insert
-      const { data: newProp } = await supabase
+      const { data: newProp, error: insertError } = await supabase
         .from("properties")
         .insert({
           title: data.title, title_he: data.title_he,
@@ -580,6 +592,11 @@ export default function AgentDashboard() {
         })
         .select()
         .single();
+      if (insertError) {
+        setUploadError(insertError.message);
+        setTimeout(() => setUploadError(null), 8000);
+        return;
+      }
       if (newProp) {
         setProperties(prev => [newProp, ...prev]);
 
@@ -752,6 +769,26 @@ export default function AgentDashboard() {
             </button>
           ))}
         </div>
+
+        {/* Upload error banner */}
+        {uploadError && (
+          <div className="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-800 rounded-2xl px-5 py-4 shadow-sm">
+            <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold text-sm">שגיאה בהעלאת הנכס</p>
+              <p className="text-xs text-red-600 mt-0.5">{uploadError}</p>
+            </div>
+            <button onClick={() => setUploadError(null)} className="ms-auto text-red-400 hover:text-red-600 transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {/* Upload success banner */}
         {uploadSuccess && (

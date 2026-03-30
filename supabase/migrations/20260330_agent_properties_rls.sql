@@ -1,7 +1,11 @@
 -- ============================================================
--- Migration: RLS policies for agents on properties table
+-- Migration: Add agent_id column + RLS policies for agents on properties table
 -- Run this in your Supabase SQL editor
 -- ============================================================
+
+-- Add agent_id column if it doesn't exist
+ALTER TABLE properties
+  ADD COLUMN IF NOT EXISTS agent_id UUID REFERENCES profiles(id) ON DELETE SET NULL;
 
 -- Enable RLS (safe to run even if already enabled)
 ALTER TABLE properties ENABLE ROW LEVEL SECURITY;
