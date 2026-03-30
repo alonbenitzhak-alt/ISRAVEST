@@ -374,10 +374,14 @@ function PendingApprovalScreen({
           <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
           {t("dashboard.agent.waitingApproval")}
         </div>
-        <div className="text-sm text-amber-600 bg-amber-100 rounded-xl px-4 py-3 inline-block">
-          {t("dashboard.agent.questions")}{" "}
-          <span className="font-semibold">agents [at] mymanaio [dot] com</span>
-        </div>
+        <a
+          href={`https://wa.me/${process.env.NEXT_PUBLIC_ADMIN_WHATSAPP || "972586836555"}?text=${encodeURIComponent("היי, נרשמתי כסוכן ב-MANAIO ויש לי שאלה")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm text-amber-600 bg-amber-100 hover:bg-amber-200 rounded-xl px-4 py-3 transition-colors font-semibold"
+        >
+          {t("dashboard.agent.questions")} WhatsApp
+        </a>
       </div>
     </div>
   );
@@ -405,6 +409,7 @@ export default function AgentDashboard() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
   const [chatLoading, setChatLoading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   useEffect(() => {
     if (profile) {
@@ -532,6 +537,27 @@ export default function AgentDashboard() {
         .single();
       if (newProp) {
         setProperties(prev => [newProp, ...prev]);
+
+        // Show success banner
+        setUploadSuccess(true);
+        setTimeout(() => setUploadSuccess(false), 6000);
+
+        // Send confirmation email to agent
+        fetch("/api/notify-property-uploaded", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: user.email,
+            agentName: profile?.full_name || user.email,
+            propertyTitle: data.title,
+            propertyId: newProp.id,
+            city: data.city,
+            country: data.country,
+            price: data.price,
+            currency: data.currency,
+          }),
+        }).catch(() => null);
+
         // Notify followers
         const { data: followers } = await supabase
           .from("favorite_agents")
@@ -681,6 +707,26 @@ export default function AgentDashboard() {
             </button>
           ))}
         </div>
+
+        {/* Upload success banner */}
+        {uploadSuccess && (
+          <div className="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-800 rounded-2xl px-5 py-4 shadow-sm">
+            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold text-sm">מודעתך הועלתה בהצלחה לאתר!</p>
+              <p className="text-xs text-green-600 mt-0.5">פרטי הנכס נשלחו גם למייל שלך לאישור.</p>
+            </div>
+            <button onClick={() => setUploadSuccess(false)} className="ms-auto text-green-400 hover:text-green-600 transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {/* Properties Tab */}
         {activeTab === "properties" && (
