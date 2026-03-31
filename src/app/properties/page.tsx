@@ -20,7 +20,6 @@ function PropertiesContent() {
     country: searchParams.get("country") || "",
     priceRange: searchParams.get("budget") || "",
     propertyType: searchParams.get("type") || "",
-    minRoi: searchParams.get("minRoi") || "",
     minBedrooms: searchParams.get("minBedrooms") || "",
   });
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,10 +41,6 @@ function PropertiesContent() {
       if (filters.priceRange) {
         const max = parseInt(filters.priceRange);
         if (p.price > max) return false;
-      }
-      if (filters.minRoi) {
-        const min = parseFloat(filters.minRoi);
-        if (p.expected_roi < min) return false;
       }
       if (filters.minBedrooms) {
         const min = parseInt(filters.minBedrooms);
@@ -78,7 +73,7 @@ function PropertiesContent() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+      <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1">{t("properties.filter.country")}</label>
           <select value={filters.country} onChange={(e) => setFilters({ ...filters, country: e.target.value })} className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none bg-white">
@@ -107,16 +102,6 @@ function PropertiesContent() {
           </select>
         </div>
         <div>
-          <label className="block text-xs font-semibold text-gray-500 mb-1">{t("properties.filter.minRoi")}</label>
-          <select value={filters.minRoi} onChange={(e) => setFilters({ ...filters, minRoi: e.target.value })} className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none bg-white">
-            <option value="">{t("properties.filter.anyRoi")}</option>
-            <option value="7">7%+</option>
-            <option value="8">8%+</option>
-            <option value="10">10%+</option>
-            <option value="12">12%+</option>
-          </select>
-        </div>
-        <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1">{t("properties.filter.bedrooms")}</label>
           <select value={filters.minBedrooms} onChange={(e) => setFilters({ ...filters, minBedrooms: e.target.value })} className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none bg-white">
             <option value="">{t("properties.filter.any")}</option>
@@ -128,7 +113,7 @@ function PropertiesContent() {
         </div>
         <div className="flex items-end">
           <button
-            onClick={() => setFilters({ country: "", priceRange: "", propertyType: "", minRoi: "", minBedrooms: "" })}
+            onClick={() => setFilters({ country: "", priceRange: "", propertyType: "", minBedrooms: "" })}
             className="w-full text-sm text-primary-600 font-semibold border border-primary-200 rounded-lg py-2.5 hover:bg-primary-50 transition-colors"
           >
             {t("properties.filter.clear")}

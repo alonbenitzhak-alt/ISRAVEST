@@ -12,7 +12,7 @@ export default function HomePage() {
   const router = useRouter();
   const { t, dir } = useLanguage();
   const { properties } = useProperties();
-  const [search, setSearch] = useState({ country: "", city: "", budget: "", propertyType: "", minBedrooms: "", minRoi: "" });
+  const [search, setSearch] = useState({ country: "", city: "", budget: "", propertyType: "", minBedrooms: "" });
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [heroIdx, setHeroIdx] = useState(0);
 
@@ -37,7 +37,6 @@ export default function HomePage() {
     if (search.city) params.set("city", search.city);
     if (search.propertyType) params.set("type", search.propertyType);
     if (search.minBedrooms) params.set("minBedrooms", search.minBedrooms);
-    if (search.minRoi) params.set("minRoi", search.minRoi);
     router.push(`/properties?${params.toString()}`);
   };
 
@@ -221,20 +220,6 @@ export default function HomePage() {
                       <option value="2">2+</option>
                       <option value="3">3+</option>
                       <option value="4">4+</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1.5">{t("home.search.minRoi")}</label>
-                    <select
-                      value={search.minRoi}
-                      onChange={(e) => setSearch({ ...search, minRoi: e.target.value })}
-                      className="w-full text-gray-900 text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none bg-gray-50"
-                    >
-                      <option value="">{t("home.search.anyRoi")}</option>
-                      <option value="5">5%+</option>
-                      <option value="8">8%+</option>
-                      <option value="10">10%+</option>
-                      <option value="12">12%+</option>
                     </select>
                   </div>
                 </div>
