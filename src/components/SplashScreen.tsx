@@ -28,14 +28,14 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
         phase === "fadeOut" ? "opacity-0" : "opacity-100"
       }`}
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=1920&q=80')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      {/* Subtle gradient overlay for text readability only at top and bottom */}
+      {/* Minimal gradient overlay for text readability */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.15) 100%)"
+        background: "linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.08) 100%)"
       }} />
       {/* Logo */}
       <div
