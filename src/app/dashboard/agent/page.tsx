@@ -408,7 +408,6 @@ export default function AgentDashboard() {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
-  const [chatLoading, setChatLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
@@ -699,24 +698,6 @@ export default function AgentDashboard() {
     setTimeout(() => setSaveSuccess(false), 3000);
   };
 
-  const handleContactAdmin = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.access_token) return;
-    setChatLoading(true);
-    const res = await fetch("/api/conversations/start", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", authorization: `Bearer ${session.access_token}` },
-      body: JSON.stringify({}),
-    });
-    const data = await res.json();
-    setChatLoading(false);
-    if (data.conversationId) {
-      const existing = conversations.find(c => c.id === data.conversationId);
-      const conv = existing || { id: data.conversationId, created_at: new Date().toISOString() } as Conversation;
-      if (!existing) setConversations(prev => [conv, ...prev]);
-      setActiveConversation(conv);
-    }
-  };
 
   const tabs = [
     { key: "properties" as Tab, label: t("dashboard.agent.myProperties"), icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
@@ -1023,16 +1004,21 @@ export default function AgentDashboard() {
           <div className="flex gap-6 h-[600px]">
             {/* Conversation list */}
             <div className={`flex flex-col ${activeConversation ? "w-1/3" : "w-full max-w-sm"}`}>
-              <button
-                onClick={handleContactAdmin}
-                disabled={chatLoading}
-                className="flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold text-sm px-4 py-3 rounded-xl mb-4 transition-colors disabled:opacity-50"
+              <Link
+                href={`/contact?message=${encodeURIComponent(
+                  lang === "he" ? "שלום, אני בעל עסק וברצוני להיות בקשר עם צוות התמיכה" :
+                  lang === "en" ? "Hi, I would like to get assistance with my account" :
+                  lang === "el" ? "Γεια σας, θα ήθελα να λάβω βοήθεια" :
+                  lang === "ru" ? "Привет, мне нужна помощь с моим аккаунтом" :
+                  "مرحبا، أود الحصول على المساعدة"
+                )}&subject=${encodeURIComponent("agent")}`}
+                className="flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold text-sm px-4 py-3 rounded-xl mb-4 transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                {chatLoading ? t("auth.pleaseWait") : t("dashboard.agent.contactAdmin")}
-              </button>
+                {t("dashboard.agent.contactAdmin")}
+              </Link>
               <div className="flex-1 overflow-y-auto space-y-2">
                 {conversations.length === 0 ? (
                   <p className="text-sm text-gray-400 text-center py-8">{t("dashboard.buyer.noMessages")}</p>
