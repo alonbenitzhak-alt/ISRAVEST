@@ -24,12 +24,20 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white transition-opacity duration-700 ${
+      className={`fixed inset-0 z-[200] flex flex-col items-center justify-center transition-opacity duration-700 ${
         phase === "fadeOut" ? "opacity-0" : "opacity-100"
       }`}
+      style={{
+        backgroundImage: `url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1920&q=80')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40" />
       {/* Logo */}
       <div
+        className="relative z-10"
         style={{
           animation: "logoEntry 0.8s ease-out forwards",
         }}
@@ -43,20 +51,20 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
 
       {/* Hebrew Tagline */}
       <div
-        className={`mt-6 text-center transition-all duration-1000 ease-out ${
+        className={`mt-6 text-center transition-all duration-1000 ease-out relative z-10 ${
           phase === "slogan" || phase === "fadeOut"
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-6"
         }`}
       >
-        <p className="text-3xl sm:text-4xl font-bold text-gray-800 tracking-wide">
+        <p className="text-3xl sm:text-4xl font-bold text-white tracking-wide drop-shadow-lg">
           {t("splash.tagline")}
         </p>
       </div>
 
       {/* Subtle loading dots */}
       <div
-        className={`absolute bottom-12 flex gap-2 transition-opacity duration-500 ${
+        className={`absolute bottom-12 flex gap-2 transition-opacity duration-500 relative z-10 ${
           phase === "fadeOut" ? "opacity-0" : "opacity-60"
         }`}
       >
