@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const SUBJECTS = [
   { he: "שאלה כללית", en: "General Question", el: "Γενική Ερώτηση", ru: "Общий вопрос", ar: "سؤال عام", value: "general" },
@@ -18,10 +19,23 @@ const SUBJECTS = [
 export default function ContactPage() {
   const { t, lang } = useLanguage();
   const { user, profile } = useAuth();
+  const searchParams = useSearchParams();
   const adminWhatsapp = process.env.NEXT_PUBLIC_ADMIN_WHATSAPP || "972586836555";
   const [form, setForm] = useState({ subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Pre-fill message from URL parameters
+  useEffect(() => {
+    const messageParam = searchParams.get("message");
+    const subjectParam = searchParams.get("subject");
+    if (messageParam) {
+      setForm((prev) => ({ ...prev, message: decodeURIComponent(messageParam) }));
+    }
+    if (subjectParam) {
+      setForm((prev) => ({ ...prev, subject: decodeURIComponent(subjectParam) }));
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
