@@ -28,13 +28,13 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
         phase === "fadeOut" ? "opacity-0" : "opacity-100"
       }`}
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1920&q=80')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=1920&q=80')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/40" />
+      {/* Subtle overlay for text readability */}
+      <div className="absolute inset-0 bg-black/25" />
       {/* Logo */}
       <div
         className="relative z-10"
