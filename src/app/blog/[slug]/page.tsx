@@ -7,6 +7,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import sanitizeHtml from "sanitize-html";
 import ShareButtons from "@/components/ShareButtons";
+import Script from "next/script";
 
 const ALLOWED_TAGS = ["h2", "h3", "p", "strong", "em", "ul", "ol", "li", "a", "br"];
 const ALLOWED_ATTRS: sanitizeHtml.IOptions["allowedAttributes"] = {
@@ -22,8 +23,42 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
 
   const otherPosts = blogPosts.filter((p) => p.slug !== slug).slice(0, 3);
 
+  // JSON-LD Schema for SEO
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://manaio.com";
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: lang === "he" ? post.title.he : post.title.en,
+    description: lang === "he" ? post.metaDescription.he : post.metaDescription.en,
+    image: post.cover,
+    datePublished: post.date,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "MANAIO",
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/logo.svg`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${baseUrl}/blog/${post.slug}`,
+    },
+  };
+
   return (
     <>
+      {/* Schema.org JSON-LD */}
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+        strategy="afterInteractive"
+      />
+
       {/* Hero */}
       <div className="relative h-64 md:h-80 overflow-hidden">
         <img src={post.cover} alt={lang === "he" ? post.title.he : post.title.en} className="w-full h-full object-cover" />
@@ -57,18 +92,21 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         </div>
 
         {/* Content */}
-        <div
+        <article
           className="prose prose-lg max-w-none text-gray-700 leading-relaxed
             prose-h2:text-xl prose-h2:font-bold prose-h2:text-gray-900 prose-h2:mt-8 prose-h2:mb-3
             prose-p:mb-4 prose-strong:text-gray-900"
           dir={lang === "he" ? "rtl" : "ltr"}
-          dangerouslySetInnerHTML={{
-            __html: sanitizeHtml(lang === "he" ? post.content.he : post.content.en, {
-              allowedTags: ALLOWED_TAGS,
-              allowedAttributes: ALLOWED_ATTRS,
-            }),
-          }}
-        />
+        >
+          <div
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(lang === "he" ? post.content.he : post.content.en, {
+                allowedTags: ALLOWED_TAGS,
+                allowedAttributes: ALLOWED_ATTRS,
+              }),
+            }}
+          />
+        </article>
 
         {/* CTA */}
         <div className="mt-12 bg-primary-50 border border-primary-100 rounded-2xl p-8 text-center">
