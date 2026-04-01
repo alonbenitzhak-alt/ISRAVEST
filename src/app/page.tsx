@@ -7,6 +7,7 @@ import PropertyCard from "@/components/PropertyCard";
 import { useProperties } from "@/lib/PropertiesContext";
 import { countries } from "@/data/countries";
 import { useLanguage } from "@/lib/LanguageContext";
+import ManaoLogo from "@/components/ManaoLogo";
 
 export default function HomePage() {
   const router = useRouter();
@@ -94,8 +95,8 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative text-white overflow-hidden">
+      {/* Hero Section - Splash Screen */}
+      <section className="relative text-white overflow-hidden h-screen flex items-center justify-center">
         {/* Rotating background images */}
         {heroImages.map((src, i) => (
           <div
@@ -104,32 +105,69 @@ export default function HomePage() {
             style={{ backgroundImage: `url('${src}')`, opacity: i === heroIdx ? 1 : 0 }}
           />
         ))}
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/55" />
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36 relative">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-5 drop-shadow-lg" style={{ fontFamily: "'Fraunces', 'Playfair Display', Georgia, serif" }}>
-              {t("home.hero.title")}
-            </h1>
-            <p className="text-lg text-white/80 mb-10 leading-relaxed max-w-2xl">
-              {t("home.hero.subtitle")}
-            </p>
+        {/* Logo and Title - Centered */}
+        <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
+          {/* MANAIO Logo */}
+          <div className="flex justify-center mb-8 drop-shadow-2xl animate-fade-in">
+            <ManaoLogo width={160} height={160} className="drop-shadow-2xl" />
           </div>
 
-          {/* Dot indicators */}
-          <div className="flex gap-2 mb-8">
-            {heroImages.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setHeroIdx(i)}
-                className={`w-2 h-2 rounded-full transition-all ${i === heroIdx ? "bg-white w-6" : "bg-white/40"}`}
-              />
-            ))}
-          </div>
+          {/* MANAIO Text */}
+          <h1
+            className="text-5xl md:text-7xl font-bold mb-4 drop-shadow-2xl tracking-wider"
+            style={{ fontFamily: "'Fraunces', 'Playfair Display', Georgia, serif" }}
+          >
+            MANAIO
+          </h1>
 
+          {/* Slogan */}
+          <p className="text-2xl md:text-3xl text-primary-300 mb-8 font-light tracking-wide">
+            Greek Real Estate Investment
+          </p>
+
+          {/* Subtitle */}
+          <p className="text-xl md:text-2xl text-white/90 mb-12 font-light leading-relaxed">
+            {t("home.hero.title")}
+          </p>
+          <p className="text-lg text-white/75 mb-12 leading-relaxed max-w-2xl mx-auto">
+            {t("home.hero.subtitle")}
+          </p>
+
+          {/* CTA Button */}
+          <button
+            onClick={() => {
+              const searchForm = document.querySelector("form");
+              searchForm?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-8 py-3.5 rounded-xl font-semibold text-lg transition-all duration-300 shadow-2xl hover:shadow-primary-500/50 hover:scale-105 mb-12 drop-shadow-lg"
+          >
+            {t("home.search.button")}
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Dot indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+          {heroImages.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setHeroIdx(i)}
+              className={`w-2 h-2 rounded-full transition-all ${i === heroIdx ? "bg-white w-6" : "bg-white/40 hover:bg-white/60"}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Search Bar Section */}
+      <section className="relative -mt-20 mb-20 px-4 sm:px-6 lg:px-8 z-20">
+        <div className="max-w-4xl mx-auto">
           {/* Search Bar */}
-          <form onSubmit={handleSearch} dir={dir} className="bg-white rounded-2xl p-4 md:p-5 shadow-xl shadow-black/25 max-w-4xl">
+          <form onSubmit={handleSearch} dir={dir} className="bg-white rounded-2xl p-4 md:p-5 shadow-xl shadow-black/25">
             {/* Main row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
               <div>
