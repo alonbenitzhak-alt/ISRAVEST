@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
+import { blogPosts } from "@/lib/blogData";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mymanaio.com";
 
@@ -12,10 +13,6 @@ const staticPages = [
   "/calculator",
   "/compare",
   "/blog",
-  "/blog/guide-to-investing-in-greek-real-estate",
-  "/blog/tax-benefits-international-real-estate",
-  "/blog/cyprus-residency-through-investment",
-  "/blog/5-mistakes-first-time-international-investors",
   "/about",
   "/how-it-works",
   "/contact",
@@ -31,6 +28,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
     changeFrequency: path === "" || path === "/properties" ? "daily" : "weekly",
     priority: path === "" ? 1 : path === "/properties" ? 0.9 : 0.7,
+  }));
+
+  // Add blog posts to sitemap
+  const blogEntries: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly",
+    priority: 0.8,
   }));
 
   try {
@@ -51,8 +56,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
-    return [...staticEntries, ...propertyEntries];
+    return [...staticEntries, ...blogEntries, ...propertyEntries];
   } catch {
-    return staticEntries;
+    return [...staticEntries, ...blogEntries];
   }
 }

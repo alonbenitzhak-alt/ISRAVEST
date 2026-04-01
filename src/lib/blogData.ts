@@ -3,6 +3,8 @@ interface BlogPostData {
   slug: string;
   title: { he: string; en: string };
   excerpt: { he: string; en: string };
+  metaDescription: { he: string; en: string };
+  keywords: { he: string[]; en: string[] };
   content: { he: string; en: string };
   category: { he: string; en: string };
   cover: string;
@@ -22,6 +24,14 @@ export const blogPosts: BlogPostData[] = [
     excerpt: {
       he: "יוון הפכה לאחת היעדים הנדל\"ניים הפופולריים ביותר בקרב משקיעים ישראלים. אבל איך בדיוק נראה התהליך? מה העלויות האמיתיות? ומה חשוב לבדוק לפני שחותמים?",
       en: "Greece has become one of the most sought-after real estate destinations for Israeli investors. But what does the process actually look like, what are the real costs, and what should you check before signing?",
+    },
+    metaDescription: {
+      he: "גלה את כל הדרוש לכך כדי לקנות נכס ביוון: דרישות AFM, עלויות רישום, ויזת זהב וטיפים מעשיים משטח",
+      en: "Complete guide to buying property in Greece: AFM requirements, registration costs, golden visa, and practical tips for Israeli investors",
+    },
+    keywords: {
+      he: ["קנייה נכס ביוון", "השקעה בנדלן ביוון", "ויזת זהב", "מדריך רכישה", "ישראלים ביוון"],
+      en: ["buy property Greece", "real estate investment Greece", "golden visa Greece", "how to buy in Greece", "Israeli investors"],
     },
     content: {
       he: `<p>יוון מושכת משקיעים ישראלים כבר כמה שנים טובות — שילוב של מחירים תחרותיים, ביקוש שכירות גבוה מתיירים, ותוכנית ה-Golden Visa שפתחה דלתות לתושבי קבע. אבל רכישת נכס במדינה זרה דורשת הכנה. הנה מה שצריך לדעת.</p>
@@ -123,6 +133,14 @@ export const blogPosts: BlogPostData[] = [
     excerpt: {
       he: "קפריסין היא אחת היעדים הנדל\"ניים הקרובים והנוחים ביותר למשקיעים ישראלים — 40 דקות טיסה, סביבה אנגלופונית ומשפט מבוסס common law. הנה כל מה שצריך לדעת לפני שרוכשים.",
       en: "Cyprus is one of the most accessible real estate destinations for Israeli investors — a 40-minute flight, an English-speaking environment, and a legal system rooted in common law. Here's everything you need to know before buying.",
+    },
+    metaDescription: {
+      he: "מדריך מלא לרכישת נכס בקפריסין: דרישות משפטיות, מס בולים, רישום מקרקעין וטיפים למשקיעים ישראלים",
+      en: "Complete guide to buying property in Cyprus: legal requirements, stamp duty, land registry, and tips for Israeli investors",
+    },
+    keywords: {
+      he: ["קנייה נכס בקפריסין", "השקעה בנדלן קפריסין", "לימסול פאפוס", "מדריך רכישה", "ישראלים בקפריסין"],
+      en: ["buy property Cyprus", "real estate investment Cyprus", "Limassol Paphos", "how to buy in Cyprus", "Israeli investors Cyprus"],
     },
     content: {
       he: `<p>קפריסין מושכת משקיעים ישראלים בעיקר בשל הקרבה הגיאוגרפית, השפה האנגלית כשפת עסקים, ומערכת משפטית המבוססת על ה-common law הבריטי — מה שמקל על הבנת הנהלים בהשוואה למדינות אירופאיות אחרות. לימסול ופאפוס הן הערים המובילות לרכישה, עם שוק שכירות פעיל ועלייה עקבית במחירים בשנים האחרונות.</p>
