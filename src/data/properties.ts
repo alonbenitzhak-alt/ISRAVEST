@@ -97,12 +97,12 @@ export const properties: Property[] = [
     id: "3",
     property_number: "19483001",
     title: "Renovated Traditional House in Crete",
-    title_he: "בית מסורתי משוחזר בכרט",
+    title_he: "בית מסורתי משוחזר בכרתים",
     translations: {
       he: {
-        title: "בית מסורתי משוחזר בכרט",
+        title: "בית מסורתי משוחזר בכרתים",
         description:
-          "בית מסורתי קרטי משוחזר בידי אדריכלים בינלאומיים. מכיל 4 חדרי שינה, כניסה פרטית וגינה מושקעת. הבית שומר על הסגנון המסורתי הקרטי עם טכנולוגיה ונוחות מודרנית. מיקום במרכז כרט קרוב לחופים וערים תוססות. אפשרויות להשכרה עונתית וגם לגור בעצמו. השקעה מוצקה בנכס עם פוטנציאל ארוך טווח.",
+          "בית מסורתי קרטי משוחזר בידי אדריכלים בינלאומיים. מכיל 4 חדרי שינה, כניסה פרטית וגינה מושקעת. הבית שומר על הסגנון המסורתי הקרטי עם טכנולוגיה ונוחות מודרנית. מיקום במרכז כרתים קרוב לחופים וערים תוססות. אפשרויות להשכרה עונתית או גם לגור בעצמו. השקעה מוצקה בנכס עם פוטנציאל ארוך טווח.",
       },
       el: {
         title: "Ανακαινισμένο Παραδοσιακό Σπίτι στην Κρήτη",
@@ -129,7 +129,7 @@ export const properties: Property[] = [
     description:
       "A traditional Cretan house renovated by international architects. Features 4 bedrooms, private entrance, and manicured garden. Maintains authentic Cretan architecture with modern technology and comforts. Located in central Crete near beautiful beaches and vibrant towns. Suitable for seasonal rentals or personal residence. A solid investment with strong long-term appreciation potential.",
     description_he:
-      "בית מסורתי קרטי משוחזר בידי אדריכלים בינלאומיים. מכיל 4 חדרי שינה, כניסה פרטית וגינה מושקעת. הבית שומר על הסגנון המסורתי הקרטי עם טכנולוגיה ונוחות מודרנית. מיקום במרכז כרט קרוב לחופים וערים תוססות. אפשרויות להשכרה עונתית או גם לגור בעצמו. השקעה מוצקה בנכס עם פוטנציאל ארוך טווח.",
+      "בית מסורתי קרטי משוחזר בידי אדריכלים בינלאומיים. מכיל 4 חדרי שינה, כניסה פרטית וגינה מושקעת. הבית שומר על הסגנון המסורתי הקרטי עם טכנולוגיה ונוחות מודרנית. מיקום במרכז כרתים קרוב לחופים וערים תוססות. אפשרויות להשכרה עונתית או גם לגור בעצמו. השקעה מוצקה בנכס עם פוטנציאל ארוך טווח.",
     images: [
       "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop",
@@ -235,12 +235,12 @@ export const properties: Property[] = [
     id: "6",
     property_number: "19486001",
     title: "Contemporary Maisonette in Thessaloniki",
-    title_he: "דיור בן שתי קומות עכשווי בתסלוניקי",
+    title_he: "דיור בן שתי קומות עכשווי בסלוניקי",
     translations: {
       he: {
-        title: "דיור בן שתי קומות עכשווי בתסלוניקי",
+        title: "דיור בן שתי קומות עכשווי בסלוניקי",
         description:
-          "דיור בן שתי קומות עכשווי בתסלוניקי עם 3 חדרי שינה וגינה פרטית. הנכס משתרע על שתי קומות עם סלון מרווח וחדר מדיה. ממוקם בשכונה עכשווית קרוב למרכז העסקים וחיי הלילה. תסלוניקי היא העיר השנייה בגודלה ביוון עם קצב צמיחה מהיר. השקעה מעולה למגורים וגם להשכרה קצרת מועד. פוטנציאל משוער עם צמיחה של השוק הכללי.",
+          "דיור בן שתי קומות עכשווי בסלוניקי עם 3 חדרי שינה וגינה פרטית. הנכס משתרע על שתי קומות עם סלון מרווח וחדר מדיה. ממוקם בשכונה עכשווית קרוב למרכז העסקים וחיי הלילה. סלוניקי היא העיר השנייה בגודלה ביוון עם קצב צמיחה מהיר. השקעה מעולה למגורים וגם להשכרה קצרת מועד. פוטנציאל משוער עם צמיחה של השוק הכללי.",
       },
       el: {
         title: "Σύγχρονο Μαιονέτα στη Θεσσαλονίκη",
@@ -267,7 +267,7 @@ export const properties: Property[] = [
     description:
       "A contemporary two-level maisonette in Thessaloniki with 3 bedrooms and private garden. The property spans two floors with spacious living area and media room. Located in a modern neighborhood close to the business district and vibrant nightlife. Thessaloniki is Greece's second-largest city with rapid development. Perfect combination of residential living and short-term rental potential. Strong market appreciation with the city's ongoing growth.",
     description_he:
-      "דיור בן שתי קומות עכשווי בתסלוניקי עם 3 חדרי שינה וגינה פרטית. הנכס משתרע על שתי קומות עם סלון מרווח וחדר מדיה. ממוקם בשכונה עכשווית קרוב למרכז העסקים וחיי הלילה. תסלוניקי היא העיר השנייה בגודלה ביוון עם קצב צמיחה מהיר. השקעה מעולה למגורים וגם להשכרה קצרת מועד. פוטנציאל משוער עם צמיחה של השוק הכללי.",
+      "דיור בן שתי קומות עכשווי בסלוניקי עם 3 חדרי שינה וגינה פרטית. הנכס משתרע על שתי קומות עם סלון מרווח וחדר מדיה. ממוקם בשכונה עכשווית קרוב למרכז העסקים וחיי הלילה. סלוניקי היא העיר השנייה בגודלה ביוון עם קצב צמיחה מהיר. השקעה מעולה למגורים וגם להשכרה קצרת מועד. פוטנציאל משוער עם צמיחה של השוק הכללי.",
     images: [
       "https://images.unsplash.com/photo-1512623538486-d4bc4b7ce888?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1540932239986-310128078ceb?w=800&h=600&fit=crop",
