@@ -25,7 +25,23 @@ export default function PropertyDetailsPage({
   const property = properties.find((p) => p.id === id);
   const [selectedImage, setSelectedImage] = useState(0);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const { t, lang } = useLanguage();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxOpen) return;
+      if (e.key === "ArrowLeft") {
+        setSelectedImage((prev) => (prev === 0 ? property.images.length - 1 : prev - 1));
+      } else if (e.key === "ArrowRight") {
+        setSelectedImage((prev) => (prev === property.images.length - 1 ? 0 : prev + 1));
+      } else if (e.key === "Escape") {
+        setLightboxOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxOpen, property?.images.length]);
 
   const adminWhatsapp = process.env.NEXT_PUBLIC_ADMIN_WHATSAPP || "972586836555";
 
@@ -72,14 +88,14 @@ export default function PropertyDetailsPage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2">
             <div className="mb-8">
-              <div className="rounded-2xl overflow-hidden h-[280px] sm:h-[400px] md:h-[550px] mb-3 relative bg-gray-300">
+              <button onClick={() => setLightboxOpen(true)} className="rounded-2xl overflow-hidden h-[280px] sm:h-[400px] md:h-[550px] mb-3 relative bg-gray-300 w-full group cursor-zoom-in hover:shadow-2xl transition-shadow">
                 {!imageErrors[selectedImage] ? (
                   <Image
                     src={property.images[selectedImage]}
                     alt={displayTitle}
                     fill
                     priority={selectedImage === 0}
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 1024px) 100vw, 66vw"
                     quality={90}
                     onError={() => setImageErrors({...imageErrors, [selectedImage]: true})}
@@ -92,6 +108,11 @@ export default function PropertyDetailsPage({
                     </div>
                   </div>
                 )}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                  <svg className="w-8 h-8 sm:w-12 sm:h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 13H7" />
+                  </svg>
+                </div>
                 {property.is_demo && (
                   <div className="absolute top-2 sm:top-4 start-2 sm:start-4 z-10">
                     <span className="bg-red-600 text-white text-sm sm:text-lg font-bold px-3 sm:px-6 py-1 sm:py-2 rounded-full shadow-lg">
@@ -99,7 +120,7 @@ export default function PropertyDetailsPage({
                     </span>
                   </div>
                 )}
-              </div>
+              </button>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {property.images.map((img, i) => (
                   <button
@@ -284,6 +305,85 @@ export default function PropertyDetailsPage({
         </div>
       </div>
 
+      {/* Lightbox Modal */}
+      {lightboxOpen && (
+        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setLightboxOpen(false)}>
+          {/* Close button */}
+          <button
+            onClick={() => setLightboxOpen(false)}
+            className="absolute top-4 right-4 z-10 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Image Counter */}
+          <div className="absolute top-4 left-4 z-10 bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm">
+            {selectedImage + 1} / {property.images.length}
+          </div>
+
+          {/* Main image */}
+          <div className="relative w-full h-full max-w-6xl max-h-[90vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={property.images[selectedImage]}
+              alt={displayTitle}
+              fill
+              className="object-contain"
+              sizes="100vw"
+              quality={95}
+            />
+          </div>
+
+          {/* Navigation arrows */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage((prev) => (prev === 0 ? property.images.length - 1 : prev - 1));
+            }}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition-colors z-10"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage((prev) => (prev === property.images.length - 1 ? 0 : prev + 1));
+            }}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition-colors z-10"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Thumbnail strip at bottom */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/40 p-3 rounded-xl backdrop-blur-sm max-w-[90vw] overflow-x-auto z-10">
+            {property.images.map((img, i) => (
+              <button
+                key={i}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedImage(i);
+                }}
+                className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 ${
+                  i === selectedImage ? "border-white ring-2 ring-white/50" : "border-white/30 hover:border-white/60"
+                }`}
+              >
+                <Image src={img} alt="" fill className="object-cover" sizes="64px" />
+              </button>
+            ))}
+          </div>
+
+          {/* Keyboard hint */}
+          <div className="absolute bottom-4 right-4 text-white/60 text-sm hidden sm:block">
+            {lang === "he" ? "חצים לנווט • Esc לסגור" : "Use arrows to navigate • ESC to close"}
+          </div>
+        </div>
+      )}
     </>
   );
 }
