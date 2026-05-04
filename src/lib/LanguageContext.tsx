@@ -646,6 +646,8 @@ const elTranslations: Record<string, string> = {
   "propertyType.studio": "Στούντιο",
   "propertyType.penthouse": "Πεντχάους",
   "propertyType.house": "Σπίτι",
+  "propertyType.detachedhouse": "Αυτόνομο Σπίτι",
+  "propertyType.maisonette": "Μαιζονέτα",
   "propertyType.land": "Οικόπεδο",
   // Common
   "common.loading": "Φόρτωση...",
@@ -1413,6 +1415,8 @@ const ruTranslations: Record<string, string> = {
   "propertyType.studio": "Студия",
   "propertyType.penthouse": "Пентхаус",
   "propertyType.house": "Дом",
+  "propertyType.detachedhouse": "Отдельный дом",
+  "propertyType.maisonette": "Дуплекс",
   "propertyType.land": "Участок",
   // Common
   "common.loading": "Загрузка...",
@@ -2180,6 +2184,8 @@ const arTranslations: Record<string, string> = {
   "propertyType.studio": "استوديو",
   "propertyType.penthouse": "بنتهاوس",
   "propertyType.house": "منزل",
+  "propertyType.detachedhouse": "منزل مستقل",
+  "propertyType.maisonette": "ماسيونيت",
   "propertyType.land": "أرض",
   // Common
   "common.loading": "جاري التحميل...",
@@ -2833,6 +2839,8 @@ const translations: Record<string, Record<string, string>> = {
     "propertyType.studio": "סטודיו",
     "propertyType.penthouse": "פנטהאוס",
     "propertyType.house": "בית",
+    "propertyType.detachedhouse": "בית פרטי",
+    "propertyType.maisonette": "מייזונט",
     "propertyType.land": "קרקע",
 
     // Admin tabs & stats
@@ -3655,6 +3663,8 @@ const translations: Record<string, Record<string, string>> = {
     "propertyType.studio": "Studio",
     "propertyType.penthouse": "Penthouse",
     "propertyType.house": "House",
+    "propertyType.detachedhouse": "Detached House",
+    "propertyType.maisonette": "Maisonette",
     "propertyType.land": "Land",
 
     // Admin tabs & stats
