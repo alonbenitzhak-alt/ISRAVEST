@@ -1,7 +1,6 @@
 "use client";
 
 import { use, useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { useProperties } from "@/lib/PropertiesContext";
@@ -12,8 +11,6 @@ import { getAmenityTranslation } from "@/lib/amenitiesTranslations";
 import { trackPropertyClick } from "@/lib/analytics";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
-
-const PropertyMap = dynamic(() => import("@/components/PropertyMap"), { ssr: false });
 
 export default function PropertyDetailsPage({
   params,
@@ -291,9 +288,6 @@ export default function PropertyDetailsPage({
                 </div>
               </div>
 
-              <div className="h-64 rounded-2xl overflow-hidden mb-4">
-                <PropertyMap city={property.city} country={property.country} title={displayTitle} />
-              </div>
             </div>
           </div>
 
