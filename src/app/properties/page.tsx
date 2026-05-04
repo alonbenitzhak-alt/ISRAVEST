@@ -98,7 +98,7 @@ function PropertiesContent() {
           <select value={filters.propertyType} onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })} className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-primary-500 outline-none bg-white">
             <option value="">{t("properties.filter.allTypes")}</option>
             {uniqueTypes.map((type) => (
-              <option key={type} value={type}>{t(`propertyType.${type.toLowerCase()}`) || type}</option>
+              <option key={type} value={type}>{t(`propertyType.${type.toLowerCase().replace(/\s+/g, '')}`) || type}</option>
             ))}
           </select>
         </div>
