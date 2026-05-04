@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import { Property } from "@/lib/types";
 
 // Fix Leaflet default icon issue in Next.js
