@@ -27,7 +27,7 @@ export default function PropertyDetailsPage({
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!lightboxOpen) return;
+      if (!lightboxOpen || !property) return;
       if (e.key === "ArrowLeft") {
         setSelectedImage((prev) => (prev === 0 ? property.images.length - 1 : prev - 1));
       } else if (e.key === "ArrowRight") {
@@ -38,7 +38,7 @@ export default function PropertyDetailsPage({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lightboxOpen, property?.images.length]);
+  }, [lightboxOpen, property]);
 
   const adminWhatsapp = process.env.NEXT_PUBLIC_ADMIN_WHATSAPP || "972586836555";
 
