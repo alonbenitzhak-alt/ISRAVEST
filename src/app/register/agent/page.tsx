@@ -104,24 +104,31 @@ export default function AgentRegisterPage() {
           // Upload license (store path only — admin accesses via signed URL)
           const licenseExt = licenseFile.name.split(".").pop()?.toLowerCase();
           const licensePath = `${currentUser.id}/license.${licenseExt}`;
-          const { data: licenseUpload } = await supabase.storage
+          const { data: licenseUpload, error: licenseError } = await supabase.storage
             .from("agent-licenses")
             .upload(licensePath, licenseFile, { upsert: true });
-          if (licenseUpload) {
+          if (licenseError) {
+            console.error("License upload failed:", licenseError);
+          } else if (licenseUpload) {
             updates.license_url = licensePath;
           }
 
           // Upload ID card (store path only — admin accesses via signed URL)
           const idExt = idFile.name.split(".").pop()?.toLowerCase();
           const idPath = `${currentUser.id}/id.${idExt}`;
-          const { data: idUpload } = await supabase.storage
+          const { data: idUpload, error: idError } = await supabase.storage
             .from("agent-licenses")
             .upload(idPath, idFile, { upsert: true });
-          if (idUpload) {
+          if (idError) {
+            console.error("ID upload failed:", idError);
+          } else if (idUpload) {
             updates.id_url = idPath;
           }
 
-          await supabase.from("profiles").update(updates).eq("id", currentUser.id);
+          const { error: updateError } = await supabase.from("profiles").update(updates).eq("id", currentUser.id);
+          if (updateError) {
+            console.error("Profile update failed:", updateError);
+          }
 
           fetch("/api/notify-admin-new-agent", {
             method: "POST",
@@ -129,8 +136,8 @@ export default function AgentRegisterPage() {
             body: JSON.stringify({ email, name: fullName || email, company }),
           }).catch(() => null);
         }
-      } catch {
-        // Storage not configured — registration still proceeds
+      } catch (error) {
+        console.error("Registration error:", error);
       }
 
       setSubmitted(true);

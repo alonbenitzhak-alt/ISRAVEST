@@ -24,12 +24,16 @@ export async function GET(req: NextRequest) {
 
   const { data, error } = await supabaseAdmin
     .from("profiles")
-    .select("id, email, full_name, phone, company, license_url, id_url, partnership_signed, created_at")
+    .select("id, email, full_name, phone, company, license_url, id_url, partnership_signed, created_at, approved")
     .eq("role", "agent")
     .or("approved.is.null,approved.eq.false")
     .order("created_at", { ascending: false });
 
-  if (error) return NextResponse.json({ error: "Failed to fetch agents" }, { status: 500 });
+  if (error) {
+    console.error("Failed to fetch agents:", error);
+    return NextResponse.json({ error: "Failed to fetch agents", details: error.message }, { status: 500 });
+  }
+
   return NextResponse.json({ agents: data });
 }
 

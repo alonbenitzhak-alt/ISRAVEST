@@ -759,7 +759,7 @@ function PendingAgentsTab() {
                 </div>
 
                 {/* Documents & contract status */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
                   <DocStatus
                     url={agent.license_url}
                     label={t("admin.brokerLicense")}
@@ -801,6 +801,18 @@ function PendingAgentsTab() {
                     </div>
                   )}
                 </div>
+
+                {/* Missing documents explanation */}
+                {!allDocsOk && (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
+                    <p className="font-semibold mb-2">❌ {lang === "he" ? "חסרים מסמכים:" : "Missing documents:"}</p>
+                    <ul className="space-y-1 text-xs">
+                      {!agent.license_url && <li>• {lang === "he" ? "רישיון תיווך" : "Broker license"}</li>}
+                      {!agent.id_url && <li>• {lang === "he" ? "תז/דרכון" : "ID/Passport"}</li>}
+                      {!agent.partnership_signed && <li>• {lang === "he" ? "חתימה על הסכם השותפות" : "Partnership agreement signature"}</li>}
+                    </ul>
+                  </div>
+                )}
               </div>
             );
           })}
