@@ -9,6 +9,7 @@ import LeadForm from "@/components/LeadForm";
 import ShareButtons from "@/components/ShareButtons";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getAmenityTranslation } from "@/lib/amenitiesTranslations";
+import { trackPropertyClick } from "@/lib/analytics";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 
@@ -287,6 +288,7 @@ export default function PropertyDetailsPage({
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => {
+                        trackPropertyClick(property.id, "whatsapp");
                         supabase
                           .from("properties")
                           .update({ clicks_count: (property.clicks_count || 0) + 1 })
@@ -325,6 +327,7 @@ export default function PropertyDetailsPage({
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => {
+            trackPropertyClick(property.id, "whatsapp");
             supabase
               .from("properties")
               .update({ clicks_count: (property.clicks_count || 0) + 1 })

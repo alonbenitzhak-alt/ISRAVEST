@@ -3,12 +3,15 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
+import { trackLeadSubmission } from "@/lib/analytics";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 
 export default function LeadForm({ propertyId }: { propertyId: string }) {
   const { t } = useLanguage();
   const { user, profile } = useAuth();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [budget, setBudget] = useState("");
   const [message, setMessage] = useState("");
@@ -16,31 +19,10 @@ export default function LeadForm({ propertyId }: { propertyId: string }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
+    if (user && profile?.full_name) setName(profile.full_name);
+    if (user && profile?.email) setEmail(profile.email);
     if (profile?.phone) setPhone(profile.phone);
-  }, [profile]);
-
-  // Not logged in — show login gate
-  if (!user) {
-    return (
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 md:p-8 text-center">
-        <div className="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        </div>
-        <h3 className="text-lg font-bold text-gray-900 mb-2">{t("detail.requestDetails")}</h3>
-        <p className="text-sm text-gray-500 mb-5">{t("form.loginToSubmit")}</p>
-        <div className="flex gap-3 justify-center">
-          <Link href="/login" className="bg-primary-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors">
-            {t("nav.login")}
-          </Link>
-          <Link href="/register/buyer" className="border border-primary-600 text-primary-600 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-primary-50 transition-colors">
-            {t("nav.register")}
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  }, [profile, user]);
 
   if (status === "success") {
     return (
@@ -70,10 +52,12 @@ export default function LeadForm({ propertyId }: { propertyId: string }) {
         },
         body: JSON.stringify({
           property_id: propertyId,
+          name,
+          email,
           phone,
           investment_budget: budget,
           message,
-          buyer_id: user.id,
+          buyer_id: user?.id || null,
         }),
       });
       const data = await res.json();
@@ -82,6 +66,7 @@ export default function LeadForm({ propertyId }: { propertyId: string }) {
         setStatus("error");
         return;
       }
+      trackLeadSubmission(propertyId);
       setStatus("success");
     } catch {
       setErrorMsg(t("form.error"));
@@ -94,19 +79,47 @@ export default function LeadForm({ propertyId }: { propertyId: string }) {
       <h3 className="text-xl font-bold text-gray-900 mb-1">{t("detail.requestDetails")}</h3>
       <p className="text-sm text-gray-500 mb-5">{t("detail.formSubtitle")}</p>
 
-      {/* Auto-filled sender info */}
-      <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100 mb-5">
-        <div className="w-9 h-9 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
-          {(profile?.full_name || user.email || "?").charAt(0).toUpperCase()}
+      {/* Auto-filled sender info (only show if logged in) */}
+      {user && (
+        <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100 mb-5">
+          <div className="w-9 h-9 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+            {(profile?.full_name || user.email || "?").charAt(0).toUpperCase()}
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-medium text-gray-900 truncate">{profile?.full_name || "—"}</p>
+            <p className="text-xs text-gray-400 truncate">{user.email}</p>
+          </div>
+          <span className="ml-auto text-xs text-gray-400 shrink-0">{t("form.autoFilled")}</span>
         </div>
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-gray-900 truncate">{profile?.full_name || "—"}</p>
-          <p className="text-xs text-gray-400 truncate">{user.email}</p>
-        </div>
-        <span className="ml-auto text-xs text-gray-400 shrink-0">{t("form.autoFilled")}</span>
-      </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {!user && (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">שם מלא *</label>
+              <input
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
+                placeholder="הכנס שם"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">מייל *</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
+                placeholder="your@email.com"
+              />
+            </div>
+          </>
+        )}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">{t("form.phone")}</label>
           <input
