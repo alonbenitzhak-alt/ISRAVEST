@@ -1,6 +1,6 @@
 export function trackEvent(
   eventName: string,
-  eventParams?: Record<string, string | number | boolean>
+  eventParams?: Record<string, any>
 ) {
   if (typeof window === "undefined") return;
 
