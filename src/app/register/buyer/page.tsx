@@ -11,7 +11,7 @@ export default function BuyerRegisterPage() {
   const { signIn, signUp, user } = useAuth();
   const { t, lang } = useLanguage();
   const router = useRouter();
-  const [mode, setMode] = useState<"register" | "login">("register");
+  const [mode, setMode] = useState<"register" | "login" | "forgot-password">("register");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstNameEn, setFirstNameEn] = useState("");
@@ -24,6 +24,7 @@ export default function BuyerRegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
 
   // Redirect if already logged in
   if (user) {
@@ -36,6 +37,20 @@ export default function BuyerRegisterPage() {
     setError("");
     setSuccess("");
     setLoading(true);
+
+    if (mode === "forgot-password") {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      });
+      if (error) {
+        setError(error.message);
+      } else {
+        setSuccess(t("auth.resetSent") || "Password reset link sent to your email. Please check your inbox.");
+        setResetEmail("");
+      }
+      setLoading(false);
+      return;
+    }
 
     if (mode === "register") {
       if (!agreedToTerms) {
@@ -131,10 +146,10 @@ export default function BuyerRegisterPage() {
               <img src="/logo.svg" alt="MANAIO" className="h-16 w-auto mx-auto" />
             </Link>
             <h2 className="text-2xl font-bold text-gray-900">
-              {mode === "register" ? t("register.buyer.title") : t("auth.signIn")}
+              {mode === "register" ? t("register.buyer.title") : mode === "login" ? t("auth.signIn") : t("auth.resetPassword")}
             </h2>
             <p className="text-gray-500 mt-2">
-              {mode === "register" ? t("register.buyer.subtitle") : t("auth.signInDesc")}
+              {mode === "register" ? t("register.buyer.subtitle") : mode === "login" ? t("auth.signInDesc") : t("auth.resetPasswordDesc")}
             </p>
           </div>
 
@@ -175,14 +190,27 @@ export default function BuyerRegisterPage() {
                 </div>
               </>
             )}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t("form.email")} *</label>
-              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("form.emailPlaceholder")} />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t("auth.password")} *</label>
-              <input type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("auth.passwordPlaceholder")} />
-            </div>
+
+            {mode !== "forgot-password" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("form.email")} *</label>
+                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("form.emailPlaceholder")} />
+              </div>
+            )}
+
+            {mode === "forgot-password" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("form.email")} *</label>
+                <input type="email" required value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("form.emailPlaceholder")} />
+              </div>
+            )}
+
+            {mode !== "forgot-password" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("auth.password")} *</label>
+                <input type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder={t("auth.passwordPlaceholder")} />
+              </div>
+            )}
 
             {/* Terms of Service — shown only on register mode */}
             {mode === "register" && (
@@ -208,21 +236,34 @@ export default function BuyerRegisterPage() {
             {success && <p className="text-accent-600 text-sm">{success}</p>}
 
             <button type="submit" disabled={loading} className="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors disabled:opacity-50">
-              {loading ? t("auth.pleaseWait") : mode === "register" ? t("register.buyer.submit") : t("auth.signIn")}
+              {loading ? t("auth.pleaseWait") : mode === "register" ? t("register.buyer.submit") : mode === "login" ? t("auth.signIn") : t("auth.sendReset")}
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="mt-6 space-y-3 text-center text-sm text-gray-500">
             {mode === "register" ? (
               <>
                 {t("auth.hasAccount")}{" "}
                 <button onClick={() => { setMode("login"); setError(""); setSuccess(""); }} className="text-primary-600 font-semibold hover:underline">{t("auth.signIn")}</button>
               </>
-            ) : (
+            ) : mode === "login" ? (
               <>
                 {t("auth.noAccount")}{" "}
                 <button onClick={() => { setMode("register"); setError(""); setSuccess(""); }} className="text-primary-600 font-semibold hover:underline">{t("auth.signUp")}</button>
               </>
+            ) : (
+              <>
+                {t("auth.rememberPassword")}{" "}
+                <button onClick={() => { setMode("login"); setError(""); setSuccess(""); }} className="text-primary-600 font-semibold hover:underline">{t("auth.backToSignIn")}</button>
+              </>
+            )}
+
+            {mode === "login" && (
+              <div>
+                <button onClick={() => { setMode("forgot-password"); setError(""); setSuccess(""); }} className="text-primary-600 font-semibold hover:underline">
+                  {t("auth.forgotPassword")}
+                </button>
+              </div>
             )}
           </div>
 
