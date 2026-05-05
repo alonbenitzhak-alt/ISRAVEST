@@ -25,15 +25,22 @@ export async function POST(req: NextRequest) {
   try {
     const { data, error } = await supabase.auth.admin.listUsers();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase listUsers error:", error);
+      throw error;
+    }
 
-    const exists = data.users?.some((u) => u.email === email);
+    if (!data || !data.users) {
+      console.error("No users data returned from Supabase");
+      return NextResponse.json({ exists: false });
+    }
+
+    const exists = data.users.some((u) => u.email?.toLowerCase() === email.toLowerCase());
+    console.log(`Email check for ${email}: ${exists}`);
     return NextResponse.json({ exists });
   } catch (error) {
     console.error("Error checking email:", error);
-    return NextResponse.json(
-      { error: "Failed to check email" },
-      { status: 500 }
-    );
+    // Return false on error to prevent accidental password resets
+    return NextResponse.json({ exists: false });
   }
 }

@@ -40,12 +40,30 @@ export default function BuyerRegisterPage() {
 
     if (mode === "forgot-password") {
       // Check if email exists (security: prevent user enumeration)
-      const checkRes = await fetch("/api/check-email-exists", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: resetEmail }),
-      });
-      const { exists } = await checkRes.json();
+      let exists = false;
+      try {
+        const checkRes = await fetch("/api/check-email-exists", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: resetEmail }),
+        });
+
+        if (!checkRes.ok) {
+          console.error("Email check API error:", checkRes.status);
+          // On API error, don't send reset
+          setError("Unable to process password reset. Please try again later.");
+          setLoading(false);
+          return;
+        }
+
+        const response = await checkRes.json();
+        exists = response.exists || false;
+      } catch (err) {
+        console.error("Email check failed:", err);
+        setError("Unable to process password reset. Please try again later.");
+        setLoading(false);
+        return;
+      }
 
       // Always show same message (even if email doesn't exist) to prevent user enumeration
       const resetMessage =
