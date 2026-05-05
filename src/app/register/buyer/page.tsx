@@ -61,6 +61,7 @@ export default function BuyerRegisterPage() {
 
       // Send password reset via Supabase Auth configured with Resend SMTP
       // Email will come from noreply@mymanaio.com (not supabaseauth@supabase.io)
+      // See SUPABASE_SMTP_SETUP.md for configuration details
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
         redirectTo: `${window.location.origin}/auth/reset-password`,
       });
