@@ -39,7 +39,7 @@ export default function BuyerRegisterPage() {
     setLoading(true);
 
     if (mode === "forgot-password") {
-      // Check if email exists (security: prevent user enumeration + spam)
+      // Check if email exists (security: prevent user enumeration)
       let exists = false;
       try {
         const checkRes = await fetch("/api/check-email-exists", {
@@ -50,18 +50,16 @@ export default function BuyerRegisterPage() {
 
         if (!checkRes.ok) {
           console.error("Email check API error:", checkRes.status);
-          // On API error, NEVER send reset (security first)
+          // On API error, don't send reset
           setError("Unable to process password reset. Please try again later.");
           setLoading(false);
           return;
         }
 
         const response = await checkRes.json();
-        exists = response.exists === true; // Strict equality check
-        console.log("[PASSWORD-RESET] Email exists check:", { email: resetEmail, exists });
+        exists = response.exists || false;
       } catch (err) {
         console.error("Email check failed:", err);
-        // On any error, NEVER send reset (security first)
         setError("Unable to process password reset. Please try again later.");
         setLoading(false);
         return;
@@ -72,9 +70,7 @@ export default function BuyerRegisterPage() {
         t("auth.resetSent") ||
         "If this email exists in our system, a password reset link has been sent. Please check your inbox.";
 
-      // IMPORTANT: Only send reset if email definitely exists
       if (!exists) {
-        console.log("[PASSWORD-RESET] Email not found, showing fake success message");
         setSuccess(resetMessage);
         setResetEmail("");
         setLoading(false);
@@ -84,15 +80,12 @@ export default function BuyerRegisterPage() {
       // Send password reset via Supabase Auth configured with Resend SMTP
       // Email will come from noreply@mymanaio.com (not supabaseauth@supabase.io)
       // See SUPABASE_SMTP_SETUP.md for configuration details
-      console.log("[PASSWORD-RESET] Sending reset email to:", resetEmail);
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
         redirectTo: `${window.location.origin}/auth/reset-password`,
       });
       if (error) {
-        console.error("[PASSWORD-RESET] Error:", error.message);
         setError(error.message);
       } else {
-        console.log("[PASSWORD-RESET] Success!");
         setSuccess(resetMessage);
         setResetEmail("");
       }
