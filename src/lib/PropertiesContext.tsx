@@ -38,14 +38,32 @@ export function PropertiesProvider({ children }: { children: ReactNode }) {
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (!error && data && data.length > 0) {
-        setProperties(data);
-        setIsSupabaseConnected(true);
+      if (!error && data) {
+        // Determine if we should show demo properties
+        // Hide demo when we have 10+ real properties
+        const realProperties = data.filter(p => !p.is_demo);
+        const shouldHideDemo = realProperties.length >= 10;
+
+        if (data.length > 0) {
+          // Use real properties, don't mix with demo
+          setProperties(data);
+          setIsSupabaseConnected(true);
+        } else if (!shouldHideDemo) {
+          // Few or no real properties, show demo as placeholder
+          setProperties(staticProperties);
+          setIsSupabaseConnected(false);
+        } else {
+          // We have enough real properties, hide demo completely
+          setProperties(data);
+          setIsSupabaseConnected(true);
+        }
       } else {
+        // Query error, use demo properties
         setProperties(staticProperties);
         setIsSupabaseConnected(false);
       }
     } catch {
+      // Connection error, use demo properties
       setProperties(staticProperties);
       setIsSupabaseConnected(false);
     } finally {
