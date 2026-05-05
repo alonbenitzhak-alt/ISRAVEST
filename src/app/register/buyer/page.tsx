@@ -39,7 +39,27 @@ export default function BuyerRegisterPage() {
     setLoading(true);
 
     if (mode === "forgot-password") {
-      // Sends password reset via Supabase Auth configured with Resend SMTP
+      // Check if email exists (security: prevent user enumeration)
+      const checkRes = await fetch("/api/check-email-exists", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: resetEmail }),
+      });
+      const { exists } = await checkRes.json();
+
+      // Always show same message (even if email doesn't exist) to prevent user enumeration
+      const resetMessage =
+        t("auth.resetSent") ||
+        "If this email exists in our system, a password reset link has been sent. Please check your inbox.";
+
+      if (!exists) {
+        setSuccess(resetMessage);
+        setResetEmail("");
+        setLoading(false);
+        return;
+      }
+
+      // Send password reset via Supabase Auth configured with Resend SMTP
       // Email will come from noreply@mymanaio.com (not supabaseauth@supabase.io)
       // See SUPABASE_SMTP_SETUP.md for configuration details
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
@@ -48,7 +68,7 @@ export default function BuyerRegisterPage() {
       if (error) {
         setError(error.message);
       } else {
-        setSuccess(t("auth.resetSent") || "Password reset link sent to your email. Please check your inbox.");
+        setSuccess(resetMessage);
         setResetEmail("");
       }
       setLoading(false);
