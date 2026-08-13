@@ -1,6 +1,7 @@
 {
-  "name": "manaio",
+  "name": "hapoel-digital-museum",
   "version": "1.0.0",
+  "description": "מוזיאום דיגיטלי של הפועל - שירים, משחקים, סגלים וחולצות",
   "private": true,
   "scripts": {
     "dev": "next dev",

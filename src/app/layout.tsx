@@ -1,70 +1,14 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import AIChatWidget from "@/components/AIChatWidget";
-import CookieBanner from "@/components/CookieBanner";
-import { Providers } from "./providers";
-import { LayoutWrapper } from "./layout-wrapper";
-
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mymanaio.com";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: {
-    default: "MANAIO - השקעות נדל\"ן בחו\"ל למשקיעים ישראלים",
-    template: "%s | MANAIO",
-  },
-  description:
-    "פלטפורמת ההשקעות המובילה לנדל\"ן בחו\"ל. השקיעו בנכסים ביוון וקפריסין עם ליווי מומחים, מחשבון תשואה ותמחור שקוף.",
-  keywords: [
-    "השקעות נדל\"ן", "נדל\"ן בחו\"ל", "השקעות ביוון", "דירה בקפריסין",
-    "השקעות נדל\"ן לישראלים", "תשואה על נדל\"ן", "real estate investment", "MANAIO",
-  ],
-  metadataBase: new URL(SITE_URL),
+  title: "מוזיאום הפועל הדיגיטלי | Hapoel Digital Museum",
+  description: "מוזיאום דיגיטלי של הפועל - שירים, משחקים, סגלים וחולצות לאורך ההיסטוריה",
   openGraph: {
+    title: "מוזיאום הפועל הדיגיטלי",
+    description: "מוזיאום דיגיטלי של הפועל - שירים, משחקים, סגלים וחולצות",
     type: "website",
-    locale: "he_IL",
-    alternateLocale: "en_US",
-    url: SITE_URL,
-    siteName: "MANAIO",
-    title: "MANAIO - השקעות נדל\"ן בחו\"ל למשקיעים ישראלים",
-    description: "פלטפורמת ההשקעות המובילה לנדל\"ן בחו\"ל. נכסים ביוון וקפריסין.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "MANAIO - השקעות נדל\"ן גלובליות",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "MANAIO - השקעות נדל\"ן בחו\"ל",
-    description: "פלטפורמת ההשקעות המובילה לנדל\"ן בחו\"ל למשקיעים ישראלים",
-    images: ["/og-image.png"],
-  },
-  icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: "/icon.svg",
-    apple: "/icon.svg",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  alternates: {
-    canonical: SITE_URL,
   },
 };
 
@@ -75,61 +19,61 @@ export default function RootLayout({
 }) {
   return (
     <html lang="he" dir="rtl">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossOrigin=""
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "MANAIO",
-              description: "פלטפורמת השקעות נדל\"ן בינלאומית למשקיעים ישראלים",
-              url: SITE_URL,
-              logo: {
-                "@type": "ImageObject",
-                url: `${SITE_URL}/logo.svg`,
-                width: 540,
-                height: 345,
-              },
-              image: `${SITE_URL}/logo.svg`,
-              areaServed: ["Greece", "Cyprus"],
-              serviceType: "Real Estate Investment Platform",
-            }),
-          }}
-        />
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}');
-              `}
-            </Script>
-          </>
-        )}
-      </head>
-      <body className="bg-gray-50 text-gray-900 antialiased">
-        <Providers>
-          <LayoutWrapper>
-            <Navbar />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-            <AIChatWidget />
-            <CookieBanner />
-          </LayoutWrapper>
-        </Providers>
+      <body className="bg-white">
+        <nav className="bg-red-600 text-white sticky top-0 z-50 shadow-lg">
+          <div className="container flex justify-between items-center h-16">
+            <Link href="/" className="text-2xl font-bold">
+              🔴 הפועל | Hapoel
+            </Link>
+            <div className="flex gap-6">
+              <Link href="/songs" className="hover:bg-red-700 px-3 py-2 rounded transition">
+                🎵 שירים
+              </Link>
+              <Link href="/matches" className="hover:bg-red-700 px-3 py-2 rounded transition">
+                ⚽ משחקים
+              </Link>
+              <Link href="/jerseys" className="hover:bg-red-700 px-3 py-2 rounded transition">
+                👕 חולצות
+              </Link>
+              <Link href="/squads" className="hover:bg-red-700 px-3 py-2 rounded transition">
+                👥 סגלים
+              </Link>
+            </div>
+          </div>
+        </nav>
+
+        <main>{children}</main>
+
+        <footer className="bg-gray-900 text-white mt-20 py-12">
+          <div className="container">
+            <div className="grid grid-cols-3 gap-8 mb-8">
+              <div>
+                <h3 className="text-lg font-bold mb-4">מוזיאום הפועל</h3>
+                <p className="text-gray-400">
+                  מוזיאום דיגיטלי כולל של הפועל - היסטוריה, שירים, משחקים וסגלים
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold mb-4">קטגוריות</h3>
+                <ul className="text-gray-400 space-y-2">
+                  <li><Link href="/songs" className="hover:text-white">שירים</Link></li>
+                  <li><Link href="/matches" className="hover:text-white">משחקים</Link></li>
+                  <li><Link href="/jerseys" className="hover:text-white">חולצות</Link></li>
+                  <li><Link href="/squads" className="hover:text-white">סגלים</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold mb-4">אודות</h3>
+                <p className="text-gray-400">
+                  תיעוד המורשת של הפועל - פרויקט חברות מעריצים
+                </p>
+              </div>
+            </div>
+            <div className="border-t border-gray-700 pt-8 text-center text-gray-400">
+              <p>&copy; 2024 מוזיאום הפועל. כל הזכויות שמורות.</p>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
