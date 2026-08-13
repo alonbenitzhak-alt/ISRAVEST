@@ -7,6 +7,8 @@ import PropertyCard from "@/components/PropertyCard";
 import { useProperties } from "@/lib/PropertiesContext";
 import { countries } from "@/data/countries";
 import { useLanguage } from "@/lib/LanguageContext";
+import { PAUSE_MODE } from "@/lib/pauseMode";
+import PauseModeMessage from "@/components/PauseModeMessage";
 
 export default function HomePage() {
   const router = useRouter();
@@ -94,6 +96,13 @@ export default function HomePage() {
 
   return (
     <>
+      {PAUSE_MODE && (
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-b-2 border-amber-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <PauseModeMessage />
+          </div>
+        </div>
+      )}
       {/* Hero Section */}
       <section className="relative text-white overflow-hidden">
         {/* Rotating background images */}

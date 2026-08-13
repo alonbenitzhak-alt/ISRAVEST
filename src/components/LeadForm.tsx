@@ -5,10 +5,11 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { trackLeadSubmission } from "@/lib/analytics";
 import { supabase } from "@/lib/supabase";
+import { PAUSE_MODE, pauseModeMessages } from "@/lib/pauseMode";
 import Link from "next/link";
 
 export default function LeadForm({ propertyId }: { propertyId: string }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { user, profile } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,6 +24,21 @@ export default function LeadForm({ propertyId }: { propertyId: string }) {
     if (user && profile?.email) setEmail(profile.email);
     if (profile?.phone) setPhone(profile.phone);
   }, [profile, user]);
+
+  if (PAUSE_MODE) {
+    const msg = pauseModeMessages[lang as "he" | "en"];
+    return (
+      <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-8 text-center">
+        <div className="w-14 h-14 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">{msg.title}</h3>
+        <p className="text-gray-600 text-sm">{msg.message}</p>
+      </div>
+    );
+  }
 
   if (status === "success") {
     return (

@@ -3,11 +3,33 @@
 import { useState } from "react";
 import { useAuth } from "@/lib/AuthContext";
 import { useLanguage } from "@/lib/LanguageContext";
+import { PAUSE_MODE, pauseModeMessages } from "@/lib/pauseMode";
 import Link from "next/link";
 
 export default function LoginForm({ onClose }: { onClose?: () => void }) {
   const { signIn } = useAuth();
   const { t, lang } = useLanguage();
+
+  if (PAUSE_MODE) {
+    const msg = pauseModeMessages[lang as "he" | "en"];
+    return (
+      <div className="bg-white rounded-2xl border border-gray-200 p-8 max-w-md w-full text-center">
+        <div className="w-14 h-14 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">{msg.title}</h2>
+        <p className="text-gray-600 text-sm mb-6">{msg.message}</p>
+        <p className="text-gray-600 text-sm">
+          {msg.contact}{" "}
+          <a href={`mailto:${msg.email}`} className="font-semibold text-primary-600">
+            {msg.email}
+          </a>
+        </p>
+      </div>
+    );
+  }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
